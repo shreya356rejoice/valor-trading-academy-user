@@ -3,13 +3,13 @@ import React from 'react'
 
 export default function layout({children}) {
   return (
-    <div class="admin-layout">
-      <div class="admin-flex">
-        <div class="admin-sidbar">
+    <div className="admin-layout">
+      <div className="admin-flex">
+        <div className="admin-sidbar">
           <Sidebar/>
         </div>
-        <div class="admin-children">
-          <div class="admin-children-alignment">
+        <div className="admin-children">
+          <div className="admin-children-alignment">
            {children}
            </div>
         </div>
