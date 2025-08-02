@@ -37,9 +37,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input , ::placeholder , button {
+
+input, ::placeholder, button {
   font-family: var(--font-lexend);
 }
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
@@ -78,9 +80,33 @@ input[type=number] {
 }
 
 .admin-children {
-  width: calc(100%  - 275px);
+  width: calc(100% - 275px);
 }
 
 .admin-children-alignment {
   padding: 20px 20px 20px 0;
+}
+
+@media (max-width:1024px) {
+  .admin-sidbar {
+    display: none;
+  }
+
+  .admin-flex {
+    display: block;
+  }
+
+  .admin-children {
+    width: 100%;
+  }
+
+  .admin-children-alignment {
+    padding: 20px;
+  }
+}
+
+@media (max-width:576px) {
+  .admin-children-alignment {
+    padding: 14px;
+  }
 }

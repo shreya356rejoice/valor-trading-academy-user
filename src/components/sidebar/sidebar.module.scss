@@ -3,9 +3,10 @@
 @use '../../scss/typography/typography.scss' as *;
 
 .sidebar {
-      position: sticky;
-  top: 0;
-  height: 100vh;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+
     .logoAlignment {
         padding: 30px;
         display: flex;
@@ -14,6 +15,7 @@
 
         img {
             max-width: 180px;
+            cursor: pointer;
             margin: 0 auto;
         }
     }

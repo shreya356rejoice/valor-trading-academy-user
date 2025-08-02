@@ -1,3 +1,4 @@
+import AdminHeader from '@/components/adminHeader'
 import Sidebar from '@/components/sidebar'
 import React from 'react'
 
@@ -8,14 +9,13 @@ export default function layout({children}) {
         <div className="admin-sidbar">
           <Sidebar/>
         </div>
+        <AdminHeader/>
         <div className="admin-children">
           <div className="admin-children-alignment">
            {children}
            </div>
         </div>
       </div>
-       
-     
     </div>
   )
 }

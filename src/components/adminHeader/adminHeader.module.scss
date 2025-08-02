@@ -1,0 +1,37 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.adminHeader {
+    display: none;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-white);
+    z-index: 99;
+
+    @include respond-to("md") {
+        display: block;
+    }
+
+    .headerAlignment {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        justify-content: space-between;
+
+        @include respond-to("sm") {
+            padding: 16px 20px;
+        }
+
+        .menuIcon {
+            display: flex;
+            align-items: center;
+
+            svg {
+                cursor: pointer;
+                width: 28px;
+                height: 28px;
+            }
+        }
+    }
+}

@@ -26,7 +26,9 @@
         border-radius: 99px;
 
         @include respond-to("sm") {
-            padding: 12px 24px;
+            padding: 10px 24px;
+            @include font14normal;
+            font-weight: 500;
         }
 
         &:hover {

@@ -43,18 +43,35 @@
                 gap: 20px;
             }
 
+            @include respond-to("md") {
+                display: block;
+            }
+
+            @include respond-to("sm") {
+            padding: 40px 10px 40px 10px;
+
+            }
+
 
             .griditems:first-child {
                 width: calc(100% - 560px);
                 @include respond-to("lg") {
                     width: calc(100% - 500px);
                 }
+                 @include respond-to("md") {
+                    width: 100%;
+                 }
 
                 h2 {
                     @include heading28;
                     max-width: 542px;
                     margin: 0 0 20px 0;
                     color: var(--black-200);
+
+                    @include respond-to("sm") {
+                        @include heading20;
+                        margin: 0 0 10px 0;
+                    }
                 }
 
                 p {
@@ -63,6 +80,12 @@
                     opacity: .9;
                     max-width: 510px;
                     margin: 0 0 23px 0;
+
+                    @include respond-to("sm") {
+                        @include font14normal;
+                        line-height: 24px;
+                        margin: 0 0 14px 0;
+                    }
                 }
 
                 .relativeInput {
@@ -114,6 +137,15 @@
                 @include respond-to("lg") {
                     width: 500px;
                 }
+                 @include respond-to("md") {
+                    width: 100%;
+                    max-width: 500px;
+                    margin: 40px 0 0 0;
+                 }
+
+                 @include respond-to("sm") {
+                    margin: 20px 0 0 0;
+                 }
             }
 
 
@@ -149,10 +181,18 @@
             grid-template-columns: 210px 1fr;
             gap: 20px;
 
+            @include respond-to("sm") {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 14px;
+            }
             .content {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                 @include respond-to("sm") {
+                    order: 2;
+                }
                 h3 {
                     @include font18;
                     color: var(--black-100);
@@ -175,6 +215,10 @@
                     padding: 0 0 10px 0;
                     @include respond-to("lg") {
                         padding: 0;
+                    }
+
+                    @include respond-to("sm") {
+                        padding: 10px  0 0 0;
                     }
 
                     h4 {
@@ -219,6 +263,7 @@
             }
 
             .image {
+               
                 img {
                     width: 100%;
                     height: 210px;
