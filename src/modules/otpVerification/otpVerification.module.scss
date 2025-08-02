@@ -1,0 +1,97 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.otpVerification {
+    background-image: url('/assets/images/auth-banner.png');
+    width: 100%;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .box {
+        width: 502px;
+
+        .logoCenter {
+            display: flex;
+            justify-content: center;
+            padding: 0 0 30px 0;
+        }
+
+        .spacing {
+            padding: 0 0 24px 0;
+        }
+
+        .btnwidth {
+            padding:  35px 0 0 0;
+
+            button {
+                width: 100%;
+            }
+        }
+        .resendCode {
+            p {
+                @include font18;
+                color: var(--grey-600);
+                text-align: center;
+                margin: 0 0 20px 0;
+            }
+            span {
+                display: block;
+                text-align: center;
+                @include font18;
+                font-weight: 600;
+                background: var(--linear-gradient);
+                @include text-type;
+            }
+        }
+        .inputgroup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 0 32px 0;
+
+            input {
+                width: 60px;
+                height: 60px;
+                background-color: var(--bg-white);
+                border: 1px solid #DBDDE1;
+                border-radius: 16px;
+                padding: 22px;
+                text-align: center;
+                @include font16medium;
+                color: var(--black-100);
+                transition: .3s ease-in-out;
+
+                &:focus {
+                    border: 1px solid var(--primary);
+                    outline: none;
+                }
+            }
+        }
+
+
+        .title {
+            padding: 0 0 30px 0;
+
+            h2 {
+                @include heading32;
+                color: var(--black-100);
+                text-align: center;
+                margin: 0 0 8px 0;
+            }
+
+            p {
+                color: var(--grey-600);
+                @include font18;
+                text-align: center;
+            }
+        }
+    }
+}

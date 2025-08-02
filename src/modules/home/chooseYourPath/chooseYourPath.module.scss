@@ -1,0 +1,299 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.chooseYourPath {
+    margin-top: -150px;
+
+    .box {
+        position: relative;
+        background-color: var(--bg-white);
+        border-radius: 56px;
+        padding: 80px 130px;
+        z-index: 99;
+
+        @include respond-to("lg") {
+            padding: 80px 40px;
+        }
+
+        @include respond-to("md") {
+            padding: 40px 20px;
+        }
+
+        @include respond-to("sm") {
+            border-radius: 22px;
+            padding: 40px 10px;
+        }
+
+        &::before,
+        &::after {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 97%;
+            height: 80px;
+            border-radius: 30px;
+            background: rgb(255, 255, 255, .2);
+            content: '';
+            pointer-events: none;
+
+            @include respond-to("sm") {
+                border-radius: 22px;
+            }
+        }
+
+        &::before {
+            top: -20px;
+            z-index: 2;
+            width: 96%;
+
+            @include respond-to("sm") {
+                width: 93%;
+            }
+        }
+
+        &::after {
+            top: -35px;
+            z-index: 1;
+            width: 92%;
+
+            @include respond-to("sm") {
+                width: 88%;
+            }
+        }
+
+        .title {
+            position: relative;
+            padding: 0 0 50px 0;
+
+            @include respond-to("sm") {
+                padding: 0 0 40px 0;
+            }
+
+            h2 {
+                @include heading2;
+                color: var(--black-100);
+                text-align: center;
+                margin: 0 0 8px 0;
+
+                @include respond-to("sm") {
+                    @include heading32;
+                }
+
+                span {
+                    background: var(--linear-gradient);
+                    @include text-type;
+                }
+            }
+
+            p {
+                @include font18;
+                color: var(--grey-600);
+                text-align: center;
+
+                @include respond-to("sm") {
+                    @include font16;
+                }
+            }
+        }
+
+        .tabCenteralignment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0 50px 0;
+
+            @include respond-to("sm") {
+                padding: 0 0 30px 0;
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab {
+                border: 1px solid var(--border-color);
+                border-radius: 99px;
+                padding: 6px;
+
+                @include respond-to("sm") {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    overflow: auto;
+                    scrollbar-width: none;
+                }
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                button {
+                    padding: 14px 20px;
+                    border: none;
+                    border-radius: 99px;
+                    transition: .3s ease-in-out;
+                    color: var(--black-100);
+                    @include font16medium;
+                    background-color: transparent;
+                    cursor: pointer;
+
+                    @include respond-to("sm") {
+                        padding: 10px 16px;
+                        @include font14normal;
+                        white-space: nowrap;
+                    }
+
+                    &.active {
+                        color: var(--text-white);
+                        background: var(--linear-gradient);
+
+                        &:hover {
+                            color: var(--text-white);
+                        }
+                    }
+
+                    &:hover {
+                        color: var(--primary);
+                    }
+                }
+            }
+        }
+
+        .grid {
+            display: grid;
+            gap: 30px;
+            grid-template-columns: repeat(3, 1fr);
+
+            @include respond-to("md") {
+                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @include respond-to("sm") {
+                grid-template-columns: repeat(1 , 1fr);
+                gap: 20px;
+            }
+
+
+            .griditems {
+                border-radius: 18px;
+                background-color: var(--bg-white);
+                box-shadow: 0 6px 34px 0 rgba(215, 216, 222, 0.41);
+                padding: 20px;
+
+                @include respond-to("sm") {
+                    border-radius: 12px;
+                    padding: 16px;
+                }
+
+                .image {
+                    img {
+                        display: block;
+                        height: 240px;
+                        border-radius: 16px;
+                        width: 100%;
+                        object-fit: cover;
+
+                        @include respond-to("md") {
+                            height: 180px;
+                        }
+                    }
+                }
+
+                .details {
+                    padding: 15px 0 0 0;
+
+                    h3 {
+                        @include heading20;
+                        color: var(--black-100);
+                        margin: 0 0 16px 0;
+
+                        @include respond-to("sm") {
+                            @include font18;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .allIconTextAlignment {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        padding: 0 0 16px 0;
+
+                        .iconText {
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+
+                            span {
+                                display: block;
+                                @include font14normal;
+                                color: var(--black-100);
+                            }
+                        }
+                    }
+
+                    .btnwidth {
+                        button {
+                            width: 100%;
+                            padding: 14px;
+                            @include respond-to("sm") {
+                                padding: 12px;
+                            }
+                        }
+                    }
+
+                    .textButtonAlignment {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        padding: 0 0 20px 0;
+                        @include respond-to("sm"){
+                            gap: 10px;
+                        }
+
+                        button {
+                            padding: 8px 14px;
+                            border: none;
+                            border-radius: 40px;
+                            background: linear-gradient(90deg, rgba(48, 87, 239, 0.08) 4.37%, rgba(185, 102, 231, 0.08) 100%);
+
+                            span {
+
+                                background: var(--linear-gradient);
+                                @include text-type;
+                            }
+                        }
+
+                        h4 {
+                            background: var(--linear-gradient);
+                            @include text-type;
+                            @include heading24;
+                            @include respond-to("sm") {
+                                @include heading20;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+    }
+
+}
+
+.toplayer {
+    img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+        height: 108px;
+
+        @include respond-to("md") {
+            height: 111px;
+        }
+    }
+}

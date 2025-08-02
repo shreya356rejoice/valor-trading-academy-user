@@ -1,0 +1,125 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.thisJourney {
+    padding: 120px 0 50px 0;
+    position: relative;
+
+    @include respond-to("sm") {
+        padding: 80px 0 0 0;
+    }
+
+    .lineVec {
+        position: absolute;
+        bottom: 5%;
+        right: 0;
+        z-index: -1;
+        img {
+            @include respond-to("sm") {
+                width: 100%;
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 490px 1fr;
+        gap: 60px;
+        @include respond-to("md") {
+            grid-template-columns: 1fr;
+        }
+        @include respond-to("sm") {
+            gap: 40px;
+        }
+        .text {
+            h2 {
+                @include heading2;
+                color: var(--black-100);
+                margin: 0 0 8px 0;
+                @include respond-to("sm") {
+                    @include heading32;
+                }
+
+                span {
+                    background: var(--linear-gradient);
+                    @include text-type;
+                }
+            }
+
+            p {
+                @include font18;
+                color: var(--grey-600);
+                @include respond-to("sm") {
+                    @include font16;
+                }
+            }
+        }
+
+        .cardGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            @include respond-to("sm") {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cardGridItems {
+                background-color: var(--bg-white);
+                padding: 20px;
+                border-radius: 18px;
+                box-shadow: 0 6px 34px 0 rgba(215, 216, 222, 0.41);
+                @include respond-to("sm") {
+                    padding: 16px;
+                    border-radius: 12px;
+                }
+
+                .image {
+                    border-radius: 16px;
+                    background: linear-gradient(180deg, rgba(61, 52, 139, 0.10) 0%, rgba(118, 120, 237, 0.10) 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 140px;
+                }
+
+                .details {
+                    padding: 18px 0 0 0;
+                    @include respond-to("sm") {
+                        padding: 16px 0 0 0;
+                    }
+
+                    h3 {
+                        @include heading20;
+                        color: var(--black-100);
+                        margin: 0 0 10px 0;
+                    }
+                    p {
+                        @include font16;
+                        color: var(--grey-600);
+                        margin: 0 0 30px 0;
+                    }
+
+                    button {
+                        width: 100%;
+                        padding: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.toplayer {
+    img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+        height: 108px;
+                @include respond-to("md") {
+            height: 111px;
+        }
+    }
+}

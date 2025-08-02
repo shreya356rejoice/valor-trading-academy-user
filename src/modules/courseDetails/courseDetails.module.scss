@@ -1,0 +1,94 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.courseDetails {
+    background-color: var(--bg-white);
+    border-radius: 22px;
+    padding: 25px;
+
+    .breadcumbAlignment {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 0 20px 0;
+        border-bottom: 1px solid #E9E9E9;
+
+        a {
+            display: block;
+            @include font16medium;
+            cursor: pointer;
+            color: var(--grey-600);
+        }
+
+        a:last-child {
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+    }
+
+    .contentAlignment {
+        padding: 20px 0 30px 0;
+
+        h2 {
+            @include heading20;
+            color: var(--black-200);
+            margin: 0 0 5px 0;
+        }
+
+        p {
+            @include font16;
+            margin: 0 0 14px 0;
+            color: var(--black-500);
+        }
+
+        .allIconTextAlignment {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .iconText {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                span {
+                    display: block;
+                    @include font16;
+                    color: var(--black-500);
+                }
+            }
+        }
+    }
+
+    .courseInformation {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 30px 0 0 0;
+
+        .video {
+            border-radius: 20px;
+            background: rgba(1, 11, 29, 0.20);
+            height: 400px;
+        }
+
+        h2 {
+            @include font18;
+            margin: 0 0 15px 0;
+            color: var(--black-200);
+        }
+
+        p {
+            @include font16;
+            color: var(--black-500);
+            margin: 0 0 15px 0;
+
+            @include respond-to("lg") {
+                @include font14normal;
+                line-height: 24px;
+            }
+        }
+    }
+
+}

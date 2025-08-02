@@ -1,0 +1,238 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.tradingAcademy {
+    margin-top: -100px;
+
+    .box {
+        position: relative;
+        background-color: var(--bg-white);
+        border-radius: 56px;
+        padding: 80px 130px;
+        z-index: 99;
+
+        @include respond-to("lg") {
+            padding: 80px 40px;
+        }
+
+        @include respond-to("sm") {
+            padding: 40px 10px;
+            border-radius: 22px;
+        }
+
+        &::before,
+        &::after {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 97%;
+            height: 80px;
+            border-radius: 30px;
+            background: rgb(255, 255, 255, .2);
+            content: '';
+            pointer-events: none;
+
+            @include respond-to("sm") {
+                border-radius: 22px;
+            }
+        }
+
+        &::before {
+            top: -20px;
+            z-index: 2;
+            width: 96%;
+
+            @include respond-to("sm") {
+                width: 93%;
+            }
+        }
+
+        &::after {
+            top: -35px;
+            z-index: 1;
+            width: 92%;
+
+            @include respond-to("sm") {
+                width: 88%;
+            }
+        }
+
+        .title {
+            position: relative;
+            padding: 0 0 50px 0;
+            @include respond-to("sm") {
+                padding: 0 0 40px 0;
+            }
+
+            h2 {
+                @include heading2;
+                color: var(--black-100);
+                text-align: center;
+                margin: 0 0 8px 0;
+                @include respond-to("sm") {
+                    @include heading32;
+                }
+
+                span {
+                    background: var(--linear-gradient);
+                    @include text-type;
+                }
+            }
+
+            p {
+                @include font18;
+                color: var(--grey-600);
+                text-align: center;
+                max-width: 774px;
+                margin: 0 auto;
+
+                @include respond-to("sm") {
+                    @include font16;
+                }
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+
+            @include respond-to("md") {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            @include respond-to("sm") {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            @keyframes top-bottom {
+                0% {
+                    transform: translateY(0%);
+                }
+
+                50% {
+                    transform: translateY(20px);
+                }
+
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            @keyframes bottom-top {
+                0% {
+                    transform: translateY(0%);
+                }
+
+                50% {
+                    transform: translateY(-20px);
+                }
+
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .griditems:first-child {
+                animation: top-bottom 4s infinite;
+                 @include respond-to("sm") {
+                    animation: none;
+                }
+
+                .cardBox {
+                    background: #E8CDFF;
+                }
+            }
+
+            .griditems:nth-child(2) {
+                margin-top: 70px;
+                animation: bottom-top 4s infinite;
+                @include respond-to("sm") {
+                    margin-top: 0;
+                    animation: none;
+                }
+                 
+
+                .cardBox {
+                    background: #FFE2D1;
+
+                }
+            }
+
+            .griditems:nth-child(3) {
+                animation: top-bottom 4s infinite;
+                 @include respond-to("sm") {
+                    animation: none;
+                }
+
+                .cardBox {
+                    background: #FFCED3;
+
+                }
+            }
+
+            .griditems:nth-child(4) {
+                margin-top: 70px;
+                animation: bottom-top 4s infinite;
+                  @include respond-to("sm") {
+                    margin-top: 0;
+                    animation: none;
+                }
+               
+
+                .cardBox {
+                    background: #D1E9FF;
+
+                }
+            }
+
+            .griditems:last-child {
+                animation: top-bottom 4s infinite;
+                @include respond-to("sm") {
+                    animation: none;
+                }
+
+                .cardBox {
+                    background: #CFD6FF;
+
+                }
+            }
+
+            .griditems {
+                .cardBox {
+                    padding: 20px 22px;
+                    border-radius: 18px;
+
+                    @include respond-to("sm") {
+                        border-radius: 12px;
+                        padding: 20px;
+                    }
+
+                    .icons {
+                        padding: 0 0 24px 0;
+
+                        @include respond-to("sm") {
+                            padding: 0 0 16px 0;
+                        }
+                    }
+
+                    h3 {
+                        @include heading20;
+                        margin: 0 0 14px 0;
+                        color: var(--black-100);
+                    }
+
+                    p {
+                        color: rgba(25, 35, 53, 0.60);
+                        @include font18;
+                        
+                        @include respond-to("sm") {
+                            @include font16
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.button {
+    &.fillBtn {
+        button {
+            background: var(--linear-gradient);
+            color: var(--text-white);
+
+            &:hover {
+                background: var(--bg-white);
+                color: var(--primary);
+            }
+        }
+    }
+
+    button {
+        padding: 16px 26px;
+        border: 1px solid var(--primary);
+        cursor: pointer;
+        @include font16bold;
+        color: var(--primary);
+        background-color: transparent;
+        transition: .3s ease-in-out;
+        border-radius: 99px;
+
+        @include respond-to("sm") {
+            padding: 12px 24px;
+        }
+
+        &:hover {
+            background: var(--linear-gradient);
+            color: var(--text-white);
+        }
+    }
+}

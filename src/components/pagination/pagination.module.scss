@@ -1,0 +1,62 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.paginationAlignment {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+
+    .arrow:last-child {
+        svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    .arrow {
+        width: 70px;
+        height: 40px;
+        border: 1px solid #D7D7D7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: .3s ease-in-out;
+
+        &:hover {
+            background: var(--linear-gradient);
+
+            svg {
+                path {
+                    fill: var(--text-white);
+                }
+            }
+        }
+    }
+
+    .counterAlignment {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        .box {
+            width: 40px;
+            border: 1px solid #D7D7D7;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: .3s ease-in-out;
+            @include font16medium;
+            color: var(--black-100);
+            justify-content: center;
+
+            &:hover {
+                background: var(--linear-gradient);
+                color: var(--text-white);
+            }
+        }
+    }
+}

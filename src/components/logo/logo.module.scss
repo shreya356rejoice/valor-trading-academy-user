@@ -1,0 +1,13 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.logo {
+    img {
+        display: block;
+
+        @include respond-to("sm") {
+            max-width: 140px;
+        }
+    }
+}

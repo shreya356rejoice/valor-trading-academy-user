@@ -1,0 +1,8 @@
+@use 'breakpoints/breakpoints.scss' as *;
+@use 'typography/typography.scss' as *;
+
+@mixin text-type {
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}

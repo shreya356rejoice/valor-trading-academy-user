@@ -1,0 +1,170 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.howitWorks {
+  padding: 20px 0 120px 0;
+
+  @include respond-to("sm") {
+    padding: 0 0 80px 0;
+  }
+
+  .title {
+    padding: 0 0 65px 0;
+
+    @include respond-to("sm") {
+      padding: 0 0 40px 0;
+    }
+
+    h2 {
+      @include heading2;
+      text-align: center;
+      color: var(--black-100);
+      @include respond-to("sm") {
+        @include heading32;
+      }
+      span {
+        background: var(--linear-gradient);
+        @include text-type;
+      }
+    }
+
+    p {
+      @include font18;
+      color: var(--grey-600);
+      text-align: center;
+      @include respond-to("sm") {
+        @include font16;
+      }
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 542px 1fr;
+    gap: 60px;
+
+    @include respond-to("md") {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .maingrid {
+      display: grid;
+      grid-template-columns: 37px 1fr;
+      gap: 22px;
+
+      @include respond-to("sm") {
+        grid-template-columns: 20px 1fr;
+        gap: 10px;
+      }
+
+      .line {
+        width: 2px;
+        height: 100%;
+        background-color: #D9D9D9;
+        position: relative;
+
+        .star {
+          position: absolute;
+          left: 50%;
+          width: 37px;
+          height: 37px;
+          transform: translateX(-50%);
+          transition: top 0.5s ease;
+
+          img {
+            display: block;
+            width: 37px;
+            height: 37px;
+          }
+        }
+
+        .active {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0) 0%,
+            #3057ef 10%,
+            #b966e7 90%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          height: 25%;
+          transition: height 0.5s ease;
+        }
+      }
+
+      .allText {
+        .text {
+          padding: 20px 0;
+          opacity: 1;
+          transition: all 0.4s ease;
+
+          h3 {
+            @include heading28;
+            margin: 0 0 8px 0;
+            color: rgba(25, 35, 53, 0.8);
+
+            @include respond-to("sm") {
+              @include heading20;
+            }
+          }
+
+          p {
+            @include heading22;
+            color: var(--grey-600);
+            margin: 0 0 8px 0;
+
+            @include respond-to("sm") {
+              @include font16bold;
+            }
+          }
+
+          span {
+            display: block;
+            @include font18;
+            color: var(--grey-600);
+            @include respond-to("sm") {
+              @include font14normal;
+            }
+          }
+
+          &.activeText {
+            opacity: 1;
+            transform: translateY(0);
+
+            h3 {
+              background: var(--linear-gradient);
+              @include heading28;
+              @include text-type;
+            }
+
+            p {
+              color: var(--black-100);
+            }
+
+            span {
+              color: var(--black-100);
+            }
+          }
+        }
+      }
+    }
+
+    .image {
+      img {
+        display: block;
+        height: 460px;
+        border-radius: 16px;
+
+        @include respond-to("sm") {
+          height: 240px;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+}

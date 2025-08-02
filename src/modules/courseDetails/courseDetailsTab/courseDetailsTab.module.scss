@@ -1,0 +1,62 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.courseDetailsTab {
+    border-bottom: 1px solid #E9E9E9;
+
+    button {
+        padding: 0 30px 10px 30px;
+        @include font18;
+        color: var(--black-500);
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+        position: relative;
+
+        @include respond-to("lg") {
+            padding: 0 20px 10px 20px;
+            @include font16;
+        }
+
+        &.active {
+            color: var(--primary);
+
+            &::after {
+                position: absolute;
+                bottom: 0px;
+                left: 0;
+                right: 0;
+                margin: auto;
+                content: " ";
+                color: transparent;
+                background: var(--primary);
+                height: 2px;
+                width: 100%;
+                transition: .4s ease-in-out;
+            }
+        }
+
+        &:hover {
+            color: var(--primary);
+
+            &::before {
+                width: 100%;
+            }
+        }
+
+        &::before {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            content: " ";
+            color: transparent;
+            background: var(--primary);
+            height: 2px;
+            width: 0;
+            transition: .4s ease-in-out;
+        }
+    }
+}

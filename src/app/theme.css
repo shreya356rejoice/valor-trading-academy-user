@@ -1,0 +1,18 @@
+:root {
+    --bg-white: #fff;
+    --border-color: #E0E7F5;
+    --border-color3: #E5E7EB;
+    --border-color4: #CED4DA;
+    --border-color2: rgba(25, 35, 53, 0.14);
+    --black-opacity: rgba(25, 35, 53, 0.70);
+    --black-100: #192335;
+    --black-200: #2E2E2E;
+    --black-400: #4C5260;
+    --black-500: #5E6470;
+    --primary: #3057EF;
+    border-radius: 30px;
+    --bg-white-light:rgba(255, 255, 255, 0.60);
+    --text-white:#fff;
+    --linear-gradient: linear-gradient(180deg, #3D348B 0%, #7678ED 100%);
+    --grey-600:#6B7385;
+}

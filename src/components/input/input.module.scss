@@ -1,0 +1,51 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.input {
+    label {
+        display: block;
+        @include font16medium;
+        color: var(--black-100);
+        padding: 0 0 8px 0;
+    }
+
+    .relative {
+        position: relative;
+
+        .iconAlignment {
+            position: absolute;
+            top: 50%;
+            right: 22px;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            img {
+                cursor: pointer;
+            }
+        }
+
+        input {
+            width: 100%;
+            height: 60px;
+            background-color: var(--bg-white);
+            border: 1px solid #DBDDE1;
+            border-radius: 99px;
+            padding: 0 60px 0 22px;
+            @include font16medium;
+            color: var(--black-100);
+            transition: .3s ease-in-out;
+
+            &:focus {
+                border: 1px solid var(--primary);
+                outline: none;
+            }
+        }
+
+        ::placeholder {
+            @include font16medium;
+            color: var(--black-100);
+            opacity: .7;
+        }
+    }
+}

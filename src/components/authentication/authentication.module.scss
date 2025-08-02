@@ -1,0 +1,25 @@
+@use '../../scss/main.scss' as * ;
+@use '../../scss/breakpoints/breakpoints.scss' as * ;
+@use '../../scss/typography/typography.scss' as * ;
+
+.authentication {
+    display: grid;
+    grid-template-columns: repeat(3 , 1fr);
+    gap: 25px;
+
+    .box {
+        background-color: var(--bg-white);
+        border: 1px solid #DBDDE1;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 999px;
+        justify-content: center;
+        transition: .3s ease-in-out;
+
+        &:hover {
+            border: 1px solid var(--primary);
+        }
+    }
+}

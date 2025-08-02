@@ -1,0 +1,28 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.coursePageAlignment {
+    background-color: var(--bg-white);
+    border-radius: 22px;
+    padding: 25px;
+
+    .pageTitle {
+        padding: 0 0 25px 0;
+        h2 {
+            @include heading20;
+            color: var(--black-100);
+
+            span {
+                background: var(--linear-gradient);
+                @include text-type;
+            }
+        }
+
+        p {
+            @include font16;
+            color: var(--black-400);
+            opacity: .9;
+        }
+    }
+}

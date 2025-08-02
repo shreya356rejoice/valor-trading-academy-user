@@ -1,0 +1,206 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.getCertified {
+    background: var(--linear-gradient);
+    padding: 222px 0 100px 0;
+    margin-top: -108px;
+    @include respond-to("sm") {
+        padding: 200px  0 80px 0;
+    }
+
+    .title {
+        padding: 0 0 50px 0;
+        @include respond-to("sm") {
+            padding: 0 0 40px 0;
+        }
+        h2 {
+            @include heading2;
+            color: var(--text-white);
+            text-align: center;
+            margin: 0 0 8px 0;
+            @include respond-to("sm") {
+                @include heading32;
+            }
+        }
+
+        p {
+            @include font18;
+            color: var(--text-white);
+            text-align: center;
+            @include respond-to("sm") {
+                @include font16;
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 550px;
+        gap: 30px;
+        
+        @include respond-to("md") {
+            grid-template-columns: 1fr;
+        }
+        @include respond-to("sm") {
+            gap: 20px;
+        }
+
+        .griditems:last-child {
+            padding: 40px;
+            height: 100%;
+            @include respond-to("sm") {
+                padding: 16px;
+            }
+
+            .certificate {
+                height: 100%;
+                border-radius: 16px;
+                border: 1px dashed var(--primary);
+                background: linear-gradient(180deg, rgba(61, 52, 139, 0.10) 0%, rgba(118, 120, 237, 0.10) 100%);
+                padding: 30px;
+                @include respond-to("sm") {
+                    padding: 16px;
+                    border-radius: 12px;
+                }
+
+                .iconCenter {
+                    display: flex;
+                    padding: 0 0 5px 0;
+                    justify-content: center;
+                }
+
+                h4 {
+                    @include font18;
+                    color: var(--black-200);
+                    margin: 0 0 6px 0;
+                    font-weight: 600;
+                    text-align: center;
+                     @include respond-to("sm") {
+                        @include font16bold;
+                     }
+                }
+
+                .centerButton {
+                    display: flex;
+                    justify-content: center;
+
+                    button {
+                        border: none;
+                        padding: 10px 20px;
+                        background-color: #3C83F6;
+                        color: var(--text-white);
+                        border-radius: 999px;
+                        display: flex;
+                        @include font16medium;
+                        align-items: center;
+                        gap: 6px;
+                        cursor: pointer;
+                         @include respond-to("sm") {
+                            @include font14normal;
+                            font-weight: 500;
+                         }
+                    }
+                }
+
+                p {
+                    margin: 0 0 48px 0;
+                    @include font18;
+                    color: var(--grey-600);
+                    text-align: center;
+                     @include respond-to("sm") {
+                        @include font14normal;
+                        margin: 0 0 20px 0;
+                     }
+                }
+            }
+        }
+
+        .griditems:first-child {
+            padding: 30px;
+@include respond-to("sm") {
+    padding: 16px;
+}
+            .text {
+                padding: 0 0 28px 0;
+
+                p {
+                    @include font18;
+                    color: var(--grey-600);
+                     @include respond-to("sm") {
+                        @include font14normal;
+                        line-height: 24px;
+                     }
+                    
+                }
+            }
+
+            .allIconText {
+                .iconText:last-child {
+                    padding: 0;
+                }
+
+                .iconText {
+                    display: grid;
+                    grid-template-columns: 22px 1fr;
+                    gap: 10px;
+                    align-items: center;
+                    padding: 0 0 18px 0;
+
+                    span {
+                        display: block;
+                        @include font18;
+                        color: var(--black-200);
+                         @include respond-to("sm") {
+                            @include font14normal;
+                         }
+                    }
+                }
+            }
+
+            .iconText {
+                display: flex;
+                padding: 0 0 20px 0;
+                align-items: center;
+                gap: 10px;
+                @include respond-to("sm") {
+                    gap: 10px;
+                    padding: 0 0 10px 0;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                }
+
+              
+
+                h3 {
+                    @include heading20;
+                    color: var(--black-200);
+                    @include respond-to("sm") {
+                        @include font18;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+        .griditems {
+            border: 1px solid var(--border-color3);
+            background-color: var(--bg-white);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 18px;
+             @include respond-to("sm") {
+                border-radius: 12px;
+             }
+        }
+    }
+
+    .bottomText {
+        padding: 20px 0 0 0;
+        p {
+            @include font16;
+            color: var(--text-white);
+            text-align: center;
+        }
+    }
+}

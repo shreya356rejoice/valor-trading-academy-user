@@ -1,0 +1,103 @@
+@mixin font16medium {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-family: var(--font-lexend);
+}
+
+@mixin font14normal {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: var(--font-lexend);
+}
+
+@mixin font16bold {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-family: var(--font-lexend);
+}
+
+@mixin font16 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    font-family: var(--font-lexend);
+}
+
+@mixin font44 {
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 54px;
+    font-family: var(--font-lexend);
+}
+
+@mixin font18 {
+    font-size: 18px;
+    font-style: normal;
+    font-family: var(--font-lexend);
+    font-weight: 400;
+    line-height: 27px;
+}
+
+@mixin font13medium {
+    font-size: 13px;
+    font-style: normal;
+    font-family: var(--font-lexend);
+    font-weight: 500;
+    line-height: 20px;
+}
+
+@mixin heading2 {
+font-size: 46px;
+    font-family: var(--font-lexend);
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+}
+
+@mixin heading32 {
+font-size: 32px;
+    font-family: var(--font-lexend);
+font-style: normal;
+font-weight: 900;
+line-height: 43px;
+}
+
+@mixin heading20 {
+    font-family: var(--font-lexend);
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+@mixin heading24 {
+    font-family: var(--font-lexend);
+font-size: 24px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+@mixin heading28 {
+    font-family: var(--font-lexend);
+font-size: 28px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+@mixin heading22 {
+    font-family: var(--font-lexend);
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
