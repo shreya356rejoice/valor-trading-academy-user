@@ -6,10 +6,17 @@
     background-color: var(--bg-white);
     border-radius: 22px;
     padding: 25px;
+        @include respond-to("md") {
+        padding: 16px;
+        border-radius: 12px;
+    }
 
     .pageTitle {
         padding: 0 0 25px 0;
         border-bottom: 1px solid #E9E9E9;
+          @include respond-to("sm") {
+            padding: 0 0 20px 0;
+        }
 
         h2 {
             @include heading20;
@@ -25,6 +32,11 @@
             @include font16;
             color: var(--black-400);
             opacity: .9;
+            
+            @include respond-to("sm") {
+                @include font14normal;
+                margin: 10px 0 0 0;
+            }
         }
     }
 
@@ -38,6 +50,10 @@
             grid-template-columns: repeat(2, 1fr);
         }
 
+        @include respond-to("sm") {
+            grid-template-columns: 1fr;
+        }
+
         .griditems {
             border-radius: 14px;
             padding: 18px;
@@ -48,6 +64,13 @@
             align-items: center;
             gap: 18px;
             transition: .3s ease-in-out;
+
+            @include respond-to("sm") {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                padding: 14px;
+                border-radius: 8px;
+            }
 
             &:hover {
                 border: 1px solid var(--primary);
@@ -82,6 +105,9 @@
                 border: 1px solid #E7E7FC;
                 background: #F8F8FE;
                 justify-content: center;
+                @include respond-to("sm") {
+                    border-radius: 6px;
+                }
             }
         }
     }
@@ -95,6 +121,9 @@
 
         .topAlignment {
             padding: 22px 0;
+            @include respond-to("sm") {
+                padding: 16px 0;
+            }
         }
     }
 
@@ -103,6 +132,11 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 22px;
         padding: 0 0 22px 0;
+        @include respond-to("sm") {
+            gap: 16px;
+            padding: 0 0 16px 0;
+            grid-template-columns: repeat(1 , 1fr);
+        }
 
 
     }

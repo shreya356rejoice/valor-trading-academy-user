@@ -8,6 +8,11 @@
         @include font16medium;
         color: var(--black-100);
         padding: 0 0 8px 0;
+
+        @include respond-to("sm") {
+            @include font14normal;
+            font-weight: 500;
+        }
     }
 
     .relative {
@@ -20,6 +25,7 @@
             transform: translateY(-50%);
             display: flex;
             align-items: center;
+
             img {
                 cursor: pointer;
             }
@@ -35,6 +41,10 @@
             @include font16medium;
             color: var(--black-100);
             transition: .3s ease-in-out;
+
+            @include respond-to("sm") {
+                height: 50px;
+            }
 
             &:focus {
                 border: 1px solid var(--primary);

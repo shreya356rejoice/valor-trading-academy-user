@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import ProfileIconSm from '../icons/ProfileIconSm';
 import SettingIcon from '../icons/settingIcon';
 import LogoutIcon from '../icons/logoutIcon';
+import CloseIcon from '../icons/closeIcon';
 const SidebarLogo = '/assets/logo/sidebar-logo.svg';
 const DashboardIcon = '/assets/icons/dashboaard.svg';
 const CourseIcon = '/assets/icons/Course.svg';
@@ -16,13 +17,16 @@ const ContactIcon = '/assets/icons/contact.svg';
 const DashboardIconActive = '/assets/icons/dashboard-active.svg';
 const CourseIconActive = '/assets/icons/CourseIcon-active.svg';
 const ContactIconActive = '/assets/icons/contact-active.svg';
-export default function Sidebar() {
+export default function Sidebar({setSidebarToogle , sidebarToogle}) {
     const [dropdown, setDropdown] = useState(false);
     const [profileDropdown, setProfileDropdown] = useState(false);
     return (
         <aside className={styles.sidebar}>
             <div className={styles.logoAlignment}>
                 <img src={SidebarLogo} alt="SidebarLogo" />
+                <div className={styles.closeIcon} onClick={()=> setSidebarToogle(false)}>
+                    <CloseIcon/>
+                </div>
             </div>
             <div className={styles.allMenuAlignment}>
                 <div className={styles.menu}>

@@ -4,6 +4,17 @@
 
 .courseDetailsTab {
     border-bottom: 1px solid #E9E9E9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @include respond-to("md") {
+        width: 100%;
+        overflow: auto;
+        scrollbar-width: none;
+        display: flex;
+        align-items: center;
+    }
 
     button {
         padding: 0 30px 10px 30px;
@@ -17,6 +28,10 @@
         @include respond-to("lg") {
             padding: 0 20px 10px 20px;
             @include font16;
+        }
+
+        @include respond-to("md") {
+            white-space: nowrap;
         }
 
         &.active {

@@ -7,6 +7,11 @@
     border-radius: 22px;
     padding: 25px;
 
+    @include respond-to("md") {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
     .breadcumbAlignment {
         display: flex;
         align-items: center;
@@ -29,6 +34,9 @@
 
     .contentAlignment {
         padding: 20px 0 30px 0;
+        @include respond-to("sm") {
+            padding: 16px 0;
+        }
 
         h2 {
             @include heading20;
@@ -40,12 +48,23 @@
             @include font16;
             margin: 0 0 14px 0;
             color: var(--black-500);
+
+            @include respond-to("sm") {
+                @include font14normal;
+                line-height: 26px;
+            }
         }
 
         .allIconTextAlignment {
             display: flex;
             align-items: center;
             gap: 30px;
+            flex-wrap: wrap;
+            @include respond-to("md") {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
 
             .iconText {
                 display: flex;
@@ -67,10 +86,22 @@
         gap: 30px;
         padding: 30px 0 0 0;
 
+        @include respond-to("md") {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @include respond-to("sm") {
+            padding: 16px 0 0 0;
+        }
+
         .video {
             border-radius: 20px;
             background: rgba(1, 11, 29, 0.20);
             height: 400px;
+            @include respond-to("sm") {
+                height: 280px;
+                border-radius: 8px
+            }
         }
 
         h2 {
