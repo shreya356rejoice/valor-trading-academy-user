@@ -12,6 +12,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
         @include respond-to("md") {
             padding: 20px;
             justify-content: space-between;
@@ -27,6 +28,7 @@
             svg {
                 width: 26px;
                 height: 26px;
+
                 path {
                     stroke: var(--text-white);
                 }
@@ -37,6 +39,7 @@
             max-width: 180px;
             cursor: pointer;
             margin: 0 auto;
+
             @include respond-to("sm") {
                 margin: 0;
                 max-width: 140px;
@@ -49,6 +52,7 @@
         padding: 0 0 0 20px;
         height: calc(100dvh - 204px);
         overflow: auto;
+
         @include respond-to("md") {
             padding: 0 20px;
         }
@@ -66,6 +70,7 @@
         border-radius: 99px 0 0 99px;
         transition: .3s ease-in-out;
         margin: 0 0 4px 0;
+
         @include respond-to("md") {
             border-radius: 99px;
         }
@@ -167,9 +172,10 @@
             z-index: 999;
             opacity: 0;
             transition: .3s ease-in-out;
+
             @include respond-to("md") {
                 display: none;
-            } 
+            }
         }
 
         &::after {
@@ -183,6 +189,7 @@
             z-index: 999;
             opacity: 0;
             transition: .3s ease-in-out;
+
             @include respond-to("md") {
                 display: none;
             }
@@ -196,6 +203,7 @@
             justify-content: space-between;
             width: 100%;
             padding-right: 20px;
+
             @include respond-to("md") {
                 padding-right: 0;
             }
@@ -287,7 +295,12 @@
                 .dropodowAlignment {
                     padding: 20px;
 
-                    .iconText:last-child {
+                    a {
+                        display: block;
+                        padding: 0 0 16px 0;
+                    }
+
+                    a:last-child {
                         padding: 0;
                     }
 
@@ -296,7 +309,6 @@
                         align-items: center;
                         gap: 12px;
                         cursor: pointer;
-                        padding: 0 0 16px 0;
                         transition: .3s ease-in-out;
 
                         &:hover {
@@ -333,6 +345,7 @@
         margin-right: 14px;
         border: 1px solid rgba(248, 250, 252, 0.10);
         background: rgba(248, 250, 252, 0.10);
+
         @include respond-to("md") {
             margin-right: 0;
         }
@@ -354,7 +367,13 @@
         .dropodowAlignment {
             padding: 20px;
 
-            .iconText:last-child {
+
+            a {
+                display: block;
+                padding: 0 0 16px 0;
+            }
+
+            a:last-child {
                 padding: 0;
             }
 
@@ -363,7 +382,6 @@
                 align-items: center;
                 gap: 12px;
                 cursor: pointer;
-                padding: 0 0 16px 0;
                 transition: .3s ease-in-out;
 
                 &:hover {

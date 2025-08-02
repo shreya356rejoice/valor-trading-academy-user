@@ -1,0 +1,21 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.commingSoon {
+    background-color: var(--bg-white);
+    height: calc(100dvh - 40px);
+    border-radius: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+
+    @include respond-to("md") {
+        padding: 16px;
+        border-radius: 12px;
+    }
+    @include respond-to("sm") {
+        height: calc(100dvh - 71px - 28px);
+    }
+}

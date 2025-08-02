@@ -10,6 +10,7 @@ import ProfileIconSm from '../icons/ProfileIconSm';
 import SettingIcon from '../icons/settingIcon';
 import LogoutIcon from '../icons/logoutIcon';
 import CloseIcon from '../icons/closeIcon';
+import Link from 'next/link';
 const SidebarLogo = '/assets/logo/sidebar-logo.svg';
 const DashboardIcon = '/assets/icons/dashboaard.svg';
 const CourseIcon = '/assets/icons/Course.svg';
@@ -29,6 +30,7 @@ export default function Sidebar({setSidebarToogle , sidebarToogle}) {
                 </div>
             </div>
             <div className={styles.allMenuAlignment}>
+                <Link href="/dashboard">
                 <div className={styles.menu}>
                     <div className={styles.iconAlignment}>
                         <img src={DashboardIcon} alt="DashboardIcon" />
@@ -36,6 +38,8 @@ export default function Sidebar({setSidebarToogle , sidebarToogle}) {
                     </div>
                     <span>Dashboards</span>
                 </div>
+                </Link>
+                <Link href="/course">
                 <div className={classNames(styles.menu, styles.activeMenu)}>
                     <div className={styles.iconAlignment}>
                         <img src={CourseIcon} alt="CourseIcon" />
@@ -48,22 +52,30 @@ export default function Sidebar({setSidebarToogle , sidebarToogle}) {
                         </div>
                     </div>
                 </div>
+                </Link>
                 <div className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}>
                     <div className={styles.dropodowAlignment}>
+                        <Link href="/pre-recorded">
                         <div className={styles.iconText}>
                             <VideoIcon />
                             <span>Pre-Recorded</span>
                         </div>
+                        </Link>
+                        <Link href="/live-online">
                         <div className={styles.iconText}>
                             <LiveIcon />
                             <span>Live Online</span>
                         </div>
+                        </Link>
+                        <Link href="/in-person">
                         <div className={styles.iconText}>
                             <PersonIcon />
                             <span>In-Person</span>
                         </div>
+                        </Link>
                     </div>
                 </div>
+                <Link href="/contact-us">
                 <div className={styles.menu}>
                     <div className={styles.iconAlignment}>
                         <img src={ContactIcon} alt="ContactIcon" />
@@ -71,6 +83,7 @@ export default function Sidebar({setSidebarToogle , sidebarToogle}) {
                     </div>
                     <span>Contact Us</span>
                 </div>
+                </Link>
 
             </div>
             <div className={styles.sidbarFooter}>
@@ -81,14 +94,18 @@ export default function Sidebar({setSidebarToogle , sidebarToogle}) {
                     </button>
                     <div className={ classNames(styles.dropdownProfile , profileDropdown ? styles.show : styles.hide) }>
                         <div className={styles.dropodowAlignment}>
+                            <Link href="/profile">
                             <div className={styles.iconText}>
                                 <ProfileIconSm />
                                 <span>Profile</span>
                             </div>
+                            </Link>
+                            <Link href="/settings">
                             <div className={styles.iconText}>
                                 <SettingIcon />
                                 <span>Settings</span>
                             </div>
+                            </Link>
                             <div className={styles.iconText}>
                                 <LogoutIcon />
                                 <span>Logout</span>
