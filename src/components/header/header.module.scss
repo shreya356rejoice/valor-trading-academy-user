@@ -9,9 +9,27 @@
     left: 0;
     width: 100%;
     z-index: 99;
+    transition: .3s ease-in-out;
     @include respond-to("sm") {
         padding: 16px 0 0 0;
     }
+    
+    &.hide {
+        transform: translateY(-100%);
+        transition: .3s ease-in-out;
+    }
+
+    &.show {
+        transform: translateY(0%);
+        position: fixed;
+        transition: .3s ease-in-out;
+        z-index: 999;
+        padding: 0;
+        .headerDesign {
+            border: 1px solid var(--border-color2);
+        }
+    }
+
     .headerDesign {
         background-color: var(--bg-white);
         padding: 5px 10px;
