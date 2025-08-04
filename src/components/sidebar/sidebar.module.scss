@@ -231,11 +231,13 @@
             z-index: 99;
             position: relative;
             transition: .3s ease-in-out;
+            cursor: pointer;
         }
 
         img {
             position: relative;
             z-index: 99;
+            cursor: pointer;
         }
     }
 
@@ -343,6 +345,7 @@
                             @include font16;
                             color: rgba(255, 255, 255, 0.80);
                             transition: .3s ease-in-out;
+                        cursor: pointer;
                         }
                     }
                 }
@@ -422,6 +425,7 @@
                 span {
                     @include font16;
                     color: rgba(255, 255, 255, 0.80);
+                    cursor: pointer;
                     transition: .3s ease-in-out;
                 }
             }
