@@ -4,6 +4,7 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import Authentication from '@/components/authentication';
 import Logo from '@/components/logo';
+import Link from 'next/link';
 export default function ResetPassword() {
   return (
    <div className={styles.resetPassword}>
@@ -21,7 +22,9 @@ export default function ResetPassword() {
         </div>
          <Input label='Email Address' placeholder='Email Address' />
          <div className={styles.btnwidth}>
-            <Button text="Sign In" fill />
+          <Link href="/otp-verification">
+            <Button text="Send Otp" fill />
+            </Link>
          </div>
          <div className={styles.lastContent}>
             <p>

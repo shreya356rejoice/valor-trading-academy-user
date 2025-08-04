@@ -181,6 +181,13 @@
                 background-color: var(--bg-white);
                 box-shadow: 0 6px 34px 0 rgba(215, 216, 222, 0.41);
                 padding: 20px;
+                border: 1px solid var(--bg-white);
+                transition: .3s ease-in-out;
+
+                &:hover {
+                    border: 1px solid var(--primary);
+                    transform: translateY(5px);
+                }
 
                 @include respond-to("sm") {
                     border-radius: 12px;

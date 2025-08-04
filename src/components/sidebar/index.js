@@ -11,6 +11,7 @@ import SettingIcon from '../icons/settingIcon';
 import LogoutIcon from '../icons/logoutIcon';
 import CloseIcon from '../icons/closeIcon';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 const SidebarLogo = '/assets/logo/sidebar-logo.svg';
 const DashboardIcon = '/assets/icons/dashboaard.svg';
 const CourseIcon = '/assets/icons/Course.svg';
@@ -18,98 +19,102 @@ const ContactIcon = '/assets/icons/contact.svg';
 const DashboardIconActive = '/assets/icons/dashboard-active.svg';
 const CourseIconActive = '/assets/icons/CourseIcon-active.svg';
 const ContactIconActive = '/assets/icons/contact-active.svg';
-export default function Sidebar({setSidebarToogle , sidebarToogle}) {
+export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
+    const pathname = usePathname();
     const [dropdown, setDropdown] = useState(false);
     const [profileDropdown, setProfileDropdown] = useState(false);
+    const handleCommonDropdownChange = () => {
+        setProfileDropdown((prev) => (!prev))
+    }
     return (
         <aside className={styles.sidebar}>
             <div className={styles.logoAlignment}>
                 <img src={SidebarLogo} alt="SidebarLogo" />
-                <div className={styles.closeIcon} onClick={()=> setSidebarToogle(false)}>
-                    <CloseIcon/>
+                <div className={styles.closeIcon} onClick={() => setSidebarToogle(false)}>
+                    <CloseIcon />
                 </div>
             </div>
             <div className={styles.allMenuAlignment}>
                 <Link href="/dashboard">
-                <div className={styles.menu}>
-                    <div className={styles.iconAlignment}>
-                        <img src={DashboardIcon} alt="DashboardIcon" />
-                        <img src={DashboardIconActive} alt="DashboardIconActive" />
+                    <div className={classNames(styles.menu, pathname === "/dashboard" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={DashboardIcon} alt="DashboardIcon" />
+                            <img src={DashboardIconActive} alt="DashboardIconActive" />
+                        </div>
+                        <span>Dashboards</span>
                     </div>
-                    <span>Dashboards</span>
-                </div>
                 </Link>
-                <Link href="/course">
-                <div className={classNames(styles.menu, styles.activeMenu)}>
-                    <div className={styles.iconAlignment}>
-                        <img src={CourseIcon} alt="CourseIcon" />
-                        <img src={CourseIconActive} alt="CourseIconActive" />
-                    </div>
-                    <div className={styles.textIconAlignment}>
-                        <span>Course</span>
-                        <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} onClick={() => setDropdown(!dropdown)}>
-                            <SidebarArrow />
+                    <div className={classNames(styles.menu, pathname === "/pre-recorded" ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
+                        <div className={styles.iconAlignment}>
+                            <img src={CourseIcon} alt="CourseIcon" />
+                            <img src={CourseIconActive} alt="CourseIconActive" />
+                        </div>
+                        <div className={styles.textIconAlignment}>
+                            <span>Course</span>
+                            <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
+                                <SidebarArrow />
+                            </div>
                         </div>
                     </div>
-                </div>
-                </Link>
                 <div className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}>
                     <div className={styles.dropodowAlignment}>
                         <Link href="/pre-recorded">
-                        <div className={styles.iconText}>
-                            <VideoIcon />
-                            <span>Pre-Recorded</span>
-                        </div>
+                            <div className={classNames(styles.iconText , pathname === "/pre-recorded" ?  styles.iconTextActive : "")}>
+                                <VideoIcon />
+                                <span>Pre-Recorded</span>
+                            </div>
                         </Link>
                         <Link href="/live-online">
-                        <div className={styles.iconText}>
-                            <LiveIcon />
-                            <span>Live Online</span>
-                        </div>
+                            <div className={classNames(styles.iconText , pathname === "/live-online" ?  styles.iconTextActive : "")}>
+                                <LiveIcon />
+                                <span>Live Online</span>
+                            </div>
                         </Link>
                         <Link href="/in-person">
-                        <div className={styles.iconText}>
-                            <PersonIcon />
-                            <span>In-Person</span>
-                        </div>
+                            <div className={classNames(styles.iconText , pathname === "/in-person" ?  styles.iconTextActive : "")}>
+                                <PersonIcon />
+                                <span>In-Person</span>
+                            </div>
                         </Link>
                     </div>
                 </div>
                 <Link href="/contact-us">
-                <div className={styles.menu}>
-                    <div className={styles.iconAlignment}>
-                        <img src={ContactIcon} alt="ContactIcon" />
-                        <img src={ContactIconActive} alt="ContactIconActive" />
+                    <div className={classNames(styles.menu, pathname === "/contact-us" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={ContactIcon} alt="ContactIcon" />
+                            <img src={ContactIconActive} alt="ContactIconActive" />
+                        </div>
+                        <span>Contact Us</span>
                     </div>
-                    <span>Contact Us</span>
-                </div>
                 </Link>
 
             </div>
             <div className={styles.sidbarFooter}>
                 <div className={styles.mainRelative}>
-                    <button className={ classNames(profileDropdown ? styles.rotateIcon : "") } onClick={()=> setProfileDropdown(!profileDropdown)}>
+                    <button className={classNames(profileDropdown ? styles.rotateIcon : "")} onClick={() => setProfileDropdown(!profileDropdown)}>
                         Ahmad Khan
                         <SidebarArrow />
                     </button>
-                    <div className={ classNames(styles.dropdownProfile , profileDropdown ? styles.show : styles.hide) }>
+                    <div className={classNames(styles.dropdownProfile, profileDropdown ? styles.show : styles.hide)}>
                         <div className={styles.dropodowAlignment}>
-                            <Link href="/profile">
-                            <div className={styles.iconText}>
-                                <ProfileIconSm />
-                                <span>Profile</span>
-                            </div>
+                            <Link href="/profile" onClick={handleCommonDropdownChange}>
+                                <div className={classNames(styles.iconText , pathname === "/profile" ?  styles.iconTextActive : "") }>
+                                    <ProfileIconSm />
+                                    <span>Profile</span>
+                                </div>
                             </Link>
-                            <Link href="/settings">
-                            <div className={styles.iconText}>
-                                <SettingIcon />
-                                <span>Settings</span>
-                            </div>
+                            <Link href="/settings" onClick={handleCommonDropdownChange}>
+                                <div className={classNames(styles.iconText , pathname === "/settings" ?  styles.iconTextActive : "")}>
+                                    <SettingIcon />
+                                    <span>Settings</span>
+                                </div>
                             </Link>
-                            <div className={styles.iconText}>
+                            <Link href="/" onClick={handleCommonDropdownChange}>
+                            <div className={styles.iconText} onClick={handleCommonDropdownChange}>
                                 <LogoutIcon />
                                 <span>Logout</span>
                             </div>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -70,6 +70,12 @@
                 padding: 20px;
                 border-radius: 18px;
                 box-shadow: 0 6px 34px 0 rgba(215, 216, 222, 0.41);
+                border: 1px solid var(--bg-white);
+                transition: .3s ease-in-out;
+                &:hover {
+                    transition: .3s ease-in-out;
+                    border: 1px solid var(--primary);
+                }
                 @include respond-to("sm") {
                     padding: 16px;
                     border-radius: 12px;

@@ -321,6 +321,16 @@
                             }
                         }
 
+                        &.iconTextActive {
+                            svg {
+                                opacity: 1;
+                            }
+
+                            span {
+                                color: var(--text-white)
+                            }
+                        }
+
                         svg {
                             transition: .3s ease-in-out;
 
@@ -383,6 +393,16 @@
                 gap: 12px;
                 cursor: pointer;
                 transition: .3s ease-in-out;
+
+                &.iconTextActive {
+                    svg {
+                        opacity: 1;
+                    }
+
+                    span {
+                        color: var(--text-white)
+                    }
+                }
 
                 &:hover {
                     svg {

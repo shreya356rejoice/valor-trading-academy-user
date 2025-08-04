@@ -3,6 +3,7 @@ import styles from './newPassword.module.scss';
 import Logo from '@/components/logo';
 import Button from '@/components/button';
 import Input from '@/components/input';
+import Link from 'next/link';
 const EyeIcon = '/assets/icons/eye.svg';
 
 export default function NewPassword() {
@@ -27,7 +28,9 @@ export default function NewPassword() {
          <Input label='Confirm Password' placeholder='**************' />
       
          <div className={styles.btnwidth}>
+          <Link href="/login">
             <Button text="Set new password" fill />
+         </Link>
          </div>
         </div>
         

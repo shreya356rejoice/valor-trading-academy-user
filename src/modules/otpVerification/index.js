@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './otpVerification.module.scss';
 import Logo from '@/components/logo';
 import Button from '@/components/button';
+import Link from 'next/link';
 export default function OtpVerification() {
   return (
     <div className={styles.otpVerification}>
@@ -34,7 +35,9 @@ export default function OtpVerification() {
             </span>
         </div>
         <div className={styles.btnwidth}>
+          <Link href="/new-password">
             <Button text="Continue" fill />
+        </Link>
         </div>
       </div>
     </div>

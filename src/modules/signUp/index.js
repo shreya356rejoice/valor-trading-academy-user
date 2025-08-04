@@ -4,6 +4,7 @@ import Logo from '@/components/logo';
 import Input from '@/components/input';
 import Authentication from '@/components/authentication';
 import Button from '@/components/button';
+import Link from 'next/link';
 const EyeIcon = '/assets/icons/eye.svg';
 
 export default function SignUp() {
@@ -32,16 +33,16 @@ export default function SignUp() {
          <Input label='Password' placeholder='Enter your password' />
        </div>
          <Input label='Confirm Password' placeholder='Enter your confirm password' icon={EyeIcon}/>
-         <div className={styles.forgotPassword}>
-            <a>Forgot password?</a>
-         </div> 
+        
          <div className={styles.btnwidth}>
+           <Link href="/pre-recorded">
             <Button text="Sign Up" fill />
+            </Link>
          </div>
          <Authentication/>
          <div className={styles.lastContent}>
             <p>
-              Already have an account? <a>Sign In</a>
+              Already have an account? <Link href="/login">Sign In</Link>
             </p>
          </div>
      </div>

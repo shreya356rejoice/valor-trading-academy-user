@@ -6,12 +6,14 @@
     padding: 200px 0;
     background: var(--linear-gradient);
     margin-top: -108px;
+
     @include respond-to("sm") {
         padding: 180px 0;
     }
 
     .title {
         padding: 0 0 50px 0;
+
         @include respond-to("sm") {
             padding: 0 0 40px 0;
         }
@@ -21,6 +23,7 @@
             color: var(--text-white);
             margin: 0 0 8px 0;
             text-align: center;
+
             @include respond-to("sm") {
                 @include heading32;
             }
@@ -43,11 +46,11 @@
         gap: 24px;
 
         @include respond-to("md") {
-            grid-template-columns: repeat(2 , 1fr);
+            grid-template-columns: repeat(2, 1fr);
         }
 
         @include respond-to("sm") {
-            grid-template-columns: repeat(1 , 1fr);
+            grid-template-columns: repeat(1, 1fr);
             gap: 20px;
         }
 
@@ -55,6 +58,12 @@
             padding: 30px;
             background-color: var(--bg-white);
             border-radius: 18px;
+            border: 1px solid var(--bg-white);
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            }
 
             @include respond-to("sm") {
                 padding: 16px;
@@ -137,6 +146,7 @@
                     display: inline;
                     font-weight: 500;
                     @include text-type;
+
                     @include respond-to("sm") {
                         @include font16;
                     }
@@ -205,7 +215,8 @@
         width: 100%;
         object-fit: cover;
         height: 108px;
-                @include respond-to("md") {
+
+        @include respond-to("md") {
             height: 111px;
         }
     }

@@ -6,10 +6,12 @@ import UserIcon from '../icons/userIcon';
 import MenuIcon from '../icons/menuIcon';
 import classNames from 'classnames';
 import CloseIcon from '../icons/closeIcon';
+import Link from 'next/link';
 export default function Header() {
   const [header, setHeader] = useState(false);
   return (
-    <><header className={styles.header}>
+    <>
+    <header className={styles.header}>
       <div className='container'>
         <div className={styles.headerDesign}>
           <Logo />
@@ -23,9 +25,11 @@ export default function Header() {
               <a aria-label='Blog'>Blog</a>
               <a aria-label='About Us'>About Us</a>
             </div>
+            <Link href="/login">
             <div className={styles.profile}>
               <UserIcon />
             </div>
+            </Link>
             <div className={classNames(styles.profile, styles.menuIcon)} onClick={() => setHeader(!header)}>
               <MenuIcon />
             </div>
