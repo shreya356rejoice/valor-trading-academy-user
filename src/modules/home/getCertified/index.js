@@ -96,7 +96,7 @@ export default function GetCertified() {
               <h4>Sample Certificate</h4>
               <p>Digital certificate with unique verification ID</p>
               <div className={styles.centerButton}>
-                <button>
+                <button aria-label="View Sample Certificate">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"

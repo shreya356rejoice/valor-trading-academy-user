@@ -72,7 +72,7 @@ export default function ExploreDifferent() {
                                                         dummy text of the printing.
                                                     </p>
                                                 </div>
-                                                <button>
+                                                <button aria-label='112 Courses' >
                                                     <img src={BookIcon} alt='BookIcon' />
                                                     <span>
                                                         112 Courses

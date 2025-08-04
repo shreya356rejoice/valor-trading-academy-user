@@ -28,7 +28,7 @@ export default function ResetPassword() {
          </div>
          <div className={styles.lastContent}>
             <p>
-                Don’t have an account? <a>Sign up</a>
+                Don’t have an account? <Link href="/sign-up">Sign up</Link>
             </p>
          </div>
       </div>

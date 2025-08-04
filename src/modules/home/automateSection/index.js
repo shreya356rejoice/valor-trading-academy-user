@@ -72,7 +72,7 @@ export default function AutomateSection() {
                 </div>
 
                 <div className={styles.freetrial}>
-                  <button>
+                  <button aria-label='Free Trial'>
                     <span>Free Trial</span>
                   </button>
                   <p>Then ₹1499/month</p>

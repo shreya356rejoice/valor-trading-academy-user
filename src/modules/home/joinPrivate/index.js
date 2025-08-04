@@ -68,7 +68,7 @@ export default function JoinPrivate() {
                                 variants={cardVariants}
                             >
                                 <div className={styles.cardHeaderAlignment}>
-                                    <button>
+                                    <button aria-label='Free Access'>
                                         <span>Free</span>
                                     </button>
                                     <img src={GrowthIcon} alt='GrowthIcon' />

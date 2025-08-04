@@ -23,9 +23,9 @@ export default function ChooseYourPath() {
                     </div>
                     <div className={styles.tabCenteralignment}>
                         <div className={styles.tab}>
-                            <button className={styles.active}>On demand courses</button>
-                            <button>Live Online Courses</button>
-                            <button>In-Person Courses</button>
+                            <button aria-label='On demand courses' className={styles.active}>On demand courses</button>
+                            <button aria-label='Live Online Courses'>Live Online Courses</button>
+                            <button aria-label='In-Person Courses'>In-Person Courses</button>
                         </div>
                     </div>
                     <motion.div className={styles.grid} variants={{ visible: { transition: { staggerChildren: 0.3 } } }} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
@@ -54,7 +54,7 @@ export default function ChooseYourPath() {
                                             </div>
                                             <div className={styles.textButtonAlignment}>
                                                 <h4>₹785</h4>
-                                                <button>
+                                                <button aria-label='Beginner Level'>
                                                     <span>Beginner Level</span>
                                                 </button>
                                             </div>

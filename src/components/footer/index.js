@@ -31,20 +31,20 @@ export default function Footer() {
                         <h3>
                             Quick Links
                         </h3>
-                        <a aria-label='About'>About</a>
-                        <a aria-label='Courses'>Courses</a>
-                        <a aria-label='Blog'>Blog</a>
-                        <a aria-label='Contact'>Contact</a>
-                        <a aria-label='FAQ'>FAQ</a>
+                        <a aria-label='About' href="#">About</a>
+                        <a aria-label='Courses' href="#">Courses</a>
+                        <a aria-label='Blog' href="#">Blog</a>
+                        <a aria-label='Contact' href="#">Contact</a>
+                        <a aria-label='FAQ' href="#">FAQ</a>
                     </div>
                     <div className={styles.menu}>
                         <h3>
                             Support
                         </h3>
-                        <a aria-label='Terms of Service'>Terms of Service</a>
-                        <a aria-label='Privacy Policy'>Privacy Policy</a>
-                        <a aria-label='Telegram Group'>Telegram Group</a>
-                        <a aria-label='Refund Policy'>Refund Policy</a>
+                        <a aria-label='Terms of Service' href="#">Terms of Service</a>
+                        <a aria-label='Privacy Policy' href="#"> Privacy Policy</a>
+                        <a aria-label='Telegram Group' href="#">Telegram Group</a>
+                        <a aria-label='Refund Policy' href="#">Refund Policy</a>
                     </div>
                 </div>
                 <div className={styles.items}>
