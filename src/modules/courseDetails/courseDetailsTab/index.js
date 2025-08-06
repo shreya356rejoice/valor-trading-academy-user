@@ -1,15 +1,24 @@
+'use client'
 import React from 'react'
 import styles from './courseDetailsTab.module.scss';
-export default function CourseDetailsTab() {
-    return (
-        <div className={styles.courseDetailsTab}>
-            <button aria-label='Chapter 1' className={styles.active}>Chapter 1</button>
-            <button aria-label='Chapter 2'>Chapter 2</button>
-            <button aria-label='Chapter 3'>Chapter 3</button>
-            <button aria-label='Chapter 4'>Chapter 4</button>
-            <button aria-label='Chapter 5'>Chapter 5</button>
-            <button aria-label='Chapter 6'>Chapter 6</button>
-            <button aria-label='Chapter 7'>Chapter 7</button>
-        </div>
-    )
+
+export default function CourseDetailsTab({ 
+  chapters = [], 
+  selectedChapter, 
+  onChapterSelect 
+}) {
+  return (
+    <div className={styles.courseDetailsTab}>
+      {chapters.map((chapter) => (
+        <button 
+          key={chapter._id}
+          aria-label={`Chapter ${chapter.chapterNo}`}
+          className={selectedChapter?._id === chapter._id ? styles.active : ''}
+          onClick={() => onChapterSelect(chapter)}
+        >
+          Chapter {chapter.chapterNo}
+        </button>
+      ))}
+    </div>
+  )
 }

@@ -4,6 +4,8 @@ import '../scss/main.scss';
 import './theme.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "@/context/AuthContext";
 const lexend = Lexend({
   variable: "--font-lexend",
   subsets: ["latin"],
@@ -21,7 +23,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${lexend.variable}`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+        <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        toastClassName="custom-toast"
+        bodyClassName="custom-body"
+      />
       </body>
     </html>
   );

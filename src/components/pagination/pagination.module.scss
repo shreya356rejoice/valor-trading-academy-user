@@ -7,14 +7,8 @@
     gap: 30px;
     align-items: center;
     justify-content: center;
-     @include respond-to("sm") {
+    @include respond-to("sm") {
         gap: 10px;
-     }
-
-    .arrow:last-child {
-        svg {
-            transform: rotate(180deg);
-        }
     }
 
     .arrow {
@@ -32,20 +26,28 @@
             height: 30px;
         }
 
-        &:hover {
+        &:hover:not(.disabled) {
             background: var(--linear-gradient);
+            svg path {
+                fill: var(--text-white);
+            }
+        }
 
+        &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &.right {
             svg {
-                path {
-                    fill: var(--text-white);
-                }
+                transform: rotate(180deg);
             }
         }
 
         svg {
-             @include respond-to("sm") {
+            @include respond-to("sm") {
                 width: 14px;
-             }
+            }
         }
     }
 
@@ -53,31 +55,52 @@
         display: flex;
         align-items: center;
         gap: 14px;
-         @include respond-to("sm") {
+        @include respond-to("sm") {
             gap: 10px;
-         }
+        }
 
-        .box {
-            width: 40px;
+        .pageNumber, .box {
+            min-width: 40px;
             border: 1px solid #D7D7D7;
             height: 40px;
             border-radius: 8px;
             display: flex;
             align-items: center;
+            justify-content: center;
             transition: .3s ease-in-out;
             @include font16medium;
             color: var(--black-100);
-            justify-content: center;
-             @include respond-to("sm") {
-                width: 30px;
+            cursor: pointer;
+            padding: 0 5px;
+            @include respond-to("sm") {
+                min-width: 30px;
                 height: 30px;
                 @include font14normal;
                 font-weight: 600;
                 border-radius: 4px;
-             }
-            &:hover {
+            }
+
+            &:hover:not(.active) {
                 background: var(--linear-gradient);
                 color: var(--text-white);
+            }
+
+            &.active {
+                background: var(--linear-gradient);
+                color: var(--text-white);
+                border-color: transparent;
+            }
+        }
+
+        .ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            cursor: default;
+            @include respond-to("sm") {
+                width: 20px;
             }
         }
     }

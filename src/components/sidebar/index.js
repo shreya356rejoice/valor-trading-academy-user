@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './sidebar.module.scss';
 import SidebarArrow from '../icons/sidebarArrow';
 import VideoIcon from '../icons/videoIcon';
@@ -11,7 +11,8 @@ import SettingIcon from '../icons/settingIcon';
 import LogoutIcon from '../icons/logoutIcon';
 import CloseIcon from '../icons/closeIcon';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { getCookie, removeCookie } from '../../../cookie';
 const SidebarLogo = '/assets/logo/sidebar-logo.svg';
 const DashboardIcon = '/assets/icons/dashboaard.svg';
 const CourseIcon = '/assets/icons/Course.svg';
@@ -22,10 +23,27 @@ const ContactIconActive = '/assets/icons/contact-active.svg';
 export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
     const pathname = usePathname();
     const [dropdown, setDropdown] = useState(false);
+    const router = useRouter();
     const [profileDropdown, setProfileDropdown] = useState(false);
+    const [user, setUser] = useState("");
+
     const handleCommonDropdownChange = () => {
+        removeCookie("userToken");
+        removeCookie("user");
         setProfileDropdown((prev) => (!prev))
     }
+
+
+    const handleLogout = () => {
+        removeCookie("userToken");
+        router.push("/signin");
+    };
+    useEffect(() => {
+        const user = getCookie("user");
+        const userName = user && JSON.parse(user)?.name;
+        setUser(userName);
+    }, []);
+
     return (
         <aside className={styles.sidebar}>
             <div className={styles.logoAlignment}>
@@ -44,34 +62,34 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                         <span>Dashboards</span>
                     </div>
                 </Link>
-                    <div className={classNames(styles.menu, pathname === "/pre-recorded" ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
-                        <div className={styles.iconAlignment}>
-                            <img src={CourseIcon} alt="CourseIcon" />
-                            <img src={CourseIconActive} alt="CourseIconActive" />
-                        </div>
-                        <div className={styles.textIconAlignment}>
-                            <span>Course</span>
-                            <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
-                                <SidebarArrow />
-                            </div>
+                <div className={classNames(styles.menu, pathname === "/pre-recorded" ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
+                    <div className={styles.iconAlignment}>
+                        <img src={CourseIcon} alt="CourseIcon" />
+                        <img src={CourseIconActive} alt="CourseIconActive" />
+                    </div>
+                    <div className={styles.textIconAlignment}>
+                        <span>Course</span>
+                        <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
+                            <SidebarArrow />
                         </div>
                     </div>
+                </div>
                 <div className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}>
                     <div className={styles.dropodowAlignment}>
                         <Link href="/pre-recorded">
-                            <div className={classNames(styles.iconText , pathname === "/pre-recorded" ?  styles.iconTextActive : "")}>
+                            <div className={classNames(styles.iconText, pathname === "/pre-recorded" ? styles.iconTextActive : "")}>
                                 <VideoIcon />
                                 <span>Pre-Recorded</span>
                             </div>
                         </Link>
                         <Link href="/live-online">
-                            <div className={classNames(styles.iconText , pathname === "/live-online" ?  styles.iconTextActive : "")}>
+                            <div className={classNames(styles.iconText, pathname === "/live-online" ? styles.iconTextActive : "")}>
                                 <LiveIcon />
                                 <span>Live Online</span>
                             </div>
                         </Link>
                         <Link href="/in-person">
-                            <div className={classNames(styles.iconText , pathname === "/in-person" ?  styles.iconTextActive : "")}>
+                            <div className={classNames(styles.iconText, pathname === "/in-person" ? styles.iconTextActive : "")}>
                                 <PersonIcon />
                                 <span>In-Person</span>
                             </div>
@@ -92,28 +110,28 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
             <div className={styles.sidbarFooter}>
                 <div className={styles.mainRelative}>
                     <button className={classNames(profileDropdown ? styles.rotateIcon : "")} onClick={() => setProfileDropdown(!profileDropdown)}>
-                        Ahmad Khan
+                        {user}
                         <SidebarArrow />
                     </button>
                     <div className={classNames(styles.dropdownProfile, profileDropdown ? styles.show : styles.hide)}>
                         <div className={styles.dropodowAlignment}>
                             <Link href="/profile" onClick={handleCommonDropdownChange}>
-                                <div className={classNames(styles.iconText , pathname === "/profile" ?  styles.iconTextActive : "") }>
+                                <div className={classNames(styles.iconText, pathname === "/profile" ? styles.iconTextActive : "")}>
                                     <ProfileIconSm />
                                     <span>Profile</span>
                                 </div>
                             </Link>
                             <Link href="/settings" onClick={handleCommonDropdownChange}>
-                                <div className={classNames(styles.iconText , pathname === "/settings" ?  styles.iconTextActive : "")}>
+                                <div className={classNames(styles.iconText, pathname === "/settings" ? styles.iconTextActive : "")}>
                                     <SettingIcon />
                                     <span>Settings</span>
                                 </div>
                             </Link>
-                            <Link href="/" onClick={handleCommonDropdownChange}>
-                            <div className={styles.iconText} onClick={handleCommonDropdownChange}>
-                                <LogoutIcon />
-                                <span>Logout</span>
-                            </div>
+                            <Link href="/" onClick={handleLogout}>
+                                <div className={styles.iconText} onClick={handleCommonDropdownChange}>
+                                    <LogoutIcon />
+                                    <span>Logout</span>
+                                </div>
                             </Link>
                         </div>
                     </div>

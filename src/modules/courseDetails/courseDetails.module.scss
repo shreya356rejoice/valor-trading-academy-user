@@ -99,8 +99,15 @@
             background: rgba(1, 11, 29, 0.20);
             height: 400px;
             @include respond-to("sm") {
+                border-radius: 8px;
                 height: 280px;
-                border-radius: 8px
+            }
+            iframe {
+                border-radius: 20px;
+                display: block;
+                @include respond-to("sm") {
+                    border-radius: 12px;
+                }
             }
         }
 
@@ -123,3 +130,72 @@
     }
 
 }
+
+.emptyState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .emptyContent {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .emptyImage {
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .emptyState h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--black-100);
+  }
+  
+  .emptyState p {
+    color: var(--black-400);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .primaryButton {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  
+  .primaryButton:hover {
+    opacity: 0.9;
+  }
+  
+  .secondaryButton {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .secondaryButton:hover {
+    background: rgba(var(--primary-rgb), 0.1);
+  }

@@ -199,15 +199,23 @@
                     font-weight: 500;
                     margin: 10px 0 8px 0;
                 }
-                p {
-                    @include font14normal;
-                    color: #5E6470;
-                    margin: 0 0 20px 0;
-                    @include respond-to("lg") {
-                        margin: 0 0 10px 0;
+                > div {
+                    p {
+                        @include font14normal;
+                        color: var(--black-500);
+                        margin: 0 0 15px 0;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-height: 1.5;
+                        min-height: 42px; /* Ensures consistent height for 2 lines */
+                        @include respond-to("sm") {
+                            margin: 0 0 10px 0;
+                        }
                     }
                 }
-
                 .cardFooter {
                     display: flex;
                     align-items: center;

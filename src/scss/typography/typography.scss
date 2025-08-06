@@ -14,6 +14,14 @@
     font-family: var(--font-lexend);
 }
 
+@mixin font12normal {
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: var(--font-lexend);
+}
+
 @mixin font16bold {
     font-size: 16px;
     font-style: normal;

@@ -1,12 +1,15 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './courseBanner.module.scss';
 import Slider from "react-slick";
 import RightIcon from '@/components/icons/rightIcon';
+import { getCourses } from '@/app/api/courses';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 const CardImage = '/assets/images/card9.png';
 const BathIcon = '/assets/icons/bath.svg';
 
-export default function CourseBanner() {
+export default function CourseBanner({searchQuery,setSearchQuery}) {
     const settings = {
         dots: true,
         infinite: true,
@@ -14,6 +17,63 @@ export default function CourseBanner() {
         slidesToShow: 1,
         slidesToScroll: 1
     };
+    const [isLoading, setIsLoading] = useState(true);
+    const [bannerCourses, setBannerCourses] = useState([]);
+    const fetchCourses = async () => {
+        try {
+            setIsLoading(true);
+            const data = await getCourses({
+                searchQuery,
+                page: 1,
+                limit: 3
+            });
+            if(data.success){
+                setBannerCourses(data?.payload?.data.slice(0, 3) || []);
+            }
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+            setIsLoading(false);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    };
+    useEffect(() => {
+        fetchCourses();
+    }, []);
+
+    const CourseBannerSkeleton = ({ settings }) => (
+        <div className={styles.griditems}>
+            <Slider {...settings}>
+                {[1, 2, 3].map((_, index) => (
+                    <div key={`skeleton-${index}`}>
+                        <div className={styles.card}>
+                            <div className={styles.content}>
+                                <div>
+                                    <Skeleton height={24} width="70%" style={{ marginBottom: '10px' }} />
+                                    <Skeleton height={16} count={2} style={{ marginBottom: '15px' }} />
+                                    <div className={styles.iconText} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <Skeleton circle width={20} height={20} style={{ marginRight: '8px' }} />
+                                        <Skeleton width={100} height={16} />
+                                    </div>
+                                </div>
+                                <div className={styles.cardFooter} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Skeleton width={60} height={24} />
+                                    <div className={styles.rightText}>
+                                        <Skeleton width={80} height={16} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.image}>
+                                <Skeleton height={180} style={{ display: 'block', borderRadius: '10px' }} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </Slider>
+        </div>
+    );
+
     return (
         <div className={styles.courseBanner}>
             <div className={styles.line}></div>
@@ -24,7 +84,7 @@ export default function CourseBanner() {
                 <div className={styles.grid}>
                     <div className={styles.griditems}>
                         <h2>
-                            Lorem Ipsum simply dummy printing
+                            Lorem Ipsum simply dummy printing
                             and typesetting industry.
                         </h2>
                         <p>
@@ -32,7 +92,7 @@ export default function CourseBanner() {
                             when an unknown printer took a galley of type.
                         </p>
                         <div className={styles.relativeInput}>
-                            <input type="text" placeholder="Search..." />
+                            <input type="text" placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery}/>
                             <div className={styles.icon}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                     <g clipPath="url(#clip0_2724_6410)">
@@ -47,38 +107,39 @@ export default function CourseBanner() {
                             </div>
                         </div>
                     </div>
+                    {isLoading ? (
+                        <CourseBannerSkeleton settings={settings} />
+                    ) : (
                     <div className={styles.griditems}>
                         <Slider {...settings}>
                             {
-                                [...Array(4)].map(() => {
+                                bannerCourses.map((course, i) => {
                                     return (
                                         <div>
                                             <div className={styles.card}>
                                                 <div className={styles.content}>
                                                     <div>
-                                                        <h3>Crypto Trading</h3>
+                                                        <h3>{course?.CourseName}</h3>
                                                         <p>
-                                                            Lorem Ipsum simply dummy
-                                                            text the printing typesetting
-                                                            industry Lorem Ipsum.
+                                                            {course?.description}
                                                         </p>
                                                         <div className={styles.iconText}>
                                                             <img src={BathIcon} alt="BathIcon" />
-                                                            <span>Jonat bailey</span>
+                                                            <span>{course?.instructor || 'John Doe'}</span>
                                                         </div>
                                                     </div>
                                                     <div className={styles.cardFooter}>
                                                         <h4>
-                                                            $859
+                                                            ${course?.price}
                                                         </h4>
-                                                        <div className={styles.rightText}>
+                                                        <div className={styles.rightText} onClick={() => router.push(`/course-details?courseId=${course?._id}`)}>
                                                             <span>Enroll Now</span>
                                                             <RightIcon />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className={styles.image}>
-                                                    <img src={CardImage} alt="CardImage" />
+                                                    <img src={course?.courseVideo} alt="CardImage" />
                                                 </div>
                                             </div>
                                         </div>
@@ -86,7 +147,7 @@ export default function CourseBanner() {
                                 })
                             }
                         </Slider>
-                    </div>
+                    </div>)}
                 </div>
             </div>
             <div className={styles.lineBototm}></div>
