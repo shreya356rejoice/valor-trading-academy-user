@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './sidebar.module.scss';
 import SidebarArrow from '../icons/sidebarArrow';
 import VideoIcon from '../icons/videoIcon';
@@ -22,10 +22,12 @@ const CourseIconActive = '/assets/icons/CourseIcon-active.svg';
 const ContactIconActive = '/assets/icons/contact-active.svg';
 export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
     const pathname = usePathname();
-    const [dropdown, setDropdown] = useState(false);
+    const [dropdown, setDropdown] = useState(true);
     const router = useRouter();
     const [profileDropdown, setProfileDropdown] = useState(false);
     const [user, setUser] = useState("");
+    const dropdownRef = useRef(null);
+    const menuRef = useRef(null);
 
     const handleCommonDropdownChange = () => {
         removeCookie("userToken");
@@ -44,6 +46,23 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
         setUser(userName);
     }, []);
 
+
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && 
+                !dropdownRef.current.contains(event.target) &&
+                menuRef.current && 
+                !menuRef.current.contains(event.target)) {
+                setDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+  
     return (
         <aside className={styles.sidebar}>
             <div className={styles.logoAlignment}>
@@ -63,22 +82,27 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                     </div>
                 </Link>
                 <Link href="/courses/pre-recorded">
-                <div className={classNames(styles.menu, pathname.includes("/courses") ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
+                <div 
+                    className={classNames(styles.menu, pathname.includes("/courses") ? styles.activeMenu : "")}
+                    ref={menuRef}
+                    onClick={() => setDropdown(prev => !prev)}
+                >
                     <div className={styles.iconAlignment}>
                         <img src={CourseIcon} alt="CourseIcon" />
                         <img src={CourseIconActive} alt="CourseIconActive" />
                     </div>
-                    
-                        <div className={styles.textIconAlignment}>
-                            <span>Course</span>
-                            <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
-                                <SidebarArrow />
-                            </div>
+                    <div className={styles.textIconAlignment}>
+                        <span>Course</span>
+                        <div className={classNames(styles.icons, dropdown ? styles.rotate : "")}>
+                            <SidebarArrow />
                         </div>
-                    
+                    </div>
                 </div>
                 </Link>
-                <div className={classNames(styles.dropodow, pathname.includes("/courses") ? styles.show : styles.hide)}>
+                <div 
+                    className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}
+                    ref={dropdownRef}
+                >
                     <div className={styles.dropodowAlignment}>
                         <Link href="/courses/pre-recorded">
                             <div className={classNames(styles.iconText, pathname === "/courses/pre-recorded" ? styles.iconTextActive : "")}>
