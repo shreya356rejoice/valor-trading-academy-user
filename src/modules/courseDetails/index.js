@@ -94,7 +94,7 @@ export default function CourseDetails() {
       <div className={styles.breadcumbAlignment}>
         <a aria-label="Home" href="/">Home</a>
         <RightArrow />
-        <a aria-label="Course" href="/pre-recorded">Course</a>
+        <a aria-label="Course" href="/courses/pre-recorded">Course</a>
         <RightArrow />
         <a aria-label="Pre-Recorded">Pre-Recorded</a>
       </div>

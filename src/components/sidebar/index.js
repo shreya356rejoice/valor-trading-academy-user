@@ -59,37 +59,41 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                             <img src={DashboardIcon} alt="DashboardIcon" />
                             <img src={DashboardIconActive} alt="DashboardIconActive" />
                         </div>
-                        <span>Dashboards</span>
+                        <span>Dashboard</span>
                     </div>
                 </Link>
-                <div className={classNames(styles.menu, pathname === "/pre-recorded" ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
+                <Link href="/courses/pre-recorded">
+                <div className={classNames(styles.menu, pathname.includes("/courses") ? styles.activeMenu : " ")} onClick={() => setDropdown(!dropdown)}>
                     <div className={styles.iconAlignment}>
                         <img src={CourseIcon} alt="CourseIcon" />
                         <img src={CourseIconActive} alt="CourseIconActive" />
                     </div>
-                    <div className={styles.textIconAlignment}>
-                        <span>Course</span>
-                        <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
-                            <SidebarArrow />
+                    
+                        <div className={styles.textIconAlignment}>
+                            <span>Course</span>
+                            <div className={classNames(styles.icons, dropdown ? styles.rotate : "")} >
+                                <SidebarArrow />
+                            </div>
                         </div>
-                    </div>
+                    
                 </div>
-                <div className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}>
+                </Link>
+                <div className={classNames(styles.dropodow, pathname.includes("/courses") ? styles.show : styles.hide)}>
                     <div className={styles.dropodowAlignment}>
-                        <Link href="/pre-recorded">
-                            <div className={classNames(styles.iconText, pathname === "/pre-recorded" ? styles.iconTextActive : "")}>
+                        <Link href="/courses/pre-recorded">
+                            <div className={classNames(styles.iconText, pathname === "/courses/pre-recorded" ? styles.iconTextActive : "")}>
                                 <VideoIcon />
                                 <span>Pre-Recorded</span>
                             </div>
                         </Link>
-                        <Link href="/live-online">
-                            <div className={classNames(styles.iconText, pathname === "/live-online" ? styles.iconTextActive : "")}>
+                        <Link href="/courses/live-online">
+                            <div className={classNames(styles.iconText, pathname === "/courses/live-online" ? styles.iconTextActive : "")}>
                                 <LiveIcon />
                                 <span>Live Online</span>
                             </div>
                         </Link>
-                        <Link href="/in-person">
-                            <div className={classNames(styles.iconText, pathname === "/in-person" ? styles.iconTextActive : "")}>
+                        <Link href="/courses/in-person">
+                            <div className={classNames(styles.iconText, pathname === "/courses/in-person" ? styles.iconTextActive : "")}>
                                 <PersonIcon />
                                 <span>In-Person</span>
                             </div>
