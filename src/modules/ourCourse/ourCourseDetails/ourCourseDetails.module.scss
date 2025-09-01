@@ -5,10 +5,22 @@
 .ourCourseDetails {
     padding: 100px 0;
 
+    @include respond-to("md") {
+        padding: 80px 0;
+    }
+
+    @include respond-to("sm") {
+        padding: 60px 0 0 0;
+    }
+
     .tabCenter {
         display: flex;
         padding: 0 0 50px 0;
         justify-content: center;
+
+        @include respond-to("md") {
+            padding: 0 0 30px 0;
+        }
     }
 
     .tab {
@@ -64,6 +76,16 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 38px;
+
+        @include respond-to("md") {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @include respond-to("sm") {
+            grid-template-columns: repeat(1, 1fr);
+            gap: 20px;
+        }
 
         .griditems {
             background-color: var(--bg-white);
@@ -128,6 +150,24 @@
                     color: var(--grey-600);
                 }
             }
+        }
+    }
+}
+
+.valorText {
+    h3 {
+        font-size: 12vw;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 800;
+        color: #07000C;
+
+        @include respond-to("md") {
+            line-height: 120px;
+        }
+
+        @include respond-to("sm") {
+            line-height: 142px;
         }
     }
 }

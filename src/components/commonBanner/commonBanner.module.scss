@@ -14,6 +14,10 @@
         padding: 180px 0 100px 0;
     }
 
+    @include respond-to("sm") {
+        padding: 160px 0 60px 0;
+    }
+
     h1 {
         @include heading2;
         font-weight: 700;

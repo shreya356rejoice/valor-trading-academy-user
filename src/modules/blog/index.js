@@ -1,11 +1,11 @@
 import React from 'react'
-import BlogBanner from './blogBanner'
 import BlogList from './blogList'
+import CommonBanner from '@/components/commonBanner'
 
 export default function Blog() {
     return (
         <div>
-            <BlogBanner />
+            <CommonBanner title='Financial Insights & Articles' description='Lorem Ipsum is simply dummy text of the printing and typesetting industry.' />
             <BlogList />
         </div>
     )
