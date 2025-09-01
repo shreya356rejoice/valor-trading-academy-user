@@ -1,0 +1,39 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+
+.commonBanner {
+    background-image: url('/assets/images/common-banner.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 242px 0 159px 0;
+    width: 100%;
+
+    @include respond-to("md") {
+        padding: 180px 0 100px 0;
+    }
+
+    h1 {
+        @include heading2;
+        font-weight: 700;
+        color: var(--black-100);
+        text-align: center;
+        margin: 0 0 16px 0;
+
+        @include respond-to("sm") {
+            @include heading32;
+            margin: 0 0 10px 0;
+        }
+    }
+
+    p {
+        @include font18;
+        color: var(--black-510);
+        text-align: center;
+
+        @include respond-to("sm") {
+            @include font16;
+        }
+    }
+}

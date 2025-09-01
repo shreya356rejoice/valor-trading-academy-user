@@ -1,0 +1,78 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.privacyPolicyContent {
+    padding: 100px 0;
+
+    @include respond-to("md") {
+        padding: 80px 0;
+    }
+
+    @include respond-to("sm") {
+        padding: 60px 0 0 0;
+    }
+
+    h2 {
+        @include heading30;
+        text-transform: capitalize;
+        margin: 0 0 16px 0;
+        color: var(--black-100);
+
+        @include respond-to("sm") {
+            @include heading24;
+        }
+    }
+
+    p {
+        @include font16;
+        color: var(--grey-600);
+        line-height: 28px;
+    }
+
+
+    .allContnetAlignment {
+        padding: 40px 0 0 0;
+
+        .iconText {
+            display: flex;
+            padding: 0 0 8px 0;
+            align-items: center;
+            gap: 6px;
+
+            h5 {
+                @include font18;
+                color: var(--black-100);
+                font-weight: 500;
+            }
+        }
+
+        .text {
+            padding: 0 0 24px 0;
+
+            h3 {
+                margin: 0 0 8px 0;
+                @include heading20;
+                color: var(--black-100);
+            }
+        }
+    }
+}
+
+.valorText {
+    h3 {
+        font-size: 12vw;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 800;
+        color: #07000C;
+
+        @include respond-to("md") {
+            line-height: 120px;
+        }
+
+        @include respond-to("sm") {
+            line-height: 142px;
+        }
+    }
+}
