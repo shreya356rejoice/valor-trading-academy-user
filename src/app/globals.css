@@ -6,11 +6,9 @@ body {
   overflow-x: hidden;
 }
 
-
 * {
   box-sizing: border-box;
 }
-
 
 img {
   max-width: 100%;
@@ -18,7 +16,14 @@ img {
   -webkit-user-drag: none;
 }
 
-h1, h2, h3, h4, h5, h6, p ,span {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
   margin: 0;
   cursor: default;
 }
@@ -31,9 +36,9 @@ a {
   text-decoration: none;
 }
 
-.error{
-    font-size: 12px;
-    color: red;
+.error {
+  font-size: 12px;
+  color: red;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -43,16 +48,16 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input, ::placeholder, button {
+input,
+::placeholder,
+button {
   font-family: var(--font-lexend);
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
-
 
 .container {
   max-width: calc(1320px + 40px);
@@ -67,7 +72,7 @@ input[type=number] {
 }
 
 .admin-layout {
-  background-image: url('/assets/images/admin-layout.png');
+  background-image: url("/assets/images/admin-layout.png");
   min-height: 100dvh;
   width: 100%;
   background-attachment: fixed;
@@ -81,7 +86,6 @@ input[type=number] {
 
 .admin-sidbar {
   width: 275px;
-
 }
 
 .admin-children {
@@ -92,7 +96,7 @@ input[type=number] {
   padding: 20px 20px 20px 0;
 }
 
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
   .admin-sidbar {
     display: none;
   }
@@ -110,7 +114,7 @@ input[type=number] {
   }
 }
 
-@media (max-width:576px) {
+@media (max-width: 576px) {
   .admin-children-alignment {
     padding: 14px;
   }

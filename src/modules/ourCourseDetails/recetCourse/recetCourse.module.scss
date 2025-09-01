@@ -1,0 +1,113 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.recetCourse {
+    padding: 0 0 100px 0;
+
+    .title {
+        padding: 0 0 50px 0;
+
+        h2 {
+            @include heading2;
+            color: var(--black-100);
+            margin: 0 0 8px 0;
+            text-align: center;
+        }
+
+        p {
+            @include font18;
+            color: var(--black-500);
+            text-align: center;
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 38px;
+
+        .griditems {
+            background-color: var(--bg-white);
+            box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            padding: 15px;
+            border-radius: 12px;
+
+            .cardImage {
+                img {
+                    width: 100%;
+                    height: 200px;
+                    display: block;
+                    border-radius: 12px;
+                    object-fit: cover;
+                }
+            }
+
+            .cardDetails {
+                padding: 10px 0 0 0;
+
+                h3 {
+                    @include font18;
+                    font-weight: 500;
+                    color: var(--black-100);
+                }
+
+                button {
+                    padding: 12px 26px;
+                }
+
+                .twoContentAlignment {
+                    display: flex;
+                    align-items: center;
+                    gap: 35px;
+                    padding: 0 0 20px 0;
+
+                    .iconText {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                    }
+
+                    h4 {
+                        @include heading22;
+                        background: var(--linear-gradient);
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        display: inline;
+                    }
+
+                    span {
+                        display: block;
+                        @include font16;
+                        color: var(--black-500);
+                    }
+                }
+
+                p {
+                    @include font16;
+                    margin: 0 0 12px 0;
+                    color: var(--grey-600);
+                }
+            }
+        }
+    }
+}
+
+
+.valorText {
+    h3 {
+        font-size: 12vw;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 800;
+        color: #07000C;
+
+        @include respond-to("md") {
+            line-height: 120px;
+        }
+        @include respond-to("sm") {
+                 line-height: 142px;
+        }
+    }
+}

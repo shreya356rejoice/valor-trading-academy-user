@@ -1,0 +1,124 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.ourCourseInformation {
+    padding: 100px 0;
+
+    .contentAlignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0 20px 0;
+
+        .rightContent {
+            button {
+                padding: 12px 22px;
+            }
+        }
+
+        .leftContent {
+            h3 {
+                @include heading20;
+                color: var(--black-250);
+                margin: 0 0 6px 0;
+            }
+
+            p {
+                @include font16;
+                margin: 0 0 20px 0;
+                color: var(--black-500);
+                max-width: 880px;
+            }
+
+            .allIconText {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+
+                .iconText {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    span {
+                        display: block;
+                        @include font16;
+                        color: var(--black-500);
+                    }
+                }
+            }
+        }
+    }
+
+    .allTabAlignment {
+        border-bottom: 1px solid var(--border-color5);
+
+        button {
+            padding: 10px 32px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            @include font16;
+            color: var(--black-500);
+
+            &:hover {
+                color: var(--black-100);
+
+                &::before {
+                    width: 100%;
+                }
+            }
+
+            &:before {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                content: " ";
+                color: transparent;
+                background: var(--linear-gradient);
+                height: 2px;
+                width: 0;
+                transition: .4s ease-in-out;
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 580px;
+        gap: 40px;
+        padding: 30px 0 0 0;
+        align-items: center;
+
+        .gridItems {
+            h4 {
+                @include font18;
+                margin: 0 0 10px 0;
+                color: var(--black-250);
+                font-weight: 500;
+            }
+
+            p {
+                @include font16;
+                color: var(--black-500);
+                margin: 0 0 8px 0;
+                line-height: 30px;
+            }
+
+            p:last-child {
+                margin: 0;
+            }
+
+            .box {
+                width: 100%;
+                border-radius: 20px;
+                background: rgba(1, 11, 29, 0.20);
+                height: 400px;
+            }
+        }
+    }
+}

@@ -1,0 +1,133 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.ourCourseDetails {
+    padding: 100px 0;
+
+    .tabCenter {
+        display: flex;
+        padding: 0 0 50px 0;
+        justify-content: center;
+    }
+
+    .tab {
+        border: 1px solid var(--border-color);
+        border-radius: 99px;
+        padding: 6px;
+        width: fit-content;
+
+        @include respond-to("sm") {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        button {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 99px;
+            transition: .3s ease-in-out;
+            color: var(--black-100);
+            @include font16medium;
+            background-color: transparent;
+            cursor: pointer;
+
+            @include respond-to("sm") {
+                padding: 10px 16px;
+                @include font14normal;
+                white-space: nowrap;
+            }
+
+            &.active {
+                color: var(--text-white);
+                background: var(--linear-gradient);
+
+                &:hover {
+                    color: var(--text-white);
+                }
+            }
+
+            &:hover {
+                color: var(--primary);
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 38px;
+
+        .griditems {
+            background-color: var(--bg-white);
+            box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            padding: 15px;
+            border-radius: 12px;
+
+            .cardImage {
+                img {
+                    width: 100%;
+                    height: 200px;
+                    display: block;
+                    border-radius: 12px;
+                    object-fit: cover;
+                }
+            }
+
+            .cardDetails {
+                padding: 10px 0 0 0;
+
+                h3 {
+                    @include font18;
+                    font-weight: 500;
+                    color: var(--black-100);
+                }
+
+                button {
+                    padding: 12px 26px;
+                }
+
+                .twoContentAlignment {
+                    display: flex;
+                    align-items: center;
+                    gap: 35px;
+                    padding: 0 0 20px 0;
+
+                    .iconText {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                    }
+
+                    h4 {
+                        @include heading22;
+                        background: var(--linear-gradient);
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        display: inline;
+                    }
+
+                    span {
+                        display: block;
+                        @include font16;
+                        color: var(--black-500);
+                    }
+                }
+
+                p {
+                    @include font16;
+                    margin: 0 0 12px 0;
+                    color: var(--grey-600);
+                }
+            }
+        }
+    }
+}

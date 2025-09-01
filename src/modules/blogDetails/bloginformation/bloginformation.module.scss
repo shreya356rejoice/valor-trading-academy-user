@@ -1,0 +1,52 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.bloginformation {
+    padding: 100px 0;
+
+    img {
+        width: 100%;
+        display: block;
+        border-radius: 12px;
+        margin: 0 0 25px 0;
+    }
+
+    .dateAlignment {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 0 20px 0;
+
+        span {
+            @include font16;
+            color: var(--grey-600);
+            display: block;
+        }
+    }
+
+    p {
+        @include font16;
+        color: var(--grey-600);
+        margin: 0 0 20px 0;
+    }
+}
+
+
+.valorText {
+    h3 {
+        font-size: 12vw;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 800;
+        color: #07000C;
+
+        @include respond-to("md") {
+            line-height: 120px;
+        }
+
+        @include respond-to("sm") {
+            line-height: 142px;
+        }
+    }
+}
