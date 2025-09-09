@@ -15,6 +15,8 @@ const BathIcon = '/assets/icons/bath.svg';
 const ITEMS_PER_PAGE = 4;
 
 export default function Recentcourse({ searchQuery, courses, setCourses }) {
+    const [selectedTab, setSelectedTab] = useState("recorded");
+    const [allCourses, setAllCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({
@@ -27,20 +29,26 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
     const fetchCourses = async (page = 1) => {
         try {
             setIsLoading(true);
-            const data = await getCourses({
-                searchQuery,
+            const params = {
+                searchQuery: searchQuery || "",
                 page,
-                limit: ITEMS_PER_PAGE
-            });
-
-            setCourses(data?.payload?.data || courses || []);
-            setPagination(prev => ({
+                limit: ITEMS_PER_PAGE,
+                courseType: selectedTab || "recorded",
+              };
+        
+              const data = await getCourses(params);
+        
+              if (data?.success) {
+                setAllCourses(data?.payload?.data || []);
+              }
+        
+              setPagination((prev) => ({
                 ...prev,
                 currentPage: page,
-                totalItems: data?.payload?.count || 0
-            }));
-            setError(null);
-        } catch (error) {
+                totalItems: data?.payload?.count || 0,
+              }));
+            }
+         catch (error) {
             console.error('Error fetching courses:', error);
             setError('Failed to load courses. Please try again later.');
             setCourses([]);
@@ -49,10 +57,11 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
         }
     };
 
+    console.log(allCourses);
     useEffect(() => {
-        // Reset to first page when search query changes
+        
         fetchCourses(1);
-    }, [searchQuery]);
+    }, [searchQuery,selectedTab]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= Math.ceil(pagination.totalItems / pagination.itemsPerPage)) {
@@ -66,19 +75,19 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
         return Array(4).fill(0).map((_, index) => (
             <div className={styles.griditems} key={`skeleton-${index}`}>
                 <div className={styles.image}>
-                    <Skeleton height={180} style={{ display: 'block' , borderRadius: '10px'}} />
+                    <Skeleton height={180} style={{ display: 'block', borderRadius: '10px' }} />
                 </div>
-                <div className={styles.details} style={{padding: '0px'}}>
+                <div className={styles.details} style={{ padding: '0px' }}>
                     <h3><Skeleton width="80%" /></h3>
                     <p><Skeleton count={2} /></p>
-                    <div className={styles.iconalignment} style={{padding: '0px'}}>
+                    <div className={styles.iconalignment} style={{ padding: '0px' }}>
                         <h4 className={styles.iconText}><Skeleton width={40} height={20} /></h4>
                         <div className={styles.iconText}>
                             <Skeleton circle width={20} height={20} style={{ marginRight: '4px' }} />
                             <Skeleton width={80} />
                         </div>
                     </div>
-                    <Skeleton height={40} width={150} style={{ marginTop: '10px' , borderRadius: '40px'}} />
+                    <Skeleton height={40} width={150} style={{ marginTop: '10px', borderRadius: '40px' }} />
                 </div>
             </div>
         ));
@@ -87,14 +96,14 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
     const EmptyState = () => (
         <div className={styles.emptyState}>
             <div className={styles.emptyContent}>
-                <img 
-                    src="/assets/icons/no-courses.svg" 
-                    alt="No courses found" 
+                <img
+                    src="/assets/icons/no-courses.svg"
+                    alt="No courses found"
                     className={styles.emptyImage}
                 />
                 <h3>No Courses Available</h3>
                 <p>We couldn't find any courses matching your search. Please try a different keyword.</p>
-                <button 
+                <button
                     className={styles.retryButton}
                     onClick={() => fetchCourses()}
                 >
@@ -106,16 +115,20 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
 
     return (
         <div className={styles.recentcourse}>
-            <div className={styles.title}>
-                <h3>Recent Course</h3>
+            <div className={styles.tabCenteralignment}>
+                <div className={styles.tab}>
+                    <button aria-label='Pre Recorded Courses' className={selectedTab === "recorded" ? styles.active : ""} onClick={() => setSelectedTab("recorded")}>Pre Recorded Courses</button>
+                    <button aria-label='Live Online Courses' className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Online Courses</button>
+                    <button aria-label='In-Person Courses' className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
+                </div>
             </div>
             <div className={styles.grid}>
                 {isLoading ? (
                     renderSkeleton()
-                ) : courses.length === 0 ? (
-                        <EmptyState />
+                ) : allCourses.length === 0 ? (
+                    <EmptyState />
                 ) : (
-                    courses.map((course, i) => (
+                    allCourses.map((course, i) => (
                         <div className={styles.griditems} key={i}>
                             <div className={styles.image}>
                                 <img src={course?.courseVideo} alt="CardImage" />
