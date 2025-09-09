@@ -6,19 +6,51 @@ export default function middleware(req) {
 
   const { pathname, origin } = req.nextUrl;
 
+  // Protected routes
+  const protectedPaths = [
+    "/dashboard",
+    "/contact-us",
+    "/my-courses",
+    "/notification",
+    "/paymentHistory",
+    "/profile",
+    "/telegram",
+    "/algobot",
+    "/course",
+  ];
+
+  const isProtected = protectedPaths.some((path) =>
+    pathname.startsWith(path)
+  );
+
   // If not authenticated, block protected routes
-  if (!isAuthenticated && ["/dashboard", "/pre-recorded"].includes(pathname)) {
-    return NextResponse.redirect(new URL("/login", origin));
+  if (!isAuthenticated && isProtected) {
+    return NextResponse.redirect(new URL("/signin", origin));
   }
 
   // If authenticated, block auth routes
-  if (isAuthenticated && ["/login", "/signup"].includes(pathname)) {
-    return NextResponse.redirect(new URL("/courses/pre-recorded", origin));
+  if (isAuthenticated && ["/signin", "/signup"].includes(pathname)) {
+    return NextResponse.redirect(new URL("/course", origin));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard", "/pre-recorded", "/login", "/signup"],
+  matcher: [
+    "/dashboard",
+    "/contact-us",
+    "/my-courses",
+    "/notification",
+    "/paymentHistory",
+    "/profile",
+    "/signin",
+    "/signup",
+
+    // Courses routes (with dynamic segments)
+    "/course/:path*",
+    "/algobot/:path*",
+    "/telegram/:path*",
+  ],
 };
+

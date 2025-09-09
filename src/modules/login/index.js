@@ -88,11 +88,11 @@ export default function Login() {
           <Link href="/reset-password">Forgot password?</Link>
         </div>
         <div className={styles.btnwidth}>
-          <Button text="Sign In" fill onClick={handleLogin} />
+          <Button type="submit" text={isSubmitting ? "Logging in..." : "Sign In"} fill onClick={handleLogin} disabled={isSubmitting} />
         </div>
         <Authentication />
         <div className={styles.lastContent}>
-          <p>
+          <p> 
             Don’t have an account? <Link href="/sign-up">Sign up</Link>
           </p>
         </div>

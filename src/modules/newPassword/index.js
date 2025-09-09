@@ -29,42 +29,42 @@ export default function NewPassword() {
   const handleSetNewPassword = async () => {
     // Clear previous errors
     setErrors({ newPassword: "", confirmPassword: "", submit: "" });
-    
+
     const validationErrors = {
       newPassword: "",
       confirmPassword: "",
       submit: ""
     };
-  
+
     // Validate new password
     if (!newPassword || newPassword.trim() === "") {
       validationErrors.newPassword = "New password is required";
     } else if (newPassword.length < 6) {
       validationErrors.newPassword = "Password must be at least 6 characters";
     }
-  
+
     // Validate confirm password
     if (!confirmPassword || confirmPassword.trim() === "") {
       validationErrors.confirmPassword = "Confirm password is required";
     } else if (newPassword !== confirmPassword) {
       validationErrors.confirmPassword = "Passwords do not match";
     }
-  
+
     // Check if there are any validation errors
     const hasError = Object.values(validationErrors).some(err => err !== "");
     if (hasError) {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
       setIsSubmitting(true);
-      
-      const res = await updatePassword({ 
+
+      const res = await updatePassword({
         email,
-        password: newPassword 
+        password: newPassword
       });
-  
+
       if (res.success) {
         // Clear sensitive data from localStorage
         localStorage.removeItem('email');
@@ -77,6 +77,7 @@ export default function NewPassword() {
           submit: res.message || "Failed to update password. Please try again."
         });
       }
+
     } catch (err) {
       console.error('Password update error:', err);
       setErrors({
@@ -89,30 +90,76 @@ export default function NewPassword() {
   };
 
   return (
-     <div className={styles.login}>
+    <div className={styles.login}>
       <div className={styles.box}>
         <div className={styles.logoCenter}>
-            <Logo/>
+          <Logo />
         </div>
         <div className={styles.title}>
-            <h2>
-              Set new password
-            </h2>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing industry.
-            </p>
+          <h2>
+            Set new password
+          </h2>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing industry.
+          </p>
         </div>
         <div className={styles.leftRightAlignment}>
-             <div className={styles.spacing}>
-         <Input label='New Password' placeholder='**************' icon={showPassword ? EyeSlashIcon : EyeIcon} type={showPassword ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} onIconClick={() => setShowPassword(!showPassword)}/>
-       </div>
-         <Input label='Confirm Password' placeholder='**************' icon={showConfirmPassword ? EyeSlashIcon : EyeIcon} type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onIconClick={() => setShowConfirmPassword(!showConfirmPassword)}/>
-      
-         <div className={styles.btnwidth}>
-          <Button text={isSubmitting ? "Loading..." : "Set new password"} fill onClick={handleSetNewPassword}/>
-         </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!isSubmitting) handleSetNewPassword();
+            }}
+          >
+            <div className={styles.spacing}>
+              <Input name="newPassword"
+                type={showPassword ? "text" : "password"}
+                label="New Password"
+                placeholder="**************"
+                onIconClick={() => setShowPassword(!showPassword)}
+                icon={!showPassword ? EyeIcon : EyeSlashIcon}
+                value={newPassword}
+                onKeyDown={(e) => {
+                  if (e.key === ' ') {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                  setErrors({
+                    newPassword: ""
+                  });
+                }} />
+            </div>
+            <Input name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              label="Confirm Password"
+              placeholder="**************"
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                }
+              }}
+              onIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              icon={!showConfirmPassword ? EyeIcon : EyeSlashIcon}
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                setErrors({
+                  confirmPassword: ""
+                });
+              }} />
+
+            <div className={styles.btnwidth}>
+              <Button
+                type="submit"
+                text={isSubmitting ? "Updating..." : "Set new password"}
+                fill
+                disabled={isSubmitting}
+                showLoader={isSubmitting} />
+            </div>
+          </form>
         </div>
-        
+
       </div>
     </div>
   )

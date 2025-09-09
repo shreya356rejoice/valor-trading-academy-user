@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import styles from './courseBanner.module.scss';
 import Slider from "react-slick";
 import RightIcon from '@/components/icons/rightIcon';
-import { getCourses } from '@/app/api/courses';
+
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getCourses } from '@/app/api/dashboard';
 const CardImage = '/assets/images/card9.png';
 const BathIcon = '/assets/icons/bath.svg';
 

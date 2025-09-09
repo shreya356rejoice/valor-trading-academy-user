@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react'
 import styles from './recentcourse.module.scss';
 import Button from '@/components/button';
 import Pagination from '@/components/pagination';
-import { getCourses } from '@/app/api/courses';
+
+
 import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getCourses } from '@/app/api/dashboard';
 const CardImage = '/assets/images/card9.png';
 const BathIcon = '/assets/icons/bath.svg';
 

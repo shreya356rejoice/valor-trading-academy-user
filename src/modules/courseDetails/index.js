@@ -8,10 +8,10 @@ import ProfileIcon from '@/components/icons/profileIcon';
 import CourseDetailsTab from './courseDetailsTab';
 import Recentcourse from '../course/recentcourse';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getChapters } from '@/app/api/courses';
 import { EmptyState } from './emptyState';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getChapters } from '@/app/api/dashboard';
 
 const BathIcon = '/assets/icons/bath.svg';
 
