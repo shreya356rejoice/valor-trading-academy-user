@@ -14,6 +14,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { getChapters } from '@/app/api/dashboard';
 
 const BathIcon = '/assets/icons/bath.svg';
+const LockIcon = '/assets/icons/lock.svg';
 
 const CourseDetailsSkeleton = () => (
   <div className={styles.courseDetails}>
@@ -25,7 +26,7 @@ const CourseDetailsSkeleton = () => (
       <Skeleton height={40} width="70%" style={{ marginBottom: 16 }} />
       <Skeleton count={3} style={{ marginBottom: 8 }} />
       <Skeleton width="60%" style={{ marginBottom: 24 }} />
-      
+
       <div className={styles.allIconTextAlignment}>
         {[...Array(5)].map((_, i) => (
           <div key={i} className={styles.iconText}>
@@ -45,7 +46,7 @@ const CourseDetailsSkeleton = () => (
 );
 
 export default function CourseDetails() {
-  const [courses,setCourses]=useState([]);
+  const [courses, setCourses] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -84,7 +85,7 @@ export default function CourseDetails() {
     }
   }, [chapters, selectedChapter]);
 
-  
+
 
   const course = chapters[0]?.courseId || {};
 
@@ -127,40 +128,52 @@ export default function CourseDetails() {
           </div>
         </div>
       </div>
-      {chapters.length === 0  ? (
-      <EmptyState onRetry={fetchChapters} />
-    ) : (
-      <>
-        <CourseDetailsTab 
-          chapters={chapters} 
-          selectedChapter={selectedChapter} 
-          onChapterSelect={setSelectedChapter} 
-        />
-        {selectedChapter && (
-          <div className={styles.courseInformation}>
-            <div className={styles.video}>
-              <iframe
-                width="100%"
-                height="400"
-                src={selectedChapter.chapterVideo?.replace("watch?v=", "embed/")}
-                title={selectedChapter.chapterName}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
+      {chapters.length === 0 ? (
+        <EmptyState onRetry={fetchChapters} />
+      ) : (
+        <>
+          <div className={styles.mainRelative}>
+            <CourseDetailsTab
+              chapters={chapters}
+              selectedChapter={selectedChapter}
+              onChapterSelect={setSelectedChapter}
+            />
+            {selectedChapter && (
+              <div className={styles.courseInformation}>
+                <div className={styles.video}>
+                  <iframe
+                    width="100%"
+                    height="400"
+                    src={selectedChapter.chapterVideo?.replace("watch?v=", "embed/")}
+                    title={selectedChapter.chapterName}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
 
-            <div>
-              <h2>
-                Chapter {selectedChapter.chapterNo}: {selectedChapter.chapterName}
-              </h2>
-              <p>{selectedChapter.description}</p>
-            </div> 
+                <div>
+                  <h2>
+                    Chapter {selectedChapter.chapterNo}: {selectedChapter.chapterName}
+                  </h2>
+                  <p>{selectedChapter.description}</p>
+                </div>
+              </div>
+            )}
+            <div className={styles.layer}>
+              <div>
+                <div className={styles.iconCenterAlignment}>
+                  <img src={LockIcon} alt='LockIcon' />
+                </div>
+                <p>
+                  Enroll Now to unlock
+                </p>
+              </div>
+            </div>
           </div>
-        )}
-      </>
-    )}
-      <Recentcourse courses={courses} setCourses={setCourses}/>
+        </>
+      )}
+      <Recentcourse courses={courses} setCourses={setCourses} />
     </div>
   )
 }
