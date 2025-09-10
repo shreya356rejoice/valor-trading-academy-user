@@ -47,13 +47,8 @@
         display: none !important;
     }
 
-    .leftContentAlignment {
-        padding-left: max(0px, (100vw - 1320px) / 2);
-
-        @include respond-to("sm") {
-            padding: 0 20px;
-        }
-
+    .leftContentAlignment,
+    .explorecards {
         .card {
             width: 542px;
             max-width: 542px;
@@ -160,6 +155,36 @@
                     }
                 }
             }
+        }
+    }
+
+    .explorecards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 23px;
+
+        .card {
+            width: 100% !important;
+            display: grid;
+            grid-template-columns: none;
+            grid-template-rows: 200px 1fr;
+            height: 100%;
+
+            @include respond-to("sm") {
+                grid-template-rows: 240px 1fr;
+            }
+
+            .text {
+                gap: 20px;
+            }
+        }
+    }
+
+    .leftContentAlignment {
+        padding-left: max(0px, (100vw - 1320px) / 2);
+
+        @include respond-to("sm") {
+            padding: 0 20px;
         }
     }
 }

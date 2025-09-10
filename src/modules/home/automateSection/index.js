@@ -1,10 +1,11 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './automateSection.module.scss'
 import Button from '@/components/button'
 import TradingAcademy from '../tradingAcademy'
 import StudentSay from '../studentSay'
 import { motion } from 'framer-motion'
+import { getBots } from '@/app/api/dashboard'
 
 const FlashIcon = '/assets/icons/flash.svg'
 
@@ -18,6 +19,22 @@ const cardVariants = {
 }
 
 export default function AutomateSection() {
+  const [algobotData, setAlgobotData] = useState([]);
+
+  useEffect(() => {
+    const fetchAlgobotData = async () => {
+      try {
+        const response = await getBots();
+        // Flatten the strategies array from all categories
+        const allStrategies = response.payload.data;
+        setAlgobotData(allStrategies); // Get first 3 strategies
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchAlgobotData();
+  }, []);
+
   return (
     <>
       <div className={styles.automateSection}>
@@ -38,52 +55,48 @@ export default function AutomateSection() {
 
           {/* Grid Animation */}
           <div className={styles.grid}>
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className={styles.griditems}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <div className={styles.cardHeaderAlignment}>
-                  <img src={FlashIcon} alt='FlashIcon' />
-                  <div>
-                    <h3>Bank Nifty Scalper</h3>
-                    <span>Intraday Scalping</span>
+            {algobotData.map((algobot, i) => {
+              return (
+                <motion.div
+                  key={i}
+                  className={styles.griditems}
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  <div className={styles.cardHeaderAlignment}>
+                    <img src={FlashIcon} alt='FlashIcon' />
+                    <div>
+                      <h3>{algobot?.title}</h3>
+                      <span className={styles.singleLineText}>{algobot?.shortDescription}</span>
+                    </div>
                   </div>
-                </div>
 
-                <div className={styles.textContent}>
-                  <div>
-                    <p>Accuracy</p>
-                    <span>89%</span>
+                  <div className={styles.textContent}>
+                    {algobot?.strategyPlan?.map((plan, i, array) => (
+                      <React.Fragment key={i}>
+                        <div className={styles.planItem}>
+                          <p>{plan?.planType}</p>
+                          <span>${plan?.initialPrice}</span>
+                        </div>
+                        {i < array.length - 1 && <div className={styles.verticalDivider}></div>}
+                      </React.Fragment>
+                    ))}
                   </div>
-                  <div>
-                    <p>Risk Level</p>
-                    <span>Medium</span>
-                  </div>
-                  <div>
-                    <p>Platform Used</p>
-                    <span>Zerodha</span>
-                  </div>
-                </div>
 
-                <div className={styles.freetrial}>
-                  <button aria-label='Free Trial'>
-                    <span>Free Trial</span>
-                  </button>
-                  <p>Then ₹1499/month</p>
-                </div>
+                  <div className={styles.freetrial}>
+                    <p className={styles.truncateText}>{algobot?.description.replace(/<[^>]*>?/gm, '')}</p>
+                  </div>
 
-                <div className={styles.twoColGrid}>
-                  <Button text="Connect & Start" />
-                  <Button text="Subscribe Now" fill />
-                </div>
-              </motion.div>
-            ))}
+                  <div className={styles.twoColGrid}>
+                    {/* <Button text="Connect & Start" /> */}
+                    <Button text="Buy Now" fill />
+                  </div>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </div>

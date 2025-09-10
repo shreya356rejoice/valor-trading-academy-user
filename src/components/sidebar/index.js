@@ -99,7 +99,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                     </div>
                 </div>
                 </Link>
-                <div 
+                {/* <div 
                     className={classNames(styles.dropodow, dropdown ? styles.show : styles.hide)}
                     ref={dropdownRef}
                 >
@@ -123,7 +123,43 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div> */}
+                <Link href="/algobots">
+                    <div className={classNames(styles.menu, pathname === "/algobots" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={ContactIcon} alt="AlgobotIcon" />
+                            <img src={ContactIconActive} alt="AlgobotIconActive" />
+                        </div>
+                        <span>AlgoBots</span>
+                    </div>
+                </Link>
+                <Link href="/telegram">
+                    <div className={classNames(styles.menu, pathname === "/telegram" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={ContactIcon} alt="TelegramIcon" />
+                            <img src={ContactIconActive} alt="TelegramIconActive" />
+                        </div>
+                        <span>Telegram Channels</span>
+                    </div>
+                </Link>
+                <Link href="/my-courses">
+                    <div className={classNames(styles.menu, pathname === "/my-courses" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={ContactIcon} alt="MyCoursesIcon" />
+                            <img src={ContactIconActive} alt="MyCoursesIconActive" />
+                        </div>
+                        <span>My Courses</span>
+                    </div>
+                </Link>
+                <Link href="/payment-history">
+                    <div className={classNames(styles.menu, pathname === "/payment-history" ? styles.activeMenu : " ")}>
+                        <div className={styles.iconAlignment}>
+                            <img src={ContactIcon} alt="PaymentHistoryIcon" />
+                            <img src={ContactIconActive} alt="PaymentHistoryIconActive" />
+                        </div>
+                        <span>Payment History</span>
+                    </div>
+                </Link>
                 <Link href="/contact-us">
                     <div className={classNames(styles.menu, pathname === "/contact-us" ? styles.activeMenu : " ")}>
                         <div className={styles.iconAlignment}>
@@ -143,7 +179,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                     </button>
                     <div className={classNames(styles.dropdownProfile, profileDropdown ? styles.show : styles.hide)}>
                         <div className={styles.dropodowAlignment}>
-                            <Link href="/profile" onClick={handleCommonDropdownChange}>
+                            {/* <Link href="/profile" onClick={handleCommonDropdownChange}>
                                 <div className={classNames(styles.iconText, pathname === "/profile" ? styles.iconTextActive : "")}>
                                     <ProfileIconSm />
                                     <span>Profile</span>
@@ -154,7 +190,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                                     <SettingIcon />
                                     <span>Settings</span>
                                 </div>
-                            </Link>
+                            </Link> */}
                             <Link href="/" onClick={handleLogout}>
                                 <div className={styles.iconText} onClick={handleCommonDropdownChange}>
                                     <LogoutIcon />

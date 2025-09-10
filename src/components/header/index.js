@@ -49,13 +49,12 @@ export default function Header() {
             <Logo />
             <div className={styles.rightAlignmet}>
               <div className={styles.menu}>
-                <a className={styles.active} aria-label='Courses'>Courses</a>
-                <a aria-label='asasa'>Live Online Classes</a>
-                <a aria-label='Offline Sessions'>Offline Sessions</a>
-                <a aria-label='Community'>Community</a>
-                <a aria-label='Resources'>Resources</a>
-                <a aria-label='Blog'>Blog</a>
-                <a aria-label='About Us'>About Us</a>
+                <a className={styles.active} href='/our-course' aria-label='Courses'>Courses</a>
+                <a href='/live-online-classes' aria-label='asasa'>Live Online Classes</a>
+                <a href='/offline-sessions' aria-label='Offline Sessions'>Offline Sessions</a>
+                <a href='/algobots' aria-label='Algobots'>Algobots</a>
+                <a href='/blog' aria-label='Blog'>Blogs</a>
+                <a href='/about-us' aria-label='About Us'>About Us</a>
               </div>
               <Link href="/login">
                 <div className={styles.profile}>
@@ -77,13 +76,12 @@ export default function Header() {
           </div>
         </div>
         <div className={styles.menu}>
-          <a className={styles.active} aria-label='Courses'>Courses</a>
-          <a aria-label='asasa'>Live Online Classes</a>
-          <a aria-label='Offline Sessions'>Offline Sessions</a>
-          <a aria-label='Community'>Community</a>
-          <a aria-label='Resources'>Resources</a>
-          <a aria-label='Blog'>Blog</a>
-          <a aria-label='About Us'>About Us</a>
+          <a href='/our-course' className={styles.active} aria-label='Courses'>Courses</a>
+          <a href='/live-online-classes' aria-label='Live Online Classes'>Live Online Classes</a>
+          <a href='/offline-sessions' aria-label='Offline Sessions'>Offline Sessions</a>
+          <a href='/algobots' aria-label='Algobots'>Algobots</a>
+          <a href='/blog' aria-label='Blog'>Blogs</a>
+          <a href='/about-us' aria-label='About Us'>About Us</a>
         </div>
       </div>
     </>

@@ -39,6 +39,24 @@ export default function HowitWorks() {
     return () => clearTimeout(timeout)
   }, [step])
 
+  const stepsList = [
+    {
+      stepIndex: 1,
+      title : "Sign Up & Choose a Course",
+      description : "Create your account and select from our comprehensive course catalog tailored to your skill level.",
+    },
+    {
+      stepIndex: 2,
+      title : "Attend Live or On-Demand Courses",
+      description : "Learn through interactive live sessions or flexible on-demand content at your own pace.",
+    },
+    {
+      stepIndex: 3,
+      title : "Join Community & Get Certified",
+      description : "Connect with fellow traders, get mentorship, and earn certificates upon course completion.",
+    },
+  ]
+
   return (
     <div className={styles.howitWorks}>
       <div className='container'>
@@ -71,18 +89,17 @@ export default function HowitWorks() {
 
               {/* Step Texts */}
               <div className={styles.allText}>
-                {[1, 2, 3].map((index, i) => (
+                {stepsList.map((step, i) => (
                   <div
                     key={i}
                     className={classNames(styles.text, {
-                      [styles.activeText]: step === index,
+                      [styles.activeText]: step === i,
                     })}
                   >
-                    <h3>{`Step ${index} :`}</h3>
-                    <p>Attend Live or On-Demand Courses</p>
+                    <h3>{`Step ${step.stepIndex} :`}</h3>
+                    <p>{step?.title}</p>
                     <span>
-                      Learn through interactive live sessions or flexible
-                      on-demand content at your own pace.
+                    {step?.description}
                     </span>
                   </div>
                 ))}

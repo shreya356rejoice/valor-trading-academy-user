@@ -1,9 +1,12 @@
 'use client';
-import { motion } from 'framer-motion';
-import React from 'react'
+import { motion, useAnimation, useInView } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './exploreDifferent.module.scss';
 import Slider from "react-slick";
+import { getCourseByType } from '@/app/api/dashboard';
 const Card1 = '/assets/images/card1.png';
+const Card2 = '/assets/images/card9.png';
+const Card3 = '/assets/images/card3.png';
 const BookIcon = '/assets/icons/book.svg';
 export default function ExploreDifferent() {
     const settings = {
@@ -30,6 +33,65 @@ export default function ExploreDifferent() {
         ]
 
     };
+
+    const [courses, setCourses] = useState([]);
+    const controls = useAnimation();
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+    useEffect(() => {
+        if (isInView) {
+            controls.start("visible");
+        }
+    }, [isInView, controls]);
+
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await getCourseByType();
+                setCourses(response.payload.courses);
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+            }
+        };
+        fetchCourses();
+    }, []);
+
+    const cardData = [
+        {
+            id: 1,
+            title: "Recorded Courses",
+            description:
+                "Learn at your own pace with our extensive library of pre-recorded courses. Access high-quality content anytime, anywhere, and Pips Veda trading at your convenience.",
+            image: Card1,
+            courses: `${courses?.recorded?.length} Recorded Courses`,
+            icon: BookIcon,
+            link: "/our-course?course=recorded"
+        },
+        {
+            id: 2,
+            title: "Live Webinars",
+            description:
+                "Join interactive live sessions with market experts. Ask questions, participate in discussions, and get your trading queries resolved in real-time.",
+            image: Card3,
+            courses: `${courses?.live?.length} Live Sessions`,
+            icon: BookIcon,
+            link: "/our-course?course=live"
+        },
+        {
+            id: 3,
+            title: "In-Person Training",
+            description:
+                "Experience hands-on learning with our expert instructors in a classroom setting. Get personalized guidance and real-time feedback to accelerate your trading journey.",
+            image: Card2,
+            courses: `${courses?.physical?.length} In-Person Programs`,
+            icon: BookIcon,
+            link: "/our-course?course=physical"
+        },
+
+    ];
+
     return (
         <>
             <div className={styles.exploreDifferent}>
@@ -53,10 +115,12 @@ export default function ExploreDifferent() {
                         </motion.p>
                     </div>
                 </div>
-                <div className={styles.leftContentAlignment}>
+                {/* <div className={styles.leftContentAlignment}>
                     <Slider {...settings}>
                         {
-                            [...Array(5)].map(() => {
+                            cardData.map((item) => {
+                                console.log(item, "item")
+                                
                                 return (
                                     <div>
                                         <div
@@ -64,23 +128,20 @@ export default function ExploreDifferent() {
                                         >
                                             <div className={styles.text}>
                                                 <div>
-                                                    <h3>Forex Trading</h3>
+                                                    <h3>{item?.title}</h3>
                                                     <p>
-                                                        Lorem Ipsum simply dummy
-                                                        text of the printing typesetting
-                                                        industry Lorem Ipsum is simply
-                                                        dummy text of the printing.
+                                                        {item?.description}
                                                     </p>
                                                 </div>
                                                 <button aria-label='112 Courses' >
                                                     <img src={BookIcon} alt='BookIcon' />
                                                     <span>
-                                                        112 Courses
+                                                        {item?.courses}
                                                     </span>
                                                 </button>
                                             </div>
                                             <div className={styles.image}>
-                                                <img src={Card1} alt='Card1' />
+                                                <img src={item?.image} alt='Card1' />
                                             </div>
                                         </div>
                                     </div>
@@ -88,6 +149,41 @@ export default function ExploreDifferent() {
                             })
                         }
                     </Slider>
+                </div> */}
+                <div className='container'>
+                    <div className={styles.explorecards}>
+                        {
+                            cardData.map((item) => {
+                                console.log(item, "item")
+
+                                return (
+                                    <div>
+                                        <div
+                                            className={styles.card}
+                                        >
+                                            <div className={styles.image}>
+                                                <img src={item?.image} alt='Card1' />
+                                            </div>
+                                            <div className={styles.text}>
+                                                <div>
+                                                    <h3>{item?.title}</h3>
+                                                    <p>
+                                                        {item?.description}
+                                                    </p>
+                                                </div>
+                                                <button aria-label='112 Courses' >
+                                                    <img src={BookIcon} alt='BookIcon' />
+                                                    <span>
+                                                        {item?.courses}
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
             <div className={styles.whiteblur}></div>

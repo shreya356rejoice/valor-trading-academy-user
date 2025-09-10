@@ -57,7 +57,6 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
         }
     };
 
-    console.log(allCourses);
     useEffect(() => {
         
         fetchCourses(1);
@@ -96,19 +95,14 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
     const EmptyState = () => (
         <div className={styles.emptyState}>
             <div className={styles.emptyContent}>
-                <img
-                    src="/assets/icons/no-courses.svg"
-                    alt="No courses found"
-                    className={styles.emptyImage}
-                />
-                <h3>No Courses Available</h3>
-                <p>We couldn't find any courses matching your search. Please try a different keyword.</p>
-                <button
-                    className={styles.retryButton}
-                    onClick={() => fetchCourses()}
-                >
-                    Refresh Courses
-                </button>
+                <div className={styles.emptyIllustration}>
+                    <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M90 15C50.5 15 17.5 48 17.5 87.5C17.5 127 50.5 160 90 160C129.5 160 162.5 127 162.5 87.5C162.5 48 129.5 15 90 15ZM90 147.5C56.5 147.5 30 121 30 87.5C30 54 56.5 27.5 90 27.5C123.5 27.5 150 54 150 87.5C150 121 123.5 147.5 90 147.5Z" fill="#E5E7EB"/>
+                        <path d="M112.5 72.5H100V60C100 55 96 50 90 50C84 50 80 55 80 60V72.5H67.5C62.5 72.5 57.5 76.5 57.5 82.5C57.5 88.5 62.5 92.5 67.5 92.5H80V105C80 110 84 115 90 115C96 115 100 110 100 105V92.5H112.5C117.5 92.5 122.5 88.5 122.5 82.5C122.5 76.5 117.5 72.5 112.5 72.5ZM97.5 82.5V105C97.5 107.8 94.3 110 90 110C85.7 110 82.5 107.8 82.5 105V82.5H67.5C65.7 82.5 62.5 81.3 62.5 77.5C62.5 73.7 65.7 72.5 67.5 72.5H82.5V60C82.5 57.2 85.7 55 90 55C94.3 55 97.5 57.2 97.5 60V72.5H112.5C114.3 72.5 117.5 73.7 117.5 77.5C117.5 81.3 114.3 82.5 112.5 82.5H97.5Z" fill="#9CA3AF"/>
+                    </svg>
+                </div>
+                <h3>No Courses Found</h3>
+                <p>We couldn't find any courses matching your criteria.</p>
             </div>
         </div>
     );
@@ -118,8 +112,10 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
             <div className={styles.tabCenteralignment}>
                 <div className={styles.tab}>
                     <button aria-label='Pre Recorded Courses' className={selectedTab === "recorded" ? styles.active : ""} onClick={() => setSelectedTab("recorded")}>Pre Recorded Courses</button>
-                    <button aria-label='Live Online Courses' className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Online Courses</button>
-                    <button aria-label='In-Person Courses' className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
+                    <button aria-label='Live Courses' className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Online Courses</button>
+                    <button aria-label='In Person Courses' className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
+                    <button aria-label='Trending Courses' className={selectedTab === "trending" ? styles.active : ""} onClick={() => setSelectedTab("trending")}>Trending Courses</button>
+                    <button aria-label='Popular Courses' className={selectedTab === "popular" ? styles.active : ""} onClick={() => setSelectedTab("popular")}>Popular Courses</button>
                 </div>
             </div>
             <div className={styles.grid}>

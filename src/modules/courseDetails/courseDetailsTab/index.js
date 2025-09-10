@@ -3,13 +3,15 @@ import React from 'react'
 import styles from './courseDetailsTab.module.scss';
 
 export default function CourseDetailsTab({ 
-  chapters = [], 
+  chapters, 
   selectedChapter, 
   onChapterSelect 
 }) {
   return (
     <div className={styles.courseDetailsTab}>
       {chapters.map((chapter) => (
+        console.log("chapter=====" , chapter),
+        
         <button 
           key={chapter._id}
           aria-label={`Chapter ${chapter.chapterNo}`}

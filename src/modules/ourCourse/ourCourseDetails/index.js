@@ -1,43 +1,97 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import styles from './ourCourseDetails.module.scss';
 import Button from '@/components/button';
+import { useRouter } from 'next/navigation';
+import { getCourses } from '@/app/api/dashboard';
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
+const ITEMS_PER_PAGE = 4;
 export default function OurCourseDetails() {
+     const [selectedTab, setSelectedTab] = useState("recorded");
+        const [allCourses, setAllCourses] = useState([]);
+        const [isLoading, setIsLoading] = useState(true);
+        const [error, setError] = useState(null);
+        const [pagination, setPagination] = useState({
+            currentPage: 1,
+            totalItems: 0,
+            itemsPerPage: ITEMS_PER_PAGE
+        });
+        const router = useRouter();
+    
+        const fetchCourses = async (page = 1) => {
+            try {
+                setIsLoading(true);
+                const params = {
+                    // searchQuery: searchQuery || "",
+                    page,
+                    limit: ITEMS_PER_PAGE,
+                    courseType: selectedTab || "recorded",
+                  };
+            
+                  const data = await getCourses(params);
+            
+                  if (data?.success) {
+                    setAllCourses(data?.payload?.data || []);
+                  }
+            
+                  setPagination((prev) => ({
+                    ...prev,
+                    currentPage: page,
+                    totalItems: data?.payload?.count || 0,
+                  }));
+                }
+             catch (error) {
+                console.error('Error fetching courses:', error);
+                setError('Failed to load courses. Please try again later.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        useEffect(() => {
+            
+            fetchCourses(1);
+        }, [selectedTab]);
     return (
         <>
             <div className={styles.ourCourseDetails}>
                 <div className='container'>
                     <div className={styles.tabCenter}>
                         <div className={styles.tab}>
-                            <button className={styles.active}>On demand courses</button>
-                            <button>Live Online Courses</button>
-                            <button>In-Person Courses</button>
+                            <button className={selectedTab === "recorded" ? styles.active : ""} onClick={() => setSelectedTab("recorded")}>Recorded courses</button>
+                            <button className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Courses</button>
+                            <button className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
                         </div>
                     </div>
                     <div className={styles.grid}>
                         {
-                            [...Array(6)].map((_, i) => {
+                            allCourses.map((course, i) => {
+                                console.log(course,"course")
+                                
                                 return (
                                     <div className={styles.griditems} key={i}>
                                         <div className={styles.cardImage}>
-                                            <img src={CoursesImage} alt='CoursesImage' />
+                                            <img src={course?.courseVideo} alt='CoursesImage' />
                                         </div>
                                         <div className={styles.cardDetails}>
                                             <h3>
-                                                Crypto Currency for Beginners
+                                                {course?.CourseName}
                                             </h3>
-                                            <p>
-                                                Lorem Ipsum has been the industry's standard dummy text
-                                                ever...
+                                            <p className={styles.courseDescription}>
+                                                {course?.description ? 
+                                                    course.description.split('\n').slice(0, 3).join('\n') + 
+                                                    (course.description.split('\n').length > 3 ? '...' : '')
+                                                    : 'No description available'
+                                                }
                                             </p>
                                             <div className={styles.twoContentAlignment}>
                                                 <h4>
-                                                    $789
+                                                    ${course?.price}
                                                 </h4>
                                                 <div className={styles.iconText}>
                                                     <img src={BathIcon} alt='BathIcon' />
-                                                    <span>John  Doe</span>
+                                                    <span>{course?.instructor}</span>
                                                 </div>
                                             </div>
                                             <Button text="Enroll Now" fill />

@@ -171,3 +171,40 @@
     filter: blur(40px);
     margin-top: -120px;
 }
+
+.truncateText {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.singleLineText {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.textContent {
+    display: flex;
+    gap: 16px; // Adjust spacing between items
+    align-items: start;
+  }
+  
+  .planItem {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 8px;
+  }
+  
+  .verticalDivider {
+    width: 1px;
+    height: 40px; // Adjust height as needed
+    background-color: #e0e0e0; // Your preferred line color
+  }

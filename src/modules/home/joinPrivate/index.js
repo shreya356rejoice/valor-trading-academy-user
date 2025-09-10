@@ -1,10 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './joinPrivate.module.scss'
 import Button from '@/components/button'
 import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useRouter } from 'next/navigation'
+import { getTelegramChannels } from '@/app/api/dashboard'
 
 const BottomLayer = '/assets/images/bottom-layer.svg'
 const ProfileImage = '/assets/images/profile-sm.png'
@@ -39,6 +41,21 @@ export default function JoinPrivate() {
         }
     }, [inView, animationControls])
 
+    const [telegramChannels, setTelegramChannels] = useState([]);
+    const router = useRouter()
+
+    useEffect(() => {
+        const fetchTelegramChannels = async () => {
+            try {
+                const response = await getTelegramChannels();
+                setTelegramChannels(response.payload.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchTelegramChannels();
+    }, []);
+
     return (
         <>
             <div className={styles.joinPrivate} ref={ref}>
@@ -59,46 +76,42 @@ export default function JoinPrivate() {
                         className={styles.grid}
                         variants={containerVariants}
                         initial="hidden"
-                        animate={animationControls}
+                        animate={inView ? 'visible' : 'hidden'}
                     >
-                        {[...Array(3)].map((_, index) => (
-                            <motion.div
-                                key={index}
-                                className={styles.griditems}
-                                variants={cardVariants}
-                            >
-                                <div className={styles.cardHeaderAlignment}>
-                                    <button aria-label='Free Access'>
-                                        <span>Free</span>
-                                    </button>
-                                    <img src={GrowthIcon} alt='GrowthIcon' />
-                                </div>
-                                <div className={styles.details}>
-                                    <h3>Intraday Calls</h3>
-                                </div>
-                                <div className={styles.imageTextAlignment}>
-                                    <div className={styles.image}>
-                                        <img src={ProfileImage} alt='ProfileImage' />
-                                        <img src={ProfileImage} alt='ProfileImage' />
-                                        <div className={styles.plus}>
-                                            <span>+</span>
-                                        </div>
+                        {telegramChannels?.length > 0 && telegramChannels?.slice(0, 3).map((channel, i) => {
+                            return (
+                                <motion.div
+                                    key={channel._id || i}
+                                    className={styles.griditems}
+                                    variants={cardVariants}
+                                >
+                                    <div className={styles.cardHeaderAlignment}>
+                                        <h3>{channel?.channelName}</h3>
+                                        <img src={GrowthIcon} alt='GrowthIcon' />
                                     </div>
-                                    <span>12.5k members</span>
-                                </div>
-                                <div className={styles.listContent}>
-                                    <ul>
-                                        <li>Daily market insights</li>
-                                        <li>Live trade calls</li>
-                                        <li>Community support</li>
-                                    </ul>
-                                </div>
-                                <div className={styles.cardFooteralignment}>
-                                    <span>Free Access</span>
-                                    <Button text='Join Now' fill />
-                                </div>
-                            </motion.div>
-                        ))}
+                                    <div className={styles.listContent}>
+                                        <p>{channel?.description}</p>
+                                    </div>
+                                    <div className={styles.pricingSection}>
+                                        {channel.telegramPlan?.map((plan, planIndex) => (
+                                            <div key={planIndex} className={styles.priceCard}>
+                                                <div className={styles.priceHeader}>
+                                                    <span className={styles.price}>${plan.price}</span>
+                                                </div>
+                                                <div className={styles.priceSubtitle}>
+                                                    <span>{plan.planType}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className={styles.cardFooteralignment}>
+                                        <Button text='Join Now' fill />
+                                    </div>
+                                </motion.div>
+                            )
+                        }
+                        )
+                        }
                     </motion.div>
                 </div>
             </div>
