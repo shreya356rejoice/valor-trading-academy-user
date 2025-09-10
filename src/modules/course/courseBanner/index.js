@@ -123,7 +123,7 @@ export default function CourseBanner({ searchQuery, setSearchQuery }) {
                             <h4>${course?.price}</h4>
                             <div className={styles.rightText} onClick={() => router.push(`/course-details?courseId=${course?._id}`)}>
                               <span>Enroll Now</span>
-                              {/* <RightIcon /> */}
+                              <RightIcon />
                             </div>
                           </div>
                         </div>

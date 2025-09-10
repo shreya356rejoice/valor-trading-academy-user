@@ -102,7 +102,7 @@ export default function ChooseYourPath() {
                                                     </div>
                                                 </div>
                                                 <div className={styles.textButtonAlignment}>
-                                                    <h4>₹{course?.price}</h4>
+                                                    <h4>${course?.price}</h4>
                                                     <button aria-label="Beginner Level">
                                                         <span>Beginner Level</span>
                                                     </button>

@@ -1,6 +1,6 @@
 import api from "@/utils/axiosInstance";
 
-export const purchasedCourses = async () => {
+export const getPurchasedCourses = async () => {
 
     try {
         const response = await api.get(`/payment/getMyCourseHistory`)

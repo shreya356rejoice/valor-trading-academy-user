@@ -1,0 +1,76 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.algobotBanner {
+    background-color: var(--bg-white);
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid var(--border-color5);
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 10px;
+
+    @media (max-width:1500px) {
+        grid-template-columns: 1fr 300px;
+    }
+
+    h1 {
+        @include heading20;
+        color: var(--black-100);
+        margin: 0 0 10px 0;
+
+        span {
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+    }
+
+    p {
+        @include font16;
+        color: #051600CC;
+    }
+
+    .searchbar {
+        position: relative;
+
+        input {
+            width: 100%;
+            border-radius: 99px;
+            padding-left: 56px;
+            padding-right: 16px;
+            background-color: var(--bg-white-light);
+            border: 1px solid var(--border-color2);
+            height: 48px;
+            transition: .3s ease-in-out;
+            @include font16medium;
+            color: var(--black-100);
+            font-weight: 400;
+
+            &:focus {
+                outline: none;
+                border: 1px solid var(--primary);
+            }
+        }
+
+        .iconAlignment {
+            position: absolute;
+            left: 20px;
+            top: 40%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        ::placeholder {
+            @include font16medium;
+            color: var(--black-200);
+            opacity: 0.36;
+            font-weight: 400;
+        }
+    }
+}
