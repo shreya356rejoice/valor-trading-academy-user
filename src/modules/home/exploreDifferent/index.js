@@ -153,11 +153,9 @@ export default function ExploreDifferent() {
                 <div className='container'>
                     <div className={styles.explorecards}>
                         {
-                            cardData.map((item) => {
-                                console.log(item, "item")
-
+                            cardData.map((item, index) => {
                                 return (
-                                    <div>
+                                    <div key={`card-${index}`}>
                                         <div
                                             className={styles.card}
                                         >
@@ -174,7 +172,7 @@ export default function ExploreDifferent() {
                                                 <button aria-label='112 Courses' >
                                                     <img src={BookIcon} alt='BookIcon' />
                                                     <span>
-                                                        {item?.courses}
+                                                        {item?.courses || '0'} 
                                                     </span>
                                                 </button>
                                             </div>
