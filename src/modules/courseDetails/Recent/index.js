@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './recent.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCourses } from '@/app/api/dashboard';
@@ -7,7 +7,7 @@ import Button from '@/components/button';
 
 const ITEMS_PER_PAGE = 4;
 
-function RecentContent({ searchQuery, courses, setCourses }) {
+export default function Recent({ searchQuery, courses, setCourses }) {
     const [selectedTab, setSelectedTab] = useState("recorded");
     const [allCourses, setAllCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
