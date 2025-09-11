@@ -1,0 +1,155 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.yourSubscriptionModalWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+
+    .modal {
+        max-width: 550px;
+        background-color: var(--bg-white);
+        width: 100%;
+        border-radius: 12px;
+
+        .modalFooter {
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 14px;
+
+            button {
+                width: 100%;
+                padding: 12px 24px;
+                @include font14normal;
+                font-weight: 600;
+            }
+        }
+
+        .modalbody {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color3);
+            max-height: calc(100dvh - 250px);
+            overflow: auto;
+
+            input {
+                height: 50px;
+                border-radius: 99px;
+            }
+
+            .couponCode {
+                display: grid;
+                grid-template-columns: 1fr 100px;
+                gap: 14px;
+                align-items: center;
+
+                button {
+                    width: 100%;
+                    padding: 12px 24px;
+                    @include font14normal;
+                    font-weight: 600;
+                }
+            }
+
+            .subBox {
+                background: #f8f9fa;
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+
+                .totalAmount {
+                    padding: 14px 0 0 0;
+
+                    .text {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        p {
+                            @include font16;
+                            color: var(--grey-600);
+                        }
+
+                        span {
+                            display: block;
+                            @include font16medium;
+                            color: var(--black-250);
+                        }
+                    }
+                }
+
+                .detailsAlignment {
+                    padding: 14px 0;
+                    border-bottom: 1px solid var(--border-color3);
+
+                    .text:last-child {
+                        padding: 0;
+
+                        p,
+                        span {
+                            color: #ce4553;
+                        }
+                    }
+
+                    .text {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 0 14px 0;
+
+                        p {
+                            @include font16;
+                            color: var(--grey-600);
+                        }
+
+                        span {
+                            display: block;
+                            @include font14normal;
+                            font-weight: 500;
+                            color: var(--grey-600);
+                        }
+                    }
+                }
+
+                .boxHeader {
+                    padding: 0 0 14px 0;
+                    border-bottom: 1px solid var(--border-color3);
+
+                    h3 {
+                        @include font16medium;
+                        color: var(--black-250);
+                    }
+                }
+            }
+        }
+
+        .modalHeader {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color3);
+
+            svg {
+                width: 22px;
+                height: 22px;
+                cursor: pointer;
+            }
+
+            h2 {
+                @include heading20;
+                color: var(--black-100);
+            }
+        }
+    }
+}

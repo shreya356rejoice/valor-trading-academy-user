@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import React from 'react'
 import styles from './telegramBanner.module.scss';
 import SearchIcon from '@/components/icons/searchIcon';
+import YourSubscription from '../yourSubscription';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -14,10 +15,10 @@ export default function TelegramBanner() {
         <div className={styles.algobotBanner}>
             <div>
                 <h1>
-                Telegram <span>Marketplace</span>
+                    Telegram <span>Marketplace</span>
                 </h1>
                 <p>
-                Discover, buy, and sell trading bots, tools, and services directly through Telegram.
+                    Discover, buy, and sell trading bots, tools, and services directly through Telegram.
                 </p>
             </div>
             <motion.div className={styles.searchbar} variants={itemVariants}>
@@ -26,6 +27,7 @@ export default function TelegramBanner() {
                     <SearchIcon />
                 </div>
             </motion.div>
+            <YourSubscription />
         </div>
     )
 }
