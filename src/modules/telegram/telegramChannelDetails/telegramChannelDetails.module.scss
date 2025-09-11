@@ -1,0 +1,382 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.algobotPage {
+    background-color: var(--bg-white);
+    border-radius: 22px;
+    padding: 40px 20px;
+    min-height: calc(100dvh - 40px);
+}
+
+.algobotBanner {
+    background-color: var(--bg-white);
+    // padding: 0 0 20px 0;
+    border-bottom: 1px solid var(--border-color5);
+    // display: grid;
+    // grid-template-columns: 1fr 400px;
+    gap: 10px;
+
+    @media (max-width:1500px) {
+        grid-template-columns: 1fr 300px;
+    }
+
+    h1 {
+        @include heading20;
+        color: var(--black-100);
+        margin: 0 0 10px 0;
+
+        span {
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+    }
+
+    p {
+        @include font16;
+        color: #051600CC;
+    }
+
+    .searchbar {
+        position: relative;
+
+        input {
+            width: 100%;
+            border-radius: 99px;
+            padding-left: 56px;
+            padding-right: 16px;
+            background-color: var(--bg-white-light);
+            border: 1px solid var(--border-color2);
+            height: 48px;
+            transition: .3s ease-in-out;
+            @include font16medium;
+            color: var(--black-100);
+            font-weight: 400;
+
+            &:focus {
+                outline: none;
+                border: 1px solid var(--primary);
+            }
+        }
+
+        .iconAlignment {
+            position: absolute;
+            left: 20px;
+            top: 40%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        ::placeholder {
+            @include font16medium;
+            color: var(--black-200);
+            opacity: 0.36;
+            font-weight: 400;
+        }
+    }
+}
+
+.availablePlans{
+    padding: 20px 0;
+}
+
+// Main container
+.channelContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    color: var(--black-200);
+}
+
+// Loading and error states
+.loading, .notFound {
+    text-align: center;
+    padding: 50px 0;
+    @include font18;
+    color: var(--black-100);
+}
+
+// Channel header section
+.channelHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+
+    @include respond-to("md") {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.channelIcon {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid var(--primary);
+}
+
+.channelImage {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.channelInfo {
+    flex: 1;
+
+    h1 {
+        // @include font28;
+        color: var(--black-200);
+        margin: 0 0 15px 0;
+        font-weight: 600;
+    }
+}
+
+.channelDescription {
+    @include font16;
+    color: var(--black-100);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.channelStats {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+
+    .statItem {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        // @include font14;
+        color: var(--black-100);
+
+        i {
+            color: var(--primary);
+            width: 18px;
+            text-align: center;
+        }
+    }
+}
+
+// Plans section
+.plansContainer {
+    margin: 50px 0;
+    
+    h2 {
+        // @include font24;
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--black-200);
+        font-weight: 600;
+    }
+}
+
+.plansGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.planCard {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 30px 25px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    &.highlighted {
+        border: 2px solid var(--primary);
+        transform: scale(1.02);
+        
+        .subscribeButton {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+
+            // &:hover {
+            //     background: darken(var(--primary), 10%);
+            // }
+        }
+    }
+}
+
+.discountBadge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--success);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    // @include font12;
+    font-weight: 500;
+}
+
+.planCard h3 {
+    // @include font20;
+    margin: 0 0 15px 0;
+    color: var(--black-200);
+    font-weight: 600;
+}
+
+.priceContainer {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.currentPrice {
+    // @include font28;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.originalPrice {
+    @include font16;
+    color: var(--black-60);
+    text-decoration: line-through;
+}
+
+.featuresList {
+    margin: 0 0 25px 0;
+    padding: 0 0 0 20px;
+    flex-grow: 1;
+
+    li {
+        // @include font14;
+        color: var(--black-100);
+        margin-bottom: 10px;
+        position: relative;
+        line-height: 1.5;
+
+        &::before {
+            content: '✓';
+            color: var(--success);
+            position: absolute;
+            left: -20px;
+            font-weight: bold;
+        }
+    }
+}
+
+.subscribeButton {
+    width: 100%;
+    padding: 12px;
+    @include font16medium;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+
+    &:hover {
+        background: var(--primary-light);
+    }
+}
+
+// Channel description section
+.channelDescriptionSection {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 40px;
+    margin: 50px 0;
+
+    h3 {
+        // @include font24;
+        margin: 0 0 20px 0;
+        color: var(--black-200);
+        font-weight: 600;
+    }
+
+    p {
+        @include font16;
+        color: var(--black-100);
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    h4 {
+        @include font18;
+        margin: 30px 0 15px 0;
+        color: var(--black-200);
+        font-weight: 600;
+    }
+}
+
+.benefitsList {
+    margin: 0;
+    padding: 0 0 0 25px;
+    
+    li {
+        @include font16;
+        color: var(--black-100);
+        margin-bottom: 12px;
+        position: relative;
+        line-height: 1.5;
+        padding-left: 15px;
+
+        &::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 1;
+        }
+    }
+}
+
+// Responsive adjustments
+@include respond-to("md") {
+    .channelHeader {
+        text-align: center;
+    }
+    
+    .channelStats {
+        justify-content: center;
+    }
+    
+    .plansGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@include respond-to("sm") {
+    .channelContainer {
+        padding: 20px 15px;
+    }
+    
+    .channelDescriptionSection {
+        padding: 25px 20px;
+    }
+}

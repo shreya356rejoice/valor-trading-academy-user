@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './payment.module.scss';
-import PaymentBanner from './paymentBanner/page';
+import PaymentBanner from './paymentBanner';
 import PaymentDetails from './paymentDetails/page';
 export default function Payment() {
     return (

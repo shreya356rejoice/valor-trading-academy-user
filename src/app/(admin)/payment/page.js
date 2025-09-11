@@ -1,4 +1,4 @@
-import Payment from '@/modules/payment/page'
+import Payment from '@/modules/payment'
 import React from 'react'
 
 export default function page() {

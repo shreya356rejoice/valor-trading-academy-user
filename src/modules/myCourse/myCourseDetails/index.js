@@ -145,10 +145,10 @@ export default function MyCourseDetails() {
                     
                     <div className={styles.pricingSection}>
                         <div className={styles.priceCard}>
-                            <div className={styles.priceSubtitle}>
+                            {/* <div className={styles.priceSubtitle}>
                                 <span>Plan Type:</span>
                                 <span>{item.planType || 'N/A'}</span>
-                            </div>
+                            </div> */}
                             <div className={styles.priceSubtitle}>
                                 <span>Price:</span>
                                 <span className={styles.price}>${price}</span>
@@ -171,21 +171,6 @@ export default function MyCourseDetails() {
                             </div>
                         </div>
                     </div>
-
-                    <Button
-                        text={isCourse ? 'View Course' : isBot ? 'View Bot' : 'View Channel'}
-                        onClick={() => {
-                            // Handle navigation based on type
-                            if (isCourse) {
-                                router.push(`/course/${item.courseId?._id}`);
-                            } else if (isBot) {
-                                router.push(`/algobot-details/${item.botId?.strategyId?._id}`);
-                            } else if (isTelegram) {
-                                // Handle telegram channel navigation
-                                window.open(item.telegramId?.telegramId?.link, '_blank');
-                            }
-                        }}
-                    />
                 </div>
             </div>
         );

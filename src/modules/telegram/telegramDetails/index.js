@@ -210,7 +210,7 @@ console.log(data,"data");
                                 </div> */}
                                 <Button
                                     text="Join Channel"
-                                    onClick={() => router.push(`/algobot-details/${channel?._id}`)}
+                                    onClick={() => router.push(`/telegram-details/${channel?._id}`)}
                                 />
                             </div>
                         </div>
