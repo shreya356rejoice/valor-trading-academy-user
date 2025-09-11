@@ -1,0 +1,67 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.paymentTable {
+    background: #7677EC0D;
+    border: 1px solid #7577EB21;
+    border-radius: 12px;
+    height: calc(100dvh - 304px);
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+            background: #f1f1fd;
+
+            position: sticky;
+            top: 0;
+            z-index: 9;
+
+            tr {
+                border-bottom: 1px solid #7577EB21;
+
+                th {
+                    padding: 14px;
+                    @include font14normal;
+                    text-align: left;
+                    font-weight: 500;
+                    color: var(--black-250);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid #7577EB21;
+
+                td {
+                    padding: 14px;
+                    @include font14normal;
+                    text-align: left;
+                    color: var(--black-400);
+
+                    .status {
+                        background: #DCFCE7;
+                        padding: 4px 20px;
+                        border: 1px solid #22C55E;
+                        border-radius: 99px;
+                        @include font12normal;
+                        color: #000;
+                    }
+
+                    .viewmore {
+                        background: #FFF5F1;
+                        padding: 4px 20px;
+                        border: 1px solid #F8E3D8;
+                        border-radius: 99px;
+                        @include font12normal;
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}

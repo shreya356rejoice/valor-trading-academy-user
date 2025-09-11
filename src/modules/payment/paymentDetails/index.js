@@ -38,7 +38,7 @@ export default function PaymentDetails() {
         try {
             setIsLoading(true);
             const response = await getPurchasedCourses();
-            
+
             if (response?.success && response.payload) {
                 setPurchasedCourses({
                     RECORDED: response.payload.RECORDED || [],
@@ -103,34 +103,34 @@ export default function PaymentDetails() {
         const isCourse = !!item.courseId;
         const isBot = !!item.botId;
         const isTelegram = !!item.telegramId;
-        
-        const title = isCourse ? item.courseId?.CourseName : 
-                      isBot ? item.botId?.strategyId?.title : 
-                      isTelegram ? item.telegramId?.telegramId?.channelName : 'N/A';
-                      
-        const description = isCourse ? item.courseId?.description : 
-                          isBot ? item.botId?.strategyId?.shortDescription : 
-                          isTelegram ? item.telegramId?.telegramId?.description : '';
-        
-        const imageUrl = isCourse ? item.courseId?.courseVideo : 
-                        isBot ? item.botId?.strategyId?.imageUrl : 
-                        isTelegram ? '/assets/images/telegram-placeholder.jpg' : '';
-        
+
+        const title = isCourse ? item.courseId?.CourseName :
+            isBot ? item.botId?.strategyId?.title :
+                isTelegram ? item.telegramId?.telegramId?.channelName : 'N/A';
+
+        const description = isCourse ? item.courseId?.description :
+            isBot ? item.botId?.strategyId?.shortDescription :
+                isTelegram ? item.telegramId?.telegramId?.description : '';
+
+        const imageUrl = isCourse ? item.courseId?.courseVideo :
+            isBot ? item.botId?.strategyId?.imageUrl :
+                isTelegram ? '/assets/images/telegram-placeholder.jpg' : '';
+
         const price = parseFloat(item.price || 0).toFixed(2);
-        const initialPrice = isBot ? item.botId?.initialPrice : 
-                           isTelegram ? item.telegramId?.initialPrice : 
-                           item.courseId?.price;
-        const discount = isBot ? item.botId?.discount : 
-                       isTelegram ? item.telegramId?.discount : 
-                       0;
+        const initialPrice = isBot ? item.botId?.initialPrice :
+            isTelegram ? item.telegramId?.initialPrice :
+                item.courseId?.price;
+        const discount = isBot ? item.botId?.discount :
+            isTelegram ? item.telegramId?.discount :
+                0;
 
         return (
             <div className={styles.griditems} key={item._id}>
                 {imageUrl && (
                     <div className={styles.image}>
-                        <img 
-                            src={imageUrl} 
-                            alt={title} 
+                        <img
+                            src={imageUrl}
+                            alt={title}
                             onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src = '/assets/images/placeholder.jpg';
@@ -141,7 +141,7 @@ export default function PaymentDetails() {
                 <div className={styles.details}>
                     <h3>{title}</h3>
                     <p dangerouslySetInnerHTML={{ __html: description?.substring(0, 150) + '...' }} />
-                    
+
                     <div className={styles.pricingSection}>
                         <div className={styles.priceCard}>
                             <div className={styles.priceSubtitle}>
@@ -205,7 +205,7 @@ export default function PaymentDetails() {
                     ))}
                 </div>
             </div>
-            
+
             {/* <div className={styles.grid}>
                 {isLoading ? (
                     renderSkeleton()
