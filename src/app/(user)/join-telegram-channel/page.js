@@ -1,10 +1,10 @@
-import RefundPolicy from '@/modules/refundPolicy'
+import JoinTelegram from '@/modules/joinTelegram'
 import React from 'react'
 
 export default function page() {
     return (
         <div>
-            <RefundPolicy />
+            <JoinTelegram />
         </div>
     )
 }

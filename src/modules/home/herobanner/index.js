@@ -5,6 +5,7 @@ import styles from './herobanner.module.scss';
 import ArrowIcon from '@/components/icons/arrowIcon';
 import SearchIcon from '@/components/icons/searchIcon';
 import Button from '@/components/button';
+import { useRouter } from 'next/navigation';
 const MenImage = '/assets/images/men.png';
 const DotsLine = '/assets/images/dots-line.svg';
 const BottomVec = '/assets/images/bottom-vec.svg';
@@ -41,6 +42,7 @@ const floatingVariants = {
 };
 
 export default function Herobanner() {
+    const router = useRouter();
     return (
         <div className={styles.herobanner}>
             <div className='container'>
@@ -76,8 +78,8 @@ export default function Herobanner() {
                             </div>
                         </motion.div>
                         <motion.div className={styles.buttonAlignment} variants={itemVariants}>
-                            <Button text='Explore Courses' fill />
-                            <Button text='Join Free Community' />
+                            <Button text='Explore Courses' fill onClick={() => router.push('/login')} />
+                            <Button text='Join Free Community' onClick={() => router.push('/login')} />
                         </motion.div>
                     </motion.div>
                     <motion.div className={styles.griditems} variants={imageVariants}>

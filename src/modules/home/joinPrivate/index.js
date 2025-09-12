@@ -105,7 +105,7 @@ export default function JoinPrivate() {
                                         ))}
                                     </div>
                                     <div className={styles.cardFooteralignment}>
-                                        <Button text='Join Now' fill />
+                                        <Button text='Join Now' fill onClick={() => router.push(`/join-telegram-channel?telegramId=${channel._id}`)} />
                                     </div>
                                 </motion.div>
                             )

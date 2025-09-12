@@ -158,7 +158,7 @@ export const getSessionData = async (id) => {
 
 export const getTelegramChannels = async (id, searchQuery) => {
   try {
-    const res = await api.get(`/telegram/getAllTelegram${id ? `?id=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
+    const res = await api.get(`/telegram/getAllTelegram${id ? `?telegramId=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
     const data = await res.data;
     return data;
   } catch (error) {

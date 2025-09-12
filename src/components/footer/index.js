@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import styles from './footer.module.scss';
 import Button from '../button';
 import FacebookIcon from '../icons/facebookIcon';
@@ -6,8 +7,58 @@ import TwitterIcon from '../icons/twitterIcon';
 import InstagramIcon from '../icons/instagramIcon';
 import LinkdinIcon from '../icons/linkdinIcon';
 import YoutubeIcon from '../icons/youtubeIcon';
+import { createNewsLetter, getUtilityData } from '@/app/api/dashboard';
+import Link from 'next/link';
 const WhiteLogo = '/assets/logo/whitelogo.svg';
+
 export default function Footer() {
+    const [footerData, setFooterData] = useState([]);
+    const [email, setEmail] = useState('');
+    const [error,setError] = useState('');
+    const [succMsg,setSuccMsg] = useState('');
+
+    const validateEmail = (email) => {
+        const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        return re.test(email);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Convert email to lowercase before validation
+            const normalizedEmail = email.toLowerCase();
+            
+            if (!validateEmail(normalizedEmail)) {
+                setError('Please enter a valid email address');
+                return;
+            }
+            const response = await createNewsLetter({ email: normalizedEmail });
+            if (response.success) {
+                setSuccMsg('Newsletter Subscribed Successfully.');
+                setEmail('');
+                setTimeout(() => {
+                    setSuccMsg('');
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error creating newsletter:', error);
+            setError('Failed to create newsletter');
+        }
+    };
+
+    useEffect(() => {
+        const fetchFooterData = async () => {
+            try {
+                const response = await getUtilityData();
+                setFooterData(response.payload);
+            } catch (error) {
+                console.error('Error fetching footer data:', error);
+            }
+        };
+        fetchFooterData();
+    }, []);
+    console.log(footerData,"----footerData");
+    
   return (
     <footer className={styles.footer}>
         <div className='container'>
@@ -20,31 +71,44 @@ export default function Footer() {
                             financial success.
                         </p>
                         <div className={styles.socialIcon}>
-                            <FacebookIcon/>
-                            <TwitterIcon/>
-                            <InstagramIcon/>
-                            <LinkdinIcon/>
-                            <YoutubeIcon/>
+                            <Link target='_blank' href={footerData?.facebookLink || ''}>
+                                    <div>
+                                        <FacebookIcon />
+                                    </div>
+                                </Link>
+                                <Link target='_blank' href={footerData?.twitter || ''}>
+                                    <div>
+                                        <TwitterIcon /> 
+                                    </div>
+                                </Link>
+                                <Link target='_blank' href={footerData?.instagramLink || ''}>
+                                    <div>
+                                        <InstagramIcon />
+                                    </div>
+                                </Link>
+                                <Link target='_blank' href={footerData?.linkedin || ''}>
+                                    <div>
+                                        <LinkdinIcon />
+                                    </div>
+                                </Link>
                         </div>
                     </div>
                     <div className={styles.menu}>
                         <h3>
                             Quick Links
                         </h3>
-                        <a aria-label='About' href="#">About</a>
-                        <a aria-label='Courses' href="#">Courses</a>
-                        <a aria-label='Blog' href="#">Blog</a>
-                        <a aria-label='Contact' href="#">Contact</a>
-                        <a aria-label='FAQ' href="#">FAQ</a>
+                        <a href="/about-us" aria-label='About'>About</a>
+                        <a href="/our-course" aria-label='Courses'>Courses</a>
+                        <a href="/blog" aria-label='Blog'>Blog</a>
+                        <a href="/faq" aria-label='FAQ'>FAQ</a>
                     </div>
                     <div className={styles.menu}>
                         <h3>
                             Support
                         </h3>
-                        <a aria-label='Terms of Service' href="#">Terms of Service</a>
-                        <a aria-label='Privacy Policy' href="#"> Privacy Policy</a>
-                        <a aria-label='Telegram Group' href="#">Telegram Group</a>
-                        <a aria-label='Refund Policy' href="#">Refund Policy</a>
+                        <a href="/terms-conditions" aria-label='Terms of Service'>Terms of Service</a>
+                        <a href="/privacy-policy" aria-label='Privacy Policy'> Privacy Policy</a>
+                        <a href="/refund-policy" aria-label='Refund Policy'>Refund Policy</a>
                     </div>
                 </div>
                 <div className={styles.items}>
@@ -57,16 +121,26 @@ export default function Footer() {
                             special offers.
                         </p>
                     </div>
-                    <div className={styles.inputDesign}>
-                        <input type='text' placeholder='Your Email'/>
+                    <form onSubmit={handleSubmit} className={styles.inputDesign}>
+                        <input 
+                            type='email' 
+                            placeholder='Your Email'
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setError('');
+                                setSuccMsg('');
+                            }}
+                        />
                         <div className={styles.buttonAlignment}>
-                            <Button text="Subscribe" fill/>
+                            <Button type="submit" text="Subscribe" fill/>
                         </div>
-                    </div>
-                    <div className={styles.checkboxText}>
+                    </form>
+                    <p className={error ? styles.errorMsg : styles.succMsg}>{error ? error : succMsg}</p>
+                    {/* <div className={styles.checkboxText}>
                         <input type='checkbox'/>
                         <span>I agree to the Privacy Policy</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className={styles.line}></div>

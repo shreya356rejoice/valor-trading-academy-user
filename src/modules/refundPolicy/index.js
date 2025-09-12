@@ -6,21 +6,20 @@ const Arrow = '/assets/icons/arrow.svg';
 export default function RefundPolicy() {
     return (
         <div>
-            <CommonBanner title='Refund Policy' description='Lorem Ipsum is simply dummy text of the printing and typesetting industry.' />
+            <CommonBanner title='Refund Policy' description='Our Refund Policy outlines the conditions under which you may request a refund for purchases made through Valor Trading Academy, including courses, subscriptions, and digital tools.' />
             <div className={styles.privacyPolicyContent}>
                 <div className='container'>
                     <h2>
                         Refund Policy Introduction
                     </h2>
                     <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                        publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    At Valor Trading Academy, we are committed to providing high-quality forex education, trading tools, and services. However, due to the digital nature of our offerings—including online courses, signal channels, and algorithmic trading bots—we maintain a clear and transparent refund policy to protect both our users and our platform.
                     </p>
                     <div className={styles.allContnetAlignment}>
                         <h2>Refund Policy Summary</h2>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                            type and scrambled it to make a type specimen book.
+                        Refunds are only considered under specific circumstances and are subject to review. Because our services provide immediate digital access or downloadable content, refunds are generally not guaranteed unless a product was purchased in error, found to be defective, or inaccessible due to a platform issue.
+All refund requests must be submitted within 7 days of the original purchase. After this period, refunds are not eligible.
                         </p>
                         <br />
                         <br />
@@ -29,8 +28,7 @@ export default function RefundPolicy() {
                                 1. Personally-Identifiable Information:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            We may request personal information (e.g., your full name, email, transaction ID, or payment method) to verify your identity and process a refund.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -38,8 +36,7 @@ export default function RefundPolicy() {
                                 2. Sensitive Personal Data:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            We do not store full credit/debit card numbers on our platform. All payments are processed via secure third-party gateways (e.g., Stripe, Razorpay, or UPI). Refunds will be issued using the original payment method.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -47,8 +44,7 @@ export default function RefundPolicy() {
                                 3. Non-Personally-Identifiable Information:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            We may analyze user data (e.g., course completion, login activity, or usage history) during the refund evaluation process to ensure fair treatment and prevent misuse.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -56,8 +52,7 @@ export default function RefundPolicy() {
                                 4. Limited Accessibility:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            If our content or services are temporarily unavailable due to scheduled maintenance or downtime, this does not qualify for a refund unless the issue persists for more than 72 hours continuously.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -65,8 +60,7 @@ export default function RefundPolicy() {
                                 5. Inconsistent Quality:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            Refunds will not be provided based on unsatisfactory trading outcomes, losses from using bots or signals, or course content not meeting personal expectations. Results vary based on user knowledge and market conditions.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -74,8 +68,7 @@ export default function RefundPolicy() {
                                 6. Market Competition:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            We reserve the right to deny refunds in cases where users attempt to exploit our services, such as copying course content or signals, and then requesting a refund.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -83,8 +76,7 @@ export default function RefundPolicy() {
                                 7. Customization Limitations:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            If a feature or tool doesn't have certain customization options (e.g., custom indicators in bots), that does not qualify as a refund reason unless advertised differently at the time of purchase.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -92,16 +84,14 @@ export default function RefundPolicy() {
                                 8. Scalability Issues:
                             </h3>
                             <p>
-                                At Olysim, we take your privacy seriously and only collect personally identifiable information when you voluntarily provide it to us. This information may include your first name, last name, email address,
-                                and billing details such as credit card number and billing address.
+                            Performance delays or feature limitations caused by high platform usage or external market conditions are not refundable events.
                             </p>
                         </div>
                         <h2>
                             How We Use Your Information:
                         </h2>
                         <p>
-                            With your explicit consent, sending you marketing emails informing you about upcoming promotions, product launches, and relevant news about our services and affiliated partners. Rest assured, we respect your privacy preferences and retain information about your marketing preferences for a reasonable period of time. You can opt out of receiving marketing emails at any time by following the instructions provided in the emails. However, please note that even if you opt out of marketing communications, you may still receive non-marketing emails
-                            pertaining to your account or essential business dealings with us.
+                        At Valor Trading Academy,You may unsubscribe from marketing emails at any time by clicking the “Unsubscribe” link at the bottom of our emails. However, essential communications (such as password resets, payment confirmations, or course access instructions) will still be sent as needed.
                         </p>
                         <br />
                         <br />
@@ -115,11 +105,10 @@ export default function RefundPolicy() {
                             <br />
                             <div className={styles.iconText}>
                                 <img src={Arrow} alt='Arrow' />
-                                <h5>Types of Policy</h5>
+                                <h5>Essential Cookies</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            These are required to operate our website. They allow you to log in, resume courses, access Telegram features, and use secure areas of the site. Disabling them may result in a degraded user experience.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -128,8 +117,7 @@ export default function RefundPolicy() {
                                 <h5>Disabling Policy</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            You may disable non-essential cookies through your browser settings. However, this may prevent full functionality, such as saving your course progress or accessing bot performance dashboards.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -138,8 +126,7 @@ export default function RefundPolicy() {
                                 <h5>Facebook Custom Audiences</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            We may use your data (e.g., email or browsing behavior) to show personalized ads via Facebook. This helps us reach you with relevant content. You can opt out via Facebook ad settings.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -148,8 +135,7 @@ export default function RefundPolicy() {
                                 <h5>Pixel Tags</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            Used to monitor open rates, clicks, and engagement with emails and learning material. This allows us to improve your experience and prioritize helpful content.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -162,8 +148,7 @@ export default function RefundPolicy() {
                                 <h5>Types of Policy</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            These cookies are necessary to operate our platform efficiently.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -172,8 +157,7 @@ export default function RefundPolicy() {
                                 <h5>Disabling Policy</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            If you choose to disable cookies via your browser settings, some features may not function properly.
                             </p>
                         </div>
                         <div className={styles.text}>
@@ -182,18 +166,7 @@ export default function RefundPolicy() {
                                 <h5>Facebook Custom Audiences</h5>
                             </div>
                             <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
-                            </p>
-                        </div>
-                        <div className={styles.text}>
-                            <div className={styles.iconText}>
-                                <img src={Arrow} alt='Arrow' />
-                                <h5>Pixel Tags</h5>
-                            </div>
-                            <p>
-                                Essential Cookies: These cookies are vital for providing you with services available through our platform. They enable you to access secure areas, such as logging in, and ensure the speedy loading of requested content. Without these cookies, essential services
-                                cannot be provided.
+                            We may use anonymized data (e.g., email address hashes or site behavior) to create targeted ad campaigns on Facebook or Instagram.
                             </p>
                         </div>
                     </div>
