@@ -234,7 +234,7 @@ export default function ContactUs() {
                                                             {regions.map((region) => (
                                                                 <div
                                                                     className={styles.iconText}
-                                                                    key={region.code}
+                                                                    key={`${region.code}-${region.numberCode}-${region.name}`}
                                                                     onClick={() => {
                                                                         setSelectedCountryCode(region.numberCode);
                                                                         handleChange("countryCode", region.numberCode);

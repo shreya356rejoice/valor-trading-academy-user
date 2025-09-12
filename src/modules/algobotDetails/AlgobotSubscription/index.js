@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './yourSubscription.module.scss';
+import styles from './algobotSubscription.module.scss';
 import CloseIcon from '@/components/icons/closeIcon';
 import Input from '@/components/input';
 import Button from '@/components/button';
@@ -7,14 +7,14 @@ import { getCoupon } from '@/app/api/algobot';
 import { toast } from 'react-toastify';
 import { getPaymentUrl } from '@/app/api/dashboard';
 import { useRouter } from 'next/navigation';
-export default function YourSubscription({ onClose, plan, channel }) {
+export default function AlgobotSubscription({ onClose, plan, channel }) {
     const [couponCode, setCouponCode] = useState('');
     const [telegramId, setTelegramId] = useState('');
     const [isApplying, setIsApplying] = useState(false);
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [appliedCoupon, setAppliedCoupon] = useState(null);
-    const [discountedPrice, setDiscountedPrice] = useState(plan?.price || 0);
-    const [originalPrice] = useState(plan?.price || 0);
+    const [discountedPrice, setDiscountedPrice] = useState(plan?.totalPrice || 0);
+    const [originalPrice] = useState(plan?.totalPrice || 0);
     const [errors, setErrors] = useState({
         telegramId: '',
         couponCode: ''
@@ -40,8 +40,8 @@ export default function YourSubscription({ onClose, plan, channel }) {
                     return;
                 }
 
-                const discountAmount = (originalPrice * coupon.discount) / 100;
-                const newPrice = Math.max(0, originalPrice - discountAmount);
+                const discountAmount = (plan.initialPrice * plan.quantity * coupon.discount) / 100;
+                const newPrice = Math.max(0, (plan.initialPrice * plan.quantity) - discountAmount);
 
                 setDiscountedPrice(newPrice);
                 setAppliedCoupon(coupon);
@@ -59,28 +59,26 @@ export default function YourSubscription({ onClose, plan, channel }) {
     }
 
     async function handlePayment() {
-        // Clear previous errors
-        setErrors({ telegramId: '', couponCode: '' });
-        setIsProcessingPayment(true);
 
-        // Validate Telegram ID
-        if (!telegramId.trim()) {
-            setErrors(prev => ({ ...prev, telegramId: 'Please enter your Telegram ID' }));
-            setIsProcessingPayment(false);
-            return;
-        } 
+        console.log(plan,"plan");
+        
 
         try {
-            setErrors('');
             const paymentData = {
-                telegramPlanId: plan._id,
-                telegramAccountNo: telegramId.trim(),
-                couponId: appliedCoupon ? appliedCoupon._id : null,
+                botId: plan?.botId,
+                noOfBots: plan?.quantity, // Using the quantity from the plan
+                strategyPlanId: plan?._id,
                 success_url: window.location.href,
                 cancel_url: window.location.href
             };
 
+            console.log(paymentData, "paymentData");
+            
+
             const response = await getPaymentUrl(paymentData);
+
+            console.log(response,"response");
+            
             
             if (response.success) {
                 router.replace(response?.payload?.data?.checkout_url);
@@ -101,50 +99,41 @@ export default function YourSubscription({ onClose, plan, channel }) {
             <div className={styles.modal}>
                 <div className={styles.modalHeader}>
                     <h2>
-                        Complete Your Subscription
+                    Complete Your Purchase
                     </h2>
                     <button onClick={onClose} className={styles.closeButton}>
                         <CloseIcon />
                     </button>
                 </div>
                 <div className={styles.modalbody}>
-                    <div className={styles.inputGroup}>
-                        <Input
-                            label='Telegram ID'
-                            placeholder='Enter your Telegram ID'
-                            value={telegramId}
-                            onChange={(e) => {
-                                setTelegramId(e.target.value);
-                                if (errors.telegramId) {
-                                    setErrors(prev => ({ ...prev, telegramId: '' }));
-                                }
-                            }}
-                            error={errors.telegramId}
-                        />
-                        <p className={styles.errorMessage}>{errors?.telegramId}</p>
-                        {console.log(errors, "errors")
-                        }
-                    </div>
                     <div className={styles.subBox}>
                         <div className={styles.boxHeader}>
                             <h3>{plan?.planType} Plan
                             </h3>
                         </div>
+                        {console.log(plan, "1111111111111plan")
+                        }
                         <div className={styles.detailsAlignment}>
                             <div className={styles.text}>
-                                <p>Original Price:</p>
-                                <span>${plan?.initialPrice}</span>
+                                <p>Quantity:</p>
+                                <span>{plan?.quantity}</span>
                             </div>
                             <div className={styles.text}>
-                                <p>Common Discount ({plan?.discount}%):
-                                </p>
-                                <span>-${((plan?.initialPrice * plan?.discount) / 100).toFixed(2)}</span>
+                                <p>Price per unit:</p>
+                                <span>${plan?.initialPrice?.toFixed(2)}</span>
+                            </div>
+                            <div className={styles.text}>
+                                <p>Subtotal:</p>
+                                <span>${(plan?.initialPrice * plan?.quantity)?.toFixed(2)}</span>
+                            </div>
+                            <div className={styles.text}>
+                                <p>Common Discount ({plan?.discount}%):</p>
+                                <span>-${((plan?.initialPrice * plan?.quantity * plan?.discount) / 100).toFixed(2)}</span>
                             </div>
                             {appliedCoupon?.discount && (
                                 <div className={styles.text}>
-                                    <p>Coupon Discount ({appliedCoupon?.discount}%):
-                                    </p>
-                                    <span>-${((plan?.initialPrice * appliedCoupon?.discount) / 100).toFixed(2)}</span>
+                                    <p>Coupon Discount ({appliedCoupon?.discount}%):</p>
+                                    <span>-${((plan?.initialPrice * plan?.quantity * appliedCoupon?.discount) / 100).toFixed(2)}</span>
                                 </div>
                             )}
                         </div>
@@ -154,9 +143,10 @@ export default function YourSubscription({ onClose, plan, channel }) {
                                     Total Amount:
                                 </p>
                                 <span>
-                                    ${(plan?.initialPrice -
-                                        (plan?.initialPrice * (plan?.discount || 0) / 100) -
-                                        (appliedCoupon?.discount ? (plan?.initialPrice * appliedCoupon.discount / 100) : 0)
+                                    ${(
+                                        (plan?.initialPrice * plan?.quantity) - 
+                                        ((plan?.initialPrice * plan?.quantity * (plan?.discount || 0)) / 100) -
+                                        (appliedCoupon?.discount ? ((plan?.initialPrice * plan?.quantity * appliedCoupon.discount) / 100) : 0)
                                     ).toFixed(2)}
                                 </span>
                             </div>

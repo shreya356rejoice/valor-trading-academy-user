@@ -125,9 +125,25 @@ export default function MyCourseDetails() {
                        isTelegram ? item.telegramId?.discount : 
                        0;
 
+                       console.log(item,"---item");
+                       
+        const courseId = isCourse ? item?.courseId?._id : null;
+                       
+        // Additional data based on tab type
+        const instructorName = isCourse ? item?.courseId?.instructor : '';
+        const hours = isCourse ? item?.courseId?.hours : '';
+        const courseStart = isCourse ? new Date(item?.courseId?.courseStart) : null;
+        const courseEnd = isCourse ? new Date(item?.courseId?.courseEnd) : null;
+        const formattedDateRange = courseStart && courseEnd ? 
+            `${courseStart.toLocaleDateString()} - ${courseEnd.toLocaleDateString()}` : 'Not scheduled';
+        const scheduleOn = formattedDateRange;
+        const courseType = isCourse ? item.courseId?.courseType : '';
+        const location = isCourse ? item.courseId?.location : '';
+        const planType = item.planType || 'Standard';
+
         return (
-            <div className={styles.griditems} key={item._id}>
-                {imageUrl && (
+            <div className={styles.griditems} key={item._id} onClick={() => router.push(`/course-details?courseId=${courseId}`)}>
+                {selectedTab !== 'TELEGRAM' && (imageUrl && (
                     <div className={styles.image}>
                         <img 
                             src={imageUrl} 
@@ -138,38 +154,60 @@ export default function MyCourseDetails() {
                             }}
                         />
                     </div>
-                )}
+                ))}
+                
                 <div className={styles.details}>
                     <h3>{title}</h3>
                     <p dangerouslySetInnerHTML={{ __html: description?.substring(0, 150) + '...' }} />
                     
-                    <div className={styles.pricingSection}>
-                        <div className={styles.priceCard}>
-                            {/* <div className={styles.priceSubtitle}>
-                                <span>Plan Type:</span>
-                                <span>{item.planType || 'N/A'}</span>
-                            </div> */}
-                            <div className={styles.priceSubtitle}>
-                                <span>Price:</span>
-                                <span className={styles.price}>${price}</span>
-                            </div>
-                            {initialPrice > 0 && (
-                                <div className={styles.priceSubtitle}>
-                                    <span>Initial Price:</span>
-                                    <span className={styles.originalPrice}>${initialPrice}</span>
+                    <div className={styles.infoCard}>
+                        {(selectedTab === 'RECORDED' || selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') && (
+                            <>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Instructor:</span>
+                                    <span className={styles.infoValue}>{instructorName || 'N/A'}</span>
                                 </div>
-                            )}
-                            {discount > 0 && (
-                                <div className={styles.priceSubtitle}>
-                                    <span>Discount:</span>
-                                    <span>{discount}%</span>
+                            </>
+                        )}
+                        
+                        {selectedTab === 'LIVE' && (
+                            <>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Duration:</span>
+                                    <span className={styles.infoValue}>{hours || '0'} hours</span>
                                 </div>
-                            )}
-                            <div className={styles.priceSubtitle}>
-                                <span>Purchased On:</span>
-                                <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+                            </>
+                        )}
+                        
+                        {selectedTab === 'PHYSICAL' && (
+                            <>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Location:</span>
+                                    <span className={styles.infoValue}>{location || '-'}</span>
+                                </div>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Schedule:</span>
+                                    <span className={styles.infoValue}>{scheduleOn || 'To be announced'}</span>
+                                </div>
+                            </>
+                        )}
+                        
+                        {(selectedTab === 'BOTS' || selectedTab === 'TELEGRAM') && (
+                            <div className={styles.infoRow}>
+                                <span className={styles.infoLabel}>Plan:</span>
+                                <span className={styles.infoValue}>{planType}</span>
                             </div>
+                        )}
+                        
+                        <div className={styles.infoRow}>
+                            <span className={styles.infoLabel}>Purchased On:</span>
+                            <span className={styles.infoValue}>{new Date(item.createdAt).toLocaleDateString()}</span>
                         </div>
+{/*                         
+                        <div className={styles.infoRow}>
+                            <span className={styles.infoLabel}>Price Paid:</span>
+                            <span className={styles.price}>${price}</span>
+                        </div> */}
                     </div>
                 </div>
             </div>

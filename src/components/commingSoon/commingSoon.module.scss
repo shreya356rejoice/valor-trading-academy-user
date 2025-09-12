@@ -6,10 +6,10 @@
     background-color: var(--bg-white);
     height: calc(100dvh - 40px);
     border-radius: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // padding: 40px 20px;
 
     @include respond-to("md") {
         padding: 16px;
@@ -17,5 +17,119 @@
     }
     @include respond-to("sm") {
         height: calc(100dvh - 71px - 28px);
+    }
+}
+
+.coursePageAlignment {
+    background-color: var(--bg-white);
+    border-radius: 22px;
+    padding: 25px;
+
+    @include respond-to("md") {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .pageTitle {
+        // padding: 0 0 25px 0;
+
+        @include respond-to("sm") {
+            padding: 0 0 20px 0;
+        }
+
+        h2 {
+            @include heading20;
+            color: var(--black-100);
+
+            span {
+                background: var(--linear-gradient);
+                @include text-type;
+            }
+        }
+
+        p {
+            @include font16;
+            color: var(--black-400);
+            opacity: .9;
+
+            @include respond-to("sm") {
+                @include font14normal;
+                margin: 10px 0 0 0;
+            }
+        }
+    }
+}
+
+.dashboardCardgrd {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+    margin: 0 25px ;
+
+    .dashboardcard {
+        background-color: var(--bg-white);
+        border: 1px solid #e9e9e9;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: .4s ease-in-out;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboardcardtitle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+
+            h1 {
+                @include heading20;
+                color: black;
+                margin-bottom: 10px;
+            }
+
+            span {
+                @include font18;
+                background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);;
+                color: transparent;
+                background-clip: text;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+            }
+        }
+
+        .cardDetails {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 10px;
+
+            .usericon {
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background-color: var(--bg-white);
+                border: 1px solid #e9e9e9;
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            p {
+                @include font16normal;
+                color: var(--grey-600);
+                
+            }
+        }
     }
 }

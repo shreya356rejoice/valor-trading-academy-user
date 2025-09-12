@@ -65,3 +65,75 @@
         }
     }
 }
+
+.tabCenteralignment {
+    display: flex;
+    align-items: center;
+    padding: 20px 0 20px 0;
+
+    @include respond-to("sm") {
+        padding: 0 0 30px 0;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab {
+        border: 1px solid var(--border-color);
+        border-radius: 99px;
+        padding: 6px;
+
+        @include respond-to("sm") {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        button {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 99px;
+            transition: .3s ease-in-out;
+            color: var(--black-100);
+            @include font16medium;
+            background-color: transparent;
+            cursor: pointer;
+
+            @include respond-to("sm") {
+                padding: 10px 16px;
+                @include font14normal;
+                white-space: nowrap;
+            }
+
+            &.active {
+                color: var(--text-white);
+                background: var(--linear-gradient);
+
+                &:hover {
+                    color: var(--text-white);
+                }
+            }
+
+            &:hover {
+                color: var(--primary);
+            }
+        }
+    }
+}
+
+.metaAccountNo{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.accountItem{
+    padding: 10px 0;
+}

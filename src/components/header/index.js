@@ -53,8 +53,8 @@ export default function Header() {
             <div className={styles.rightAlignmet}>
               <div className={styles.menu}>
                 <a className={pathname === '/our-course' ? styles.active : ''} href='/our-course' aria-label='Courses'>Courses</a>
-                <a className={pathname === '/our-live-course' ? styles.active : ''} href='/our-live-course' aria-label='Live Online Classes'>Live Online Classes</a>
-                <a className={pathname === '/our-in-person-course' ? styles.active : ''} href='/our-in-person-course' aria-label='Offline Sessions'>Offline Sessions</a>
+                <a className={pathname === '/live-online-classes' ? styles.active : ''} href='/live-online-classes' aria-label='Live Online Classes'>Live Online Classes</a>
+                <a className={pathname === '/offline-sessions' ? styles.active : ''} href='/offline-sessions' aria-label='Offline Sessions'>Offline Sessions</a>
                 <a className={pathname === '/algobots' ? styles.active : ''} href='/algobots' aria-label='Algobots'>Algobots</a>
                 <a className={pathname === '/blog' ? styles.active : ''} href='/blog' aria-label='Blog'>Blogs</a>
                 <a className={pathname === '/about-us' ? styles.active : ''} href='/about-us' aria-label='About Us'>About Us</a>
@@ -80,8 +80,8 @@ export default function Header() {
         </div>
         <div className={styles.menu}>
           <a href='/our-course' className={pathname === '/our-course' ? styles.active : ''} aria-label='Courses'>Courses</a>
-          <a href='/our-live-course' className={pathname === '/our-live-course' ? styles.active : ''} aria-label='Live Online Classes'>Live Online Classes</a>
-          <a href='/our-in-person-course' className={pathname === '/our-in-person-course' ? styles.active : ''} aria-label='Offline Sessions'>Offline Sessions</a>
+          <a href='/live-online-classes' className={pathname === '/live-online-classes' ? styles.active : ''} aria-label='Live Online Classes'>Live Online Classes</a>
+          <a href='/offline-sessions' className={pathname === '/offline-sessions' ? styles.active : ''} aria-label='Offline Sessions'>Offline Sessions</a>
           <a href='/algobots' className={pathname === '/algobots' ? styles.active : ''} aria-label='Algobots'>Algobots</a>
           <a href='/blog' className={pathname === '/blog' ? styles.active : ''} aria-label='Blog'>Blogs</a>
           <a href='/about-us' className={pathname === '/about-us' ? styles.active : ''} aria-label='About Us'>About Us</a>

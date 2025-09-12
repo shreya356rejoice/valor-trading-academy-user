@@ -117,3 +117,19 @@
     font-weight: 600;
     line-height: normal;
 }
+
+@mixin font16normal {
+    font-family: var(--font-lexend);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+@mixin heading18 {
+    font-family: var(--font-funneldisplay);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}

@@ -68,7 +68,9 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logoAlignment}>
-        <img src={SidebarLogo} alt="SidebarLogo" />
+        <Link href="/">
+          <img src={SidebarLogo} alt="SidebarLogo" />
+        </Link>
         <div className={styles.closeIcon} onClick={() => setSidebarToogle(false)}>
           <CloseIcon />
         </div>

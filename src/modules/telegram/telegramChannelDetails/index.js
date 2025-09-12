@@ -1,12 +1,19 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './telegramChannelDetails.module.scss';
 import Button from '@/components/button';
 import { getTelegramChannels } from '@/app/api/dashboard';
 import { motion } from 'framer-motion';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import dynamic from 'next/dynamic';
+
+const YourSubscription = dynamic(() => import('../yourSubscription'), {
+    ssr: false
+});
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -14,18 +21,30 @@ const itemVariants = {
 };
 
 export default function TelegramChannelDetails() {
-    const [channel, setChannel] = useState(null);
+    const [channel, setChannel] = useState({});
     const [loading, setLoading] = useState(true);
-    // const searchParams = useSearchParams();
-    // const id = searchParams.get('id');
-
+    const [selectedPlan, setSelectedPlan] = useState(null);
+    const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id');
     const params = useParams();
-    const id = params?.id;
+    const channelId = params?.id;
+
+    const handleSubscribe = (plan) => {
+        setSelectedPlan(plan);
+        setShowSubscriptionDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setShowSubscriptionDialog(false);
+        setSelectedPlan(null);
+    };
 
     useEffect(() => {
         const fetchChannel = async () => {
             try {
-                const data = await getTelegramChannels(id);
+                const data = await getTelegramChannels(channelId);
 
                 if (data.payload && data.payload.data.length > 0) {
                     setChannel(data.payload.data[0]);
@@ -37,10 +56,10 @@ export default function TelegramChannelDetails() {
             }
         };
 
-        if (id) {
+        if (channelId) {
             fetchChannel();
         }
-    }, [id]);
+    }, [channelId]);
 
     if (loading) {
         return <div className={styles.algobotPage}>Loading...</div>;
@@ -92,11 +111,23 @@ export default function TelegramChannelDetails() {
                                     <span className={styles.discount}>-{plan.discount}%</span>
                                 </div>
                             </div>
-                            <Button text='Subscribe Now' fill='fill' onClick={() => { }} disabled={false} />
+                            <Button 
+                                text='Subscribe Now' 
+                                fill='fill' 
+                                onClick={() => handleSubscribe(plan)} 
+                                disabled={false} 
+                            />
                         </div>
                     ))}
                 </div>
             </div>
+            {showSubscriptionDialog && selectedPlan && (
+                <YourSubscription 
+                    plan={selectedPlan}
+                    onClose={handleCloseDialog}
+                    channel={channel}
+                />
+            )}
         </div>
     );
 }

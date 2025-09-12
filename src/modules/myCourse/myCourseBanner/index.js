@@ -17,7 +17,7 @@ export default function MyCourseBanner() {
                 My <span>Courses</span>
                 </h1>
                 <p>
-                Discover, buy, and sell trading bots, tools, and services directly through Telegram.
+                View, track, and continue all your purchased courses with ease.
                 </p>
             </div>
             <motion.div className={styles.searchbar} variants={itemVariants}>

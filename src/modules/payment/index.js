@@ -7,7 +7,7 @@ export default function Payment() {
     return (
         <div className={styles.algobotPage}>
             <PaymentBanner />
-            <PaymentDetails />
+            {/* <PaymentDetails /> */}
             <PaymentTable />
         </div>
     )

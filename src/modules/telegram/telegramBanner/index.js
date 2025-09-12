@@ -27,7 +27,7 @@ export default function TelegramBanner() {
                     <SearchIcon />
                 </div>
             </motion.div>
-            <YourSubscription />
+            {/* <YourSubscription /> */}
         </div>
     )
 }
