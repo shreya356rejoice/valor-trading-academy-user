@@ -2,13 +2,26 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ourCourseDetails.module.scss';
 import Button from '@/components/button';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { getCourses } from '@/app/api/dashboard';
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
 const ITEMS_PER_PAGE = 4;
 export default function OurCourseDetails() {
      const [selectedTab, setSelectedTab] = useState("recorded");
+    const pathname = usePathname();
+
+    useEffect(() => {
+        // Set active tab based on URL path
+        if (pathname === '/offline-sessions') {
+            setSelectedTab('physical');
+        } else if (pathname === '/live-online-classes') {
+            setSelectedTab('live');
+        } else if (pathname === '/our-course') {
+            setSelectedTab('recorded');
+        }
+    }, [pathname]);
+
         const [allCourses, setAllCourses] = useState([]);
         const [isLoading, setIsLoading] = useState(true);
         const [error, setError] = useState(null);
@@ -22,6 +35,8 @@ export default function OurCourseDetails() {
         const fetchCourses = async (page = 1) => {
             try {
                 setIsLoading(true);
+                console.log(selectedTab, "------selectedTab");
+                
                 const params = {
                     // searchQuery: searchQuery || "",
                     page,
@@ -50,9 +65,9 @@ export default function OurCourseDetails() {
         };
     
         useEffect(() => {
-            
-            fetchCourses(1);
+            fetchCourses();
         }, [selectedTab]);
+
     return (
         <>
             <div className={styles.ourCourseDetails}>
@@ -94,7 +109,11 @@ export default function OurCourseDetails() {
                                                     <span>{course?.instructor}</span>
                                                 </div>
                                             </div>
-                                            <Button text="Enroll Now" fill />
+                                            <Button 
+                                                text="Enroll Now" 
+                                                onClick={() => router.push(`/our-course-details?id=${course._id}`)}
+                                                fill 
+                                            />
                                         </div>
                                     </div>
                                 )

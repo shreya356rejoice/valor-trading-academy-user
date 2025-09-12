@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './exploreDifferent.module.scss';
 import Slider from "react-slick";
 import { getCourseByType } from '@/app/api/dashboard';
+import { useRouter } from 'next/navigation';
 const Card1 = '/assets/images/card1.png';
 const Card2 = '/assets/images/card9.png';
 const Card3 = '/assets/images/card3.png';
@@ -37,6 +38,7 @@ export default function ExploreDifferent() {
     const [courses, setCourses] = useState([]);
     const controls = useAnimation();
     const ref = useRef(null);
+    const router = useRouter();
     const isInView = useInView(ref, { once: true, amount: 0.1 });
 
     useEffect(() => {
@@ -158,6 +160,16 @@ export default function ExploreDifferent() {
                                     <div key={`card-${index}`}>
                                         <div
                                             className={styles.card}
+                                            onClick={() => {
+                                                if (item.id === 1) {
+                                                    router.push('/our-course');
+                                                } else if (item.id === 2) {
+                                                    router.push('/live-online-classes');
+                                                } else if (item.id === 3) {
+                                                    router.push('/offline-sessions');
+                                                }
+                                            }}
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             <div className={styles.image}>
                                                 <img src={item?.image} alt='Card1' />
