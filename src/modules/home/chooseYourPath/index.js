@@ -108,7 +108,7 @@ export default function ChooseYourPath() {
                                                     </button>
                                                 </div>
                                                 <div className={styles.btnwidth}>
-                                                    <Button text="Enroll Now" />
+                                                    <Button text="Enroll Now" onClick={() => router.push(`/login`)} />
                                                 </div>
                                             </div>
                                         </motion.div>)

@@ -132,24 +132,26 @@ export default function CourseDetails() {
           {courses?.description}
         </p>
         <div className={styles.allIconTextAlignment}>
-          <div className={styles.iconText}>
-            <ClockIcon />
-            <span>{courses?.hours} hours</span>
-          </div>
-          <div className={styles.iconText}>
-            <img src={BathIcon} alt="BathIcon" />
-            <span>{courses?.instructor || "John Doe"}</span>
-          </div>
-          {/* <div className={styles.iconText}>
+          <div className={styles.coursdetailstext}>
+            <div className={styles.iconText}>
+              <ClockIcon />
+              <span>{courses?.hours} hours</span>
+            </div>
+            <div className={styles.iconText}>
+              <img src={BathIcon} alt="BathIcon" />
+              <span>{courses?.instructor || "John Doe"}</span>
+            </div>
+            {/* <div className={styles.iconText}>
             <StarIcon />
             <span>4.8</span>
           </div> */}
-          <div className={styles.iconText}>
-            <ProfileIcon />
-            <span>{courses?.subscribed}</span>
-          </div>
-          <div className={styles.iconText}>
-            <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
+            <div className={styles.iconText}>
+              <ProfileIcon />
+              <span>{courses?.subscribed}</span>
+            </div>
+            <div className={styles.iconText}>
+              <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
+            </div>
           </div>
           <div className={styles.rightContentAlignment}>
             {chapters?.isPayment === true ? '' : (

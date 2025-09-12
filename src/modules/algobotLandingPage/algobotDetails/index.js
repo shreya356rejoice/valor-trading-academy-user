@@ -94,7 +94,7 @@ export default function AlgobotDetails() {
     };
 
     const renderSkeleton = () => {
-        return Array(4).fill(0).map((_, index) => (
+        return Array(3).fill(0).map((_, index) => (
             <div className={styles.griditems} key={`skeleton-${index}`}>
                 <div className={styles.image}>
                     <Skeleton height={180} style={{ display: 'block', borderRadius: '10px' }} />
@@ -203,7 +203,7 @@ export default function AlgobotDetails() {
                                 </div> */}
                                 <Button
                                     text="Buy Now"
-                                    onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                    onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
                                 />
                             </div>
                         </div>

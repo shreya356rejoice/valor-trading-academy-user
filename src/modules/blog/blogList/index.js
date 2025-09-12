@@ -53,7 +53,7 @@ export default function BlogList() {
                     >
                         {
                             [...Array(4)].map((_, i) => (
-                                <div className={styles.griditems}>
+                                <div className={styles.griditems} key={i}>
                                     <div className={styles.image}>
                                         <img src={ArticlesImage} alt='ArticlesImage' />
                                     </div>

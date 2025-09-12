@@ -1,10 +1,10 @@
-import OurInPersonCourse from '@/modules/outInPersonCourse'
+import RefundPolicy from '@/modules/refundPolicy'
 import React from 'react'
 
 export default function page() {
     return (
         <div>
-            <OurInPersonCourse />
+            <RefundPolicy />
         </div>
     )
 }

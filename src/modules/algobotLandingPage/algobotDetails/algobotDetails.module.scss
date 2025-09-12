@@ -1,0 +1,285 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.recentcourse {
+    padding: 100px 0;
+
+    @include respond-to("md") {
+        padding: 80px 0;
+    }
+
+    @include respond-to("sm") {
+        padding: 60px 0 0 0;
+    }
+
+    .title {
+        padding: 0 0 25px 0;
+
+        @include respond-to("sm") {
+            padding: 0 0 20px 0;
+        }
+
+        h3 {
+            @include font18;
+            color: var(--black-200);
+            font-weight: 500;
+        }
+    }
+
+    .tabCenteralignment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 0 50px 0;
+
+        @include respond-to("sm") {
+            padding: 0 0 30px 0;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            border: 1px solid var(--border-color);
+            border-radius: 99px;
+            padding: 6px;
+
+            @include respond-to("sm") {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                overflow: auto;
+                scrollbar-width: none;
+            }
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            button {
+                padding: 14px 20px;
+                border: none;
+                border-radius: 99px;
+                transition: .3s ease-in-out;
+                color: var(--black-100);
+                @include font16medium;
+                background-color: transparent;
+                cursor: pointer;
+
+                @include respond-to("sm") {
+                    padding: 10px 16px;
+                    @include font14normal;
+                    white-space: nowrap;
+                }
+
+                &.active {
+                    color: var(--text-white);
+                    background: var(--linear-gradient);
+
+                    &:hover {
+                        color: var(--text-white);
+                    }
+                }
+
+                &:hover {
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 0 0 40px 0;
+
+        @include respond-to("md") {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include respond-to("sm") {
+            grid-template-columns: repeat(1, 1fr);
+            padding: 0 0 20px 0;
+        }
+
+        .griditems {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+
+            @include respond-to("sm") {
+                padding: 14px;
+            }
+
+            .image {
+                img {
+                    width: 100%;
+                    height: 180px;
+                    display: block;
+                    object-fit: cover;
+                    border-radius: 12px;
+                }
+            }
+
+            .details {
+                padding: 16px 0 0 0;
+
+                h3 {
+                    @include font18;
+                    font-weight: 500;
+                    color: var(--black-100);
+                    margin: 0 0 8px 0;
+                }
+
+                p {
+                    @include font14normal;
+                    color: var(--black-500);
+                    margin: 0 0 15px 0;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    line-height: 1.5;
+                }
+
+                button {
+                    padding: 12px 26px;
+
+                    @include respond-to("sm") {
+                        padding: 10px 24px;
+                    }
+                }
+
+                .iconalignment {
+                    display: flex;
+                    align-items: center;
+                    gap: 35px;
+                    padding: 0 0 25px 0;
+
+                    @include respond-to("sm") {
+                        padding: 0 0 14px 0;
+                    }
+
+                    h4 {
+                        background: var(--linear-gradient);
+                        @include heading20;
+                        @include text-type;
+                    }
+
+                    .iconText {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+
+                        span {
+                            display: block;
+                            @include font16;
+                            color: var(--black-500);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    text-align: center;
+    min-height: 300px;
+}
+
+.emptyContent {
+    max-width: 500px;
+    margin: 0 auto;
+
+    h3 {
+        font-size: 24px;
+        color: #111827;
+        margin: 20px 0 12px;
+        font-weight: 600;
+    }
+
+    p {
+        color: #6B7280;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+}
+
+.emptyIllustration {
+    margin: 0 auto 5px;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F9FAFB;
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.pricingSection {
+    display: flex;
+    gap: 1rem;
+    margin: 8px 0 1rem 0;
+}
+
+.priceCard {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    flex: 1;
+    border: 1px solid #e9ecef;
+}
+
+.priceHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.discount {
+    background: #e9ecef;
+    color: #495057;
+    font-size: 18px;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.priceSubtitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.originalPrice {
+    text-decoration: line-through;
+    color: #adb5bd;
+    font-size: 0.75rem;
+}

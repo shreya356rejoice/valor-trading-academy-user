@@ -97,14 +97,20 @@
 
         .allIconTextAlignment {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
 
-            @include respond-to("md") {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 10px;
+            .coursdetailstext {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+                flex-wrap: wrap;
+
+                @include respond-to("md") {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 10px;
+                }
             }
 
             .iconText {

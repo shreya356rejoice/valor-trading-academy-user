@@ -6,6 +6,7 @@ import TradingAcademy from '../tradingAcademy'
 import StudentSay from '../studentSay'
 import { motion } from 'framer-motion'
 import { getBots } from '@/app/api/dashboard'
+import { useRouter } from 'next/navigation'
 
 const FlashIcon = '/assets/icons/flash.svg'
 
@@ -20,6 +21,7 @@ const cardVariants = {
 
 export default function AutomateSection() {
   const [algobotData, setAlgobotData] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchAlgobotData = async () => {
@@ -56,6 +58,7 @@ export default function AutomateSection() {
           {/* Grid Animation */}
           <div className={styles.grid}>
             {algobotData.map((algobot, i) => {
+              console.log(algobot, "====algobot");
               return (
                 <motion.div
                   key={i}
@@ -92,7 +95,7 @@ export default function AutomateSection() {
 
                   <div className={styles.twoColGrid}>
                     {/* <Button text="Connect & Start" /> */}
-                    <Button text="Buy Now" fill />
+                    <Button text="Buy Now" fill onClick={() => router.push(`/algobot-in-details?algobotId=${algobot?._id}`)} />
                   </div>
                 </motion.div>
               )

@@ -61,6 +61,7 @@
         .title {
             position: relative;
             padding: 0 0 50px 0;
+
             @include respond-to("sm") {
                 padding: 0 0 40px 0;
             }
@@ -70,6 +71,7 @@
                 color: var(--black-100);
                 text-align: center;
                 margin: 0 0 8px 0;
+
                 @include respond-to("sm") {
                     @include heading32;
                 }
@@ -101,6 +103,7 @@
             @include respond-to("md") {
                 grid-template-columns: repeat(2, 1fr);
             }
+
             @include respond-to("sm") {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -136,7 +139,8 @@
 
             .griditems:first-child {
                 animation: top-bottom 4s infinite;
-                 @include respond-to("sm") {
+
+                @include respond-to("sm") {
                     animation: none;
                 }
 
@@ -148,11 +152,12 @@
             .griditems:nth-child(2) {
                 margin-top: 70px;
                 animation: bottom-top 4s infinite;
+
                 @include respond-to("sm") {
                     margin-top: 0;
                     animation: none;
                 }
-                 
+
 
                 .cardBox {
                     background: #FFE2D1;
@@ -162,7 +167,8 @@
 
             .griditems:nth-child(3) {
                 animation: top-bottom 4s infinite;
-                 @include respond-to("sm") {
+
+                @include respond-to("sm") {
                     animation: none;
                 }
 
@@ -175,11 +181,12 @@
             .griditems:nth-child(4) {
                 margin-top: 70px;
                 animation: bottom-top 4s infinite;
-                  @include respond-to("sm") {
+
+                @include respond-to("sm") {
                     margin-top: 0;
                     animation: none;
                 }
-               
+
 
                 .cardBox {
                     background: #D1E9FF;
@@ -189,6 +196,7 @@
 
             .griditems:last-child {
                 animation: top-bottom 4s infinite;
+
                 @include respond-to("sm") {
                     animation: none;
                 }
@@ -200,7 +208,9 @@
             }
 
             .griditems {
+
                 .cardBox {
+                    min-height: 317px;
                     padding: 20px 22px;
                     border-radius: 18px;
 
@@ -226,7 +236,7 @@
                     p {
                         color: rgba(25, 35, 53, 0.60);
                         @include font18;
-                        
+
                         @include respond-to("sm") {
                             @include font16
                         }

@@ -3,20 +3,21 @@
 @use '../../../scss/typography/typography.scss' as *;
 
 .ourCourseInformation {
-    padding: 100px 0;
+    margin: 20px 0 100px 0;
+    margin-top: 50px;
 
     @include respond-to("md") {
-        padding: 80px 0;
+        margin: 20px 0 80px 0;
     }
 
     @include respond-to("sm") {
-        padding: 60px 0;
+        margin: 20px 0 60px 0;
     }
 
     .contentAlignment {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        // display: flex;
+        // align-items: center;
+        // justify-content: space-between;
         padding: 0 0 20px 0;
 
         @include respond-to("md") {
@@ -42,22 +43,28 @@
                 @include font16;
                 margin: 0 0 20px 0;
                 color: var(--black-500);
-                max-width: 880px;
+                // max-width: 880px;
             }
 
             .allIconText {
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                gap: 30px;
-                flex-wrap: wrap;
 
-                @include respond-to("md") {
-                    gap: 20px;
+                .blogtextsflx {
+                    display: flex;
+                    align-items: center;
+                    gap: 30px;
                     flex-wrap: wrap;
-                }
 
-                @include respond-to("sm") {
-                    gap: 10px 20px;
+                    @include respond-to("md") {
+                        gap: 20px;
+                        flex-wrap: wrap;
+                    }
+
+                    @include respond-to("sm") {
+                        gap: 10px 20px;
+                    }
                 }
 
                 .iconText {
@@ -70,6 +77,41 @@
                         @include font16;
                         color: var(--black-500);
                     }
+                }
+            }
+        }
+    }
+
+    .ourCourseInformation {
+        position: relative;
+
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            background: #00000066;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            p {
+                @include heading20;
+                text-align: center;
+                color: var(--bg-white);
+            }
+
+            .iconCenterAlignment {
+                display: flex;
+                justify-content: center;
+                padding: 0 0 8px 0;
+
+                img {
+                    display: block;
+                    opacity: 1;
                 }
             }
         }
@@ -166,4 +208,20 @@
             }
         }
     }
+}
+
+.noChapters {
+    display: flex;
+    height: 485px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
 }
