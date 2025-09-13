@@ -368,7 +368,9 @@ export default function AlgobotInDetails() {
 
 
                         <div className={styles.plansContainer}>
-                            <h3>Similar Bots</h3>
+                            {similarAlgobotData.filter(strategy => strategy._id !== id).length > 0 && (
+                                <h3>Similar Bots</h3>
+                            )}
                             <div className={styles.grid}>
                                 {similarAlgobotData
                                     .filter(strategy => strategy._id !== id) // Filter out current bot

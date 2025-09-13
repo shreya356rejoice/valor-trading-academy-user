@@ -96,7 +96,10 @@ export default function GetCertified() {
               <h4>Sample Certificate</h4>
               <p>Digital certificate with unique verification ID</p>
               <div className={styles.centerButton}>
-                <button aria-label="View Sample Certificate">
+                <button 
+                  aria-label="View Sample Certificate"
+                  onClick={() => window.open('https://in.linkedin.com/', '_blank')}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"

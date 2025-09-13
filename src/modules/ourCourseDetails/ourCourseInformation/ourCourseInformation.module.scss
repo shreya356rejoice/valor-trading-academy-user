@@ -64,7 +64,7 @@
 
                     @include respond-to("sm") {
                         gap: 10px 20px;
-                    }
+                    }    
                 }
 
                 .iconText {
@@ -76,6 +76,14 @@
                         display: block;
                         @include font16;
                         color: var(--black-500);
+                    }
+
+                    h4{
+                        background: var(--linear-gradient);
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        display: inline;
                     }
                 }
             }

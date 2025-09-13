@@ -9,6 +9,7 @@ import AutomateSection from './automateSection';
 import ThisJourney from './thisJourney';
 import GetCertified from './getCertified';
 import Articles from './articles';
+import ContactUs from './contactUs';
 export default function HomePage() {
   return (
     <div>
@@ -21,6 +22,7 @@ export default function HomePage() {
       <ThisJourney/>
       <GetCertified/>
       <Articles/>
+      <ContactUs/>
     </div>
   )
 }

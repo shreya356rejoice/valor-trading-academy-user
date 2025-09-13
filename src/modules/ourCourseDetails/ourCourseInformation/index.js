@@ -93,9 +93,12 @@ export default function OurCourseInformation() {
                                 <div className={styles.iconText}>
                                     <span>Last-Update: {course?.updatedAt ? new Date(course.updatedAt).toLocaleDateString('en-GB') : 'N/A'}  |  English</span>
                                 </div>
+                                <div className={styles.iconText}>
+                                    <span>Price:</span> <h4>${course?.price}</h4>
+                                </div>
                             </div>
                             <div className={styles.rightContent}>
-                                <Button text="Enroll Now" fill />
+                                <Button text="Enroll Now" onClick={() => router.push(`/login`)} fill />
                             </div>
                         </div>
 

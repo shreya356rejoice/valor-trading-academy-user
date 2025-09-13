@@ -1,16 +1,16 @@
 import React from 'react'
 import styles from './blogDetailsBanner.module.scss';
-export default function BlogDetailsBanner() {
+export default function BlogDetailsBanner({title}) {
     return (
         <div className={styles.blogDetailsBanner}>
             <div className='container-lg'>
                 <h1>
-                    5 Essential Risk Management Strategies for Day Trading
+                    {title}
                 </h1>
-                <p>
+                {/* <p>
                     Lorem Ipsum is simply dummy text of the printing
                     and typesetting industry.
-                </p>
+                </p> */}
             </div>
         </div>
     )

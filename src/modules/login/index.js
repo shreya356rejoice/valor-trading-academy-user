@@ -66,37 +66,68 @@ export default function Login() {
   };
   return (
     <div className={styles.login}>
-      <div className={styles.box}>
-        <div className={styles.logoCenter}>
-          <Logo />
-        </div>
-        <div className={styles.title}>
-          <h2>
-            Welcome Back
-          </h2>
-          <p>
-            Continue your journey into the world of financial mastery.
-          </p>
-        </div>
-        <div className={styles.spacing}>
-          <Input label='Email Address' placeholder='Email Address' name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          {errors.email && <p className="error">{errors.email}</p>}
-        </div>
-        <Input type={showPassword ? "text" : "password"} label='Password' placeholder='Enter your password' icon={showPassword ? EyeSlashIcon : EyeIcon} name="password" value={password} onIconClick={() => setShowPassword(!showPassword)} onChange={(e) => setPassword(e.target.value)} />
-        {errors.password && <p className="error">{errors.password}</p>}
-        <div className={styles.forgotPassword}>
-          <Link href="/reset-password">Forgot password?</Link>
-        </div>
-        <div className={styles.btnwidth}>
-          <Button type="submit" text={isSubmitting ? "Logging in..." : "Sign In"} fill onClick={handleLogin} disabled={isSubmitting} />
-        </div>
-        <Authentication />
-        <div className={styles.lastContent}>
-          <p> 
-            Don’t have an account? <Link href="/sign-up">Sign up</Link>
-          </p>
-        </div>
-      </div>
+      <form
+  className={styles.login}
+  onSubmit={(e) => {
+    e.preventDefault(); // Prevent default form reload
+    handleLogin();      // Trigger login
+  }}
+>
+  <div className={styles.box}>
+    <div className={styles.logoCenter}>
+      <Logo />
+    </div>
+    <div className={styles.title}>
+      <h2>Welcome Back</h2>
+      <p>Continue your journey into the world of financial mastery.</p>
+    </div>
+
+    <div className={styles.spacing}>
+      <Input
+        label="Email Address"
+        placeholder="Email Address"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      {errors.email && <p className="error">{errors.email}</p>}
+    </div>
+
+    <Input
+      type={showPassword ? "text" : "password"}
+      label="Password"
+      placeholder="Enter your password"
+      icon={showPassword ? EyeSlashIcon : EyeIcon}
+      name="password"
+      value={password}
+      onIconClick={() => setShowPassword(!showPassword)}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    {errors.password && <p className="error">{errors.password}</p>}
+
+    <div className={styles.forgotPassword}>
+      <Link href="/reset-password">Forgot password?</Link>
+    </div>
+
+    <div className={styles.btnwidth}>
+      <Button
+        type="submit" // IMPORTANT: Set button type to submit
+        text={isSubmitting ? "Signing in..." : "Sign In"}
+        fill
+        disabled={isSubmitting}
+      />
+    </div>
+
+    <Authentication />
+
+    <div className={styles.lastContent}>
+      <p>
+        Don’t have an account? <Link href="/sign-up">Sign up</Link>
+      </p>
+    </div>
+  </div>
+</form>
+
     </div>
   )
 }

@@ -7,6 +7,7 @@ import RightIcon from "@/components/icons/rightIcon";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { getCourses } from "@/app/api/dashboard";
+import { useRouter } from "next/navigation";
 const CardImage = "/assets/images/card9.png";
 const BathIcon = "/assets/icons/bath.svg";
 
@@ -20,6 +21,7 @@ export default function CourseBanner({ searchQuery, setSearchQuery }) {
   };
   const [isLoading, setIsLoading] = useState(true);
   const [bannerCourses, setBannerCourses] = useState([]);
+  const router = useRouter();
   const fetchCourses = async () => {
     try {
       setIsLoading(true);
@@ -121,6 +123,8 @@ export default function CourseBanner({ searchQuery, setSearchQuery }) {
                           </div>
                           <div className={styles.cardFooter}>
                             <h4>${course?.price}</h4>
+                            {console.log(course?._id,"course?._id")
+                            }
                             <div className={styles.rightText} onClick={() => router.push(`/course-details?courseId=${course?._id}`)}>
                               <span>Enroll Now</span>
                               <RightIcon />

@@ -1,11 +1,14 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './articles.module.scss';
 import ProfileIcon from '@/components/icons/profileIcon';
 import CalanderIcon from '@/components/icons/calanderIcon';
 import Button from '@/components/button';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useQuery } from '@apollo/client/react';
+import { GET_ALL_BLOG_DATA } from '@/graphql/getBlogData';
+import { useRouter } from 'next/navigation';
 
 const ArticlesImage = '/assets/images/articles.png';
 
@@ -38,6 +41,27 @@ const cardVariants = {
 
 export default function Articles() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [blogs, setBlogs] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+
+  const { data: blogData, loading, error } = useQuery(GET_ALL_BLOG_DATA, {
+          variables: {
+              pagination: {
+                  pageSize: itemsPerPage,
+                  page: currentPage
+              },
+              // filters: filters
+          },
+          fetchPolicy: 'cache-and-network'
+      });
+
+      useEffect(() => {
+              if (blogData) {
+                setBlogs(blogData?.blogs_connection?.nodes);
+              }
+            }, [blogData]);
 
   return (
     <>
@@ -49,7 +73,7 @@ export default function Articles() {
             variants={titleVariants}
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
-          >
+          > 
             <h2>
               Financial Insights & <span>Articles</span>
             </h2>
@@ -65,30 +89,29 @@ export default function Articles() {
             animate={inView ? 'visible' : 'hidden'}
           >
             {
-              [...Array(4)].map((_, i) => (
+              blogs?.map((blog, i) => (
                 <motion.div className={styles.griditems} key={i} variants={cardVariants}>
                   <div className={styles.image}>
                     <img src={ArticlesImage} alt='ArticlesImage' />
                   </div>
                   <div>
                     <h3>
-                      5 Essential Risk Management Strategies for Day Trading
+                      {blog?.title}
                     </h3>
                     <p>
-                      Learn how to protect your capital while maximizing
-                      profits in volatile markets.
+                      {blog?.shortDescription}
                     </p>
                     <div className={styles.allIconText}>
                       <div className={styles.iconText}>
                         <ProfileIcon />
-                        <span>Vikash Kumar</span>
+                        <span>{blog?.author?.name}</span>
                       </div>
                       <div className={styles.iconText}>
                         <CalanderIcon />
-                        <span>Dec 15, 2025</span>
+                        <span>{blog?.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: 'numeric'}) : ''}</span>
                       </div>
                     </div>
-                    <Button text="5 min raed" fill />
+                    <Button text="Read More" fill onClick={() => router.push(`/blog-details/${blog.slug}`)} />
                   </div>
                 </motion.div>
               ))
@@ -96,9 +119,9 @@ export default function Articles() {
           </motion.div>
         </div>
       </div>
-      <div className={styles.valorText}>
+      {/* <div className={styles.valorText}>
         <h3>Valor Academy</h3>
-      </div>
+      </div> */}
     </>
   );
 }

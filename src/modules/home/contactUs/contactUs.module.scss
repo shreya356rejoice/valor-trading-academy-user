@@ -1,0 +1,343 @@
+@use '../../../scss/main.scss' as *;
+@use '../../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../../scss/typography/typography.scss' as *;
+
+.contactUs {
+    background-color: var(--bg-white);
+    padding: 0 0 120px 0;
+
+    @include respond-to("sm") {
+        padding: 0 0 20px 0;
+    }
+
+    .pageTitle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 0 0 60px 0;
+
+        @include respond-to("sm") {
+            padding: 0 0 30px 0;
+        }
+
+        h2 {
+            @include heading2;
+            color: var(--black-100);
+            text-align: center;
+            margin: 0 0 8px 0;
+
+            @include respond-to("sm") {
+                @include heading32;
+            }
+
+            span {
+                background: var(--linear-gradient);
+                @include text-type;
+            }
+        }
+
+        p {
+            @include font18;
+            color: var(--grey-600);
+            text-align: center;
+
+            @include respond-to("sm") {
+                @include font16;
+            }
+        }
+    }
+
+    .contactuslayout {
+        display: grid;
+        grid-template-columns: 590px 1fr;
+        gap: 49px;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            padding: 50px;
+            background-color: #eeebff;
+            border-radius: 20px;
+            gap: 16px;
+
+            .griditems {
+                border-radius: 14px;
+                padding: 17px 20px;
+                border: 1px solid #DFE0E0;
+                background: #FFF;
+                display: grid;
+                grid-template-columns: 58px 1fr;
+                align-items: center;
+                gap: 18px;
+                transition: .3s ease-in-out;
+
+                @include respond-to("sm") {
+                    grid-template-columns: 1fr;
+                    gap: 14px;
+                    padding: 14px;
+                    border-radius: 8px;
+                }
+
+                &:hover {
+                    border: 1px solid var(--primary);
+                    transform: translateY(-3px);
+                }
+
+                h3 {
+                    @include font18;
+                    color: var(--black-200);
+                    margin: 0 0 2px 0;
+                }
+
+                p {
+                    @include font14normal;
+                    color: var(--black-200);
+                    margin: 0 0 6px 0;
+                    opacity: .8;
+                }
+
+                a {
+                    background: var(--linear-gradient);
+                    @include font18;
+                    cursor: pointer;
+                    @include text-type;
+                }
+
+                .icons {
+                    width: 58px;
+                    height: 58px;
+                    display: flex;
+                    align-items: center;
+                    border-radius: 12px;
+                    border: 1px solid #E7E7FC;
+                    background: #eeebff;
+                    justify-content: center;
+
+                    @include respond-to("sm") {
+                        border-radius: 6px;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .form {
+        input {
+            border-radius: 30px;
+            border: 1px solid rgba(117, 119, 235, 0.13);
+            background: rgba(118, 119, 236, 0.05) !important;
+        }
+
+        .topAlignment {
+            padding: 22px 0;
+
+            @include respond-to("sm") {
+                padding: 16px 0;
+            }
+        }
+    }
+
+    .twocol {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+        padding: 0 0 22px 0;
+
+        @include respond-to("sm") {
+            gap: 16px;
+            padding: 0 0 16px 0;
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .telephoninputmain {
+            position: relative;
+
+            label {
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                font-family: var(--font-lexend);
+                color: var(--border-200);
+                padding: 0 0 8px;
+                line-height: normal;
+                display: block;
+            }
+
+            .telephoninput {
+                position: relative;
+
+                .countrycodeselectormain {
+                    position: absolute;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+
+                    .countrycodeselectorrelative {
+                        position: relative;
+                        height: 100%;
+                        width: 80px;
+
+                        .countrycodeselector {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            left: 1px;
+                            width: 80px;
+                            height: calc(100% - 2px);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            transition: .4s ease-in-out;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 10px;
+                            border-radius: 50px 0 0 50px;
+
+                            &.active {
+                                .dropdownarrow {
+                                    svg {
+                                        transform: rotate(180deg);
+                                    }
+                                }
+                            }
+
+                            span {
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                                font-family: var(--font-lexend);
+                                color: var(--black-500);
+                            }
+
+                            .dropdownarrow {
+                                width: 18px;
+                                height: 18px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                svg {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+
+
+                            &:hover {
+                                background-color: #eeebff;
+                            }
+                        }
+
+                        .dropdown {
+                            position: absolute;
+                            top: 60px;
+                            left: 0;
+                            width: 100%;
+                            background-color: var(--bg-white);
+                            border: 1px solid var(--border-color5);
+                            border-radius: 12px;
+                            z-index: 99;
+
+                            &.hide {
+                                max-height: 0px;
+                                overflow: hidden;
+                                transition: 0.3s ease-in-out;
+                                border-color: transparent;
+                            }
+
+                            &.show {
+                                max-height: 100vh;
+                                overflow: hidden;
+                                transition: 0.3s ease-in-out;
+                            }
+
+                            .dropdownSpacing {
+                                padding: 10px;
+                                max-height: 200px;
+                                overflow-y: auto;
+
+                                &::-webkit-scrollbar {
+                                    width: 4px;
+                                }
+
+                                &::-webkit-scrollbar-track {
+                                    background: transparent;
+                                }
+
+                                &::-webkit-scrollbar-thumb {
+                                    background: var(--primary);
+                                    border-radius: 2px;
+                                }
+
+                                .iconText {
+                                    display: flex;
+                                    align-items: center;
+                                    cursor: pointer;
+                                    padding: 10px 5px;
+                                    gap: 10px;
+                                    border-radius: 10px;
+                                    transition: 0.3s ease-in-out;
+
+                                    &.active,
+                                    &:hover {
+                                        background-color: #f7f8fa;
+                                    }
+
+                                    span {
+                                        display: block;
+                                        @include font16;
+                                        color: #051600cc;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                input {
+                    width: 100%;
+                    background-color: #f7f8fa;
+                    font-family: var(--font-lexend);
+                    color: var(--black-500);
+                    border: 1px solid var(--border-color2);
+                    border-radius: 50px;
+                    height: 55px;
+                    padding: 0 16px 0 80px;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    transition: all .3s ease-in-out;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    cursor: pointer;
+                    transition: .4s ease-in-out;
+
+                    &:focus,
+                    &:hover {
+                        border: 1px solid var(--primary);
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+.valorText {
+    h3 {
+        font-size: 12vw;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 800;
+        color: #07000C;
+    }
+}

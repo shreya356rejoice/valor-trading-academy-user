@@ -85,7 +85,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
             <span>Dashboard</span>
           </div>
         </Link>
-        <Link href="/courses/pre-recorded">
+        <Link href="/courses">
           <div className={classNames(styles.menu, pathname.includes("/courses") ? styles.activeMenu : "")} ref={menuRef} onClick={() => setDropdown((prev) => !prev)}>
             <div className={styles.iconAlignment}>
               <img src={CourseIcon} alt="CourseIcon" />
@@ -178,13 +178,13 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </button>
           <div className={classNames(styles.dropdownProfile, profileDropdown ? styles.show : styles.hide)}>
             <div className={styles.dropodowAlignment}>
-              {/* <Link href="/profile" onClick={handleCommonDropdownChange}>
+              <Link href="/profile" onClick={handleCommonDropdownChange}>
                                 <div className={classNames(styles.iconText, pathname === "/profile" ? styles.iconTextActive : "")}>
                                     <ProfileIconSm />
                                     <span>Profile</span>
                                 </div>
                             </Link>
-                            <Link href="/settings" onClick={handleCommonDropdownChange}>
+                            {/* <Link href="/settings" onClick={handleCommonDropdownChange}>
                                 <div className={classNames(styles.iconText, pathname === "/settings" ? styles.iconTextActive : "")}>
                                     <SettingIcon />
                                     <span>Settings</span>

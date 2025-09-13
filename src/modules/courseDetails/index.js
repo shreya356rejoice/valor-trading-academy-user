@@ -134,9 +134,9 @@ export default function CourseDetails() {
       <div className={styles.breadcumbAlignment}>
         <a aria-label="Home" href="/">Home</a>
         <RightArrow />
-        <a aria-label="Course" href="/courses/pre-recorded">Course</a>
-        <RightArrow />
-        <a aria-label="Pre-Recorded">Pre-Recorded</a>
+        <a aria-label="Course" href="/courses">Course</a>
+        {/* <RightArrow />
+        <a aria-label="Pre-Recorded">Pre-Recorded</a> */}
       </div>
       <div className={styles.contentAlignment}>
         <h2>
@@ -238,8 +238,8 @@ export default function CourseDetails() {
         </>
       ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)}
       {/* <Recentcourse courses={courses} setCourses={setCourses} /> */}
-
-      <Recent courses={courses} setCourses={setCourses} />
+      {console.log("helloo===============",courses)}
+      <Recent courses={courses} selectedType={courses?.courseType} setCourses={setCourses} />
     </div>
   )
 }
