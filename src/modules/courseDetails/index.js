@@ -12,9 +12,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { EmptyState } from './emptyState';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { getChapters, getCourses, getPaymentUrl } from '@/app/api/dashboard';
+import { getChapters, getCourses, getPaymentUrl, getSessionData } from '@/app/api/dashboard';
 import Button from '@/components/button';
 import { getCookie } from '../../../cookie';
+import CourseSession from './courseSession';
 
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
@@ -52,6 +53,7 @@ const CourseDetailsSkeleton = () => (
 export default function CourseDetails() {
   const [courses, setCourses] = useState([]);
   const [chapters, setChapters] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -71,6 +73,17 @@ export default function CourseDetails() {
       }
     };
 
+    const fetchSession = async () => {
+      try {
+        const response = await getSessionData(id);
+        console.log(response.payload,"response.payload");
+        
+        setSessions(response.payload);
+      } catch (error) {
+        console.error('Error fetching course:', error);
+      }
+    };
+
     const fetchCourse = async () => {
       try {
         const response = await getCourses({ id });
@@ -84,6 +97,7 @@ export default function CourseDetails() {
     if (userToken) {
       setIsLogin(true);
       fetchChapter();
+      fetchSession();
     }
     else {
       setIsLogin(false);
@@ -165,7 +179,7 @@ export default function CourseDetails() {
           </div>
         </div>
       </div>
-      {chapters?.data && (
+      {chapters?.data?.length > 0 ? (
         <>
           <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
             <div className={styles.courseDetailsTab}>
@@ -222,7 +236,7 @@ export default function CourseDetails() {
             )}
           </div>
         </>
-      )}
+      ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)}
       {/* <Recentcourse courses={courses} setCourses={setCourses} /> */}
 
       <Recent courses={courses} setCourses={setCourses} />

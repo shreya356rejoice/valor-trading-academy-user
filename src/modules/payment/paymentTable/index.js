@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import styles from './paymentTable.module.scss';
-import { getpaymentHistory } from '@/app/api/payment';
+import { downloadInvoice, getpaymentHistory } from '@/app/api/payment';
 import Modal from '@/components/Modal';
+import DownloadIcon from '@/components/icons/downloadIcon';
 
 const TABS = {
     ALL: { label: 'All Payments', type: '' },
@@ -25,6 +26,7 @@ export default function PaymentTable() {
     const [isViewMode, setIsViewMode] = useState(false);
     const [metaAccounts, setMetaAccounts] = useState(['']);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loadingInvoices, setLoadingInvoices] = useState({});
 
     const fetchPaymentHistory = async () => {
         try {
@@ -97,6 +99,87 @@ export default function PaymentTable() {
         setIsModalOpen(false);
         setCurrentPayment(null);
         setMetaAccounts(['']);
+    };
+
+    const calculateExpiryDate = (purchaseDate, planDuration) => {
+        if (!planDuration || planDuration === 'N/A') return null;
+    
+        const purchase = new Date(purchaseDate);
+        const duration = parseInt(planDuration);
+     
+        if (planDuration.includes('Month')) {
+            purchase.setMonth(purchase.getMonth() + duration);
+        } else if (planDuration.includes('year')) {
+            purchase.setFullYear(purchase.getFullYear() + duration);
+        }
+        return purchase.toLocaleDateString("en-US");
+    };
+
+    const handleDownloadInvoice = async (payment) => {
+        try {
+            setLoadingInvoices(prev => ({ ...prev, [payment._id]: true }));
+            const expiryDate = payment.planExpiry || 
+                             calculateExpiryDate(payment.createdAt, payment.planType); 
+            
+            // Handle date safely
+            let purchaseDate = 'N/A';
+            if (payment.createdAt) {
+                const date = new Date(payment.createdAt);
+                purchaseDate = !isNaN(date.getTime()) ? date.toLocaleDateString("en-US") : 'Invalid date';
+            }
+
+            const invoicePayload = {
+                transactionId: payment.orderId,
+                purchaseDate: purchaseDate,
+                expiryDate: expiryDate,
+                items: [
+                    {
+                        planName:
+                            payment.telegramId?.telegramId?.channelName ||
+                            payment.botId?.strategyId?.title ||
+                            payment.courseId?.CourseName ||
+                            "N/A",
+                        planDuration: payment.planType || "N/A",
+                        metaNo: payment.telegramAccountNo || payment.metaAccountNo?.[0] || "N/A",
+                        qty: payment.noOfBots || 1,
+                        amount: parseFloat(payment.price) || 0,
+                    },
+                ],
+                couponDiscount: payment.couponDiscount > 0 ? `-${payment.couponDiscount}` : "-",
+                planDiscount: payment.discount > 0 ? `-${payment.discount}` : "-",
+                totalValue: parseFloat(payment.initialPrice) || 0,
+                total: parseFloat(payment.price) || 0,
+            };
+
+            const response = await downloadInvoice(invoicePayload);
+
+            if (response.success && response.payload) {
+
+                const pdfRes = await fetch(response.payload);
+                const blob = await pdfRes.blob();
+
+                const url = window.URL.createObjectURL(blob);
+
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `invoice-${payment.orderId || Date.now()}.pdf`;
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                window.URL.revokeObjectURL(url);
+
+                toast.success("Invoice downloaded successfully!");
+            } else {
+                throw new Error("Failed to generate invoice");
+            }
+        } catch (error) {
+            console.error("Error generating invoice:", error);
+            toast.error(error.message || "Failed to generate invoice");
+        } finally {
+            setLoadingInvoices(prev => ({ ...prev, [payment._id]: false }));
+        }
     };
 
     return (
@@ -192,6 +275,7 @@ export default function PaymentTable() {
                                 <th>Meta Account No.</th>
                             )}
                             <th>Status</th>
+                            <th>Invoice</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -256,6 +340,27 @@ export default function PaymentTable() {
                                             {payment.status || 'Pending'}
                                         </button>
                                     </td>
+                                    <td><span
+                                                onClick={() => !loadingInvoices[payment._id] && handleDownloadInvoice(payment)}
+                                                title={
+                                                    loadingInvoices[payment._id]
+                                                        ? "Generating invoice..."
+                                                        : "Download Invoice"
+                                                }
+                                                style={{
+                                                    cursor: loadingInvoices[payment._id] ? 'not-allowed' : 'pointer',
+                                                    display: 'inline-flex',
+                                                    opacity: loadingInvoices[payment._id] ? 0.6 : 1
+                                                }}
+                                            >
+                                                {loadingInvoices[payment._id] ? (
+                                                    <span className={styles.downloadAnimation}>
+                                                        <DownloadIcon />
+                                                    </span>
+                                                ) : (
+                                                    <DownloadIcon />
+                                                )}
+                                            </span></td>
                                 </tr>
                             ))
                         ) : (
