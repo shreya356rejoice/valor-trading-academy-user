@@ -1,10 +1,12 @@
 import JoinTelegram from '@/modules/joinTelegram'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 export default function page() {
     return (
         <div>
-            <JoinTelegram />
+            <Suspense fallback={<div>Loading...</div>}>
+                <JoinTelegram />
+            </Suspense>
         </div>
     )
 }
