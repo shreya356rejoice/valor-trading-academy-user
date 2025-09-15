@@ -41,7 +41,6 @@ export default function OurCourseInformation() {
         const fetchCourse = async () => {
             try {
                 const response = await getCourses({ id });
-                console.log(response, "response.payload.data[0]");
 
                 setCourse(response.payload.data[0]);
             } catch (error) {
@@ -58,8 +57,6 @@ export default function OurCourseInformation() {
             setIsLogin(false);
         }
     }, [id]);
-
-    console.log(chapters, "=====chapters");
 
     return (
         <div className={styles.ourCourseInformation}>
@@ -117,8 +114,6 @@ export default function OurCourseInformation() {
                                 </button>
                             ))}
                         </div>
-                        {console.log(activeChapter,"activeChapter")
-                        }
                         {activeChapter ? (
                             <div className={styles.grid}>
                                 <div className={styles.gridItems}>

@@ -119,7 +119,6 @@ export default function AlgoBotDetails() {
             setAlgobotData(response.payload);
 
             const plansResponse = await getPlan(id);
-            console.log(plansResponse,"=====plansResponse");
             
             const initialQuantities = {};
             plansResponse.payload?.forEach((plan) => {
@@ -144,7 +143,6 @@ export default function AlgoBotDetails() {
         const fetchSimilarAlgobotData = async () => {
             try {
                 const response = await getAlgobot(algobotData?.categoryId?._id);
-                console.log(response, "response");
 
                 setSimilarAlgobotData(response?.payload?.result); // Get first 3 strategies
             } catch (error) {
@@ -153,9 +151,6 @@ export default function AlgoBotDetails() {
         };
         fetchSimilarAlgobotData();
     }, [algobotData?.categoryId?._id]);
-
-    console.log(similarAlgobotData, "similarAlgobotData");
-
 
     const handleIncrement = (planId) => {
         setPlanQuantities((prev) => {
@@ -418,9 +413,7 @@ export default function AlgoBotDetails() {
                     <div className={styles.plansContainer}>
                         <h3>Bot Plans</h3>
                         <div className={styles.plansGrid}>
-                            {plans.map((plan, index) => (
-                                console.log(plan,"====plan"),
-                                
+                            {plans.map((plan, index) => (                                
                                 <div key={plan._id || index} className={styles.planCard}>
                                     <div className={styles.planType}>
                                         <div className={styles.planTypeflx}>
@@ -519,9 +512,6 @@ export default function AlgoBotDetails() {
                     </div>
                 </div>
             </div>
-
-            {console.log(selectedPlan,"=====selectedPlan")
-            }
 
             {showSubscriptionModal && selectedPlan && (
             <AlgobotSubscription

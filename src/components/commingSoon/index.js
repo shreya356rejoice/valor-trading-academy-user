@@ -36,8 +36,6 @@ export default function CommingSoon() {
     fetchData();
   }, []);
 
-  console.log(data, "=====data");
-
   return (
     <div className={styles.commingSoon}>
       {/* <div className={styles.centerImage}>

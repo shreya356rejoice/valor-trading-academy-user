@@ -35,7 +35,6 @@ export default function OurCourseDetails() {
         const fetchCourses = async (page = 1) => {
             try {
                 setIsLoading(true);
-                console.log(selectedTab, "------selectedTab");
                 
                 const params = {
                     // searchQuery: searchQuery || "",
@@ -82,7 +81,6 @@ export default function OurCourseDetails() {
                     <div className={styles.grid}>
                         {
                             allCourses.map((course, i) => {
-                                console.log(course,"course")
                                 
                                 return (
                                     <div className={styles.griditems} key={i}>

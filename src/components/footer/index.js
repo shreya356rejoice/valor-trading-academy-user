@@ -57,7 +57,6 @@ export default function Footer() {
         };
         fetchFooterData();
     }, []);
-    console.log(footerData,"----footerData");
     
   return (
     <footer className={styles.footer}>

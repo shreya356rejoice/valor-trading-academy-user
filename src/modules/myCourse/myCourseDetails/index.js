@@ -125,7 +125,6 @@ export default function MyCourseDetails() {
                        isTelegram ? item.telegramId?.discount : 
                        0;
 
-                       console.log(item,"---item");
                        
         const courseId = isCourse ? item?.courseId?._id : null;
                        

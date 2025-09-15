@@ -58,7 +58,6 @@ export default function AutomateSection() {
           {/* Grid Animation */}
           <div className={styles.grid}>
             {algobotData.map((algobot, i) => {
-              console.log(algobot, "====algobot");
               return (
                 <motion.div
                   key={i}

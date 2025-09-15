@@ -72,7 +72,6 @@ export default function ChooseYourPath() {
                                 ))}
                             </div>
                         </div>
-                        {console.log("Current Courses for:", activeType, currentCourses)}
                         {/* <motion.div className={styles.grid} variants={{ visible: { transition: { staggerChildren: 0.3 } } }} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}> */}
                         <div
                             className={styles.grid}

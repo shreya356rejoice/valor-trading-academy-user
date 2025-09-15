@@ -75,9 +75,7 @@ export default function CourseDetails() {
 
     const fetchSession = async () => {
       try {
-        const response = await getSessionData(id);
-        console.log(response.payload,"response.payload");
-        
+        const response = await getSessionData(id);        
         setSessions(response.payload);
       } catch (error) {
         console.error('Error fetching course:', error);
@@ -238,7 +236,6 @@ export default function CourseDetails() {
         </>
       ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)}
       {/* <Recentcourse courses={courses} setCourses={setCourses} /> */}
-      {console.log("helloo===============",courses)}
       <Recent courses={courses} selectedType={courses?.courseType} setCourses={setCourses} />
     </div>
   )

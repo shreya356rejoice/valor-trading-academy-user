@@ -20,13 +20,9 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentCourseId = searchParams.get('courseId');    
-
-    console.log(selectedType,"====!11111111111111111111selectedTab");
-    
-    const fetchCourses = async (page = 1) => {
+ const fetchCourses = async (page = 1) => {
         try {
             setIsLoading(true);
-            console.log(selectedType,"====!11111111111111111111selectedTab");
             const params = {
                 searchQuery: searchQuery || "",
                 page,
@@ -34,10 +30,7 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
                 courseType: courses?.courseType,
             };
 
-            const data = await getCourses(params);
-
-            console.log(data,"data");
-            
+            const data = await getCourses(params);            
 
             if (data?.success) {
                 setAllCourses(data?.payload?.data || []);
@@ -71,8 +64,6 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
                 </div>
             </div>
             <div className={styles.grid}>
-                {console.log(allCourses,"allCourses")
-                }
                 {allCourses
                   .filter(course => course._id !== currentCourseId) // Filter out current course
                   .map((course, i) => (
@@ -80,7 +71,6 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
                         <div className={styles.image}>
                             <img src={course?.courseVideo} alt="CardImage" />
                         </div>
-                        {console.log(course,"course")}
                         <div className={styles.details}>
                             <h3>{course?.CourseName}</h3>
                             <p>{course?.description}</p>

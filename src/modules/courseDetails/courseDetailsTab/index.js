@@ -10,7 +10,6 @@ export default function CourseDetailsTab({
   return (
     <div className={styles.courseDetailsTab}>
       {chapters.map((chapter) => (
-        console.log("chapter=====" , chapter),
         
         <button 
           key={chapter._id}

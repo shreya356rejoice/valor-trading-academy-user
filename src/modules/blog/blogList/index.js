@@ -87,12 +87,6 @@ export default function BlogList() {
         }
       }, [blogData]);
 
-
-    console.log(categories,"========categories");
-    
-console.log(blogs,"blogs");
-
-
     return (
         <>
             <div className={styles.blogListAlignment}>

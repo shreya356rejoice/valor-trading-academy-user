@@ -122,8 +122,6 @@ export default function YourSubscription({ onClose, plan, channel }) {
                             error={errors.telegramId}
                         />
                         <p className={styles.errorMessage}>{errors?.telegramId}</p>
-                        {console.log(errors, "errors")
-                        }
                     </div>
                     <div className={styles.subBox}>
                         <div className={styles.boxHeader}>

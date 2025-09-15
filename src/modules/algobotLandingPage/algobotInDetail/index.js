@@ -135,7 +135,6 @@ export default function AlgobotInDetails() {
         const fetchSimilarAlgobotData = async () => {
             try {
                 const response = await getAlgobot(algobotData?.categoryId?._id);
-                console.log(response, "response");
 
                 setSimilarAlgobotData(response?.payload?.result); // Get first 3 strategies
             } catch (error) {
@@ -144,9 +143,6 @@ export default function AlgobotInDetails() {
         };
         fetchSimilarAlgobotData();
     }, [algobotData?.categoryId?._id]);
-
-    console.log(similarAlgobotData, "similarAlgobotData");
-
 
     const handleIncrement = (planId) => {
         setPlanQuantities((prev) => {
@@ -310,8 +306,6 @@ export default function AlgobotInDetails() {
                             <h3>Bot Plans</h3>
                             <div className={styles.plansGrid}>
                                 {plans.map((plan, index) => (
-                                    console.log(plan, "====plan"),
-
                                     <div key={plan._id || index} className={styles.planCard}>
                                         <div className={styles.planType}>
                                             <div className={styles.planTypeflx}>

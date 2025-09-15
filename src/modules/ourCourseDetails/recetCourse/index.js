@@ -62,9 +62,6 @@ export default function RecetCourse() {
             fetchCourses();
         }, [selectedTab , currentCourseId]);
 
-console.log(allCourses,"====allCourses");
-
-
     return (
         <>
             <div className={styles.recetCourse}>
@@ -80,9 +77,7 @@ console.log(allCourses,"====allCourses");
                     </div>
                     <div className={styles.grid}>
                         {
-                            allCourses?.map((course, i) => {
-                                console.log(course,"====course")
-                                
+                            allCourses?.map((course, i) => {                                
                                 return (
                                     <div className={styles.griditems} key={i}>
                                         <div className={styles.cardImage}>

@@ -172,9 +172,6 @@ export default function AlgobotDetails() {
                             <div className={styles.details}>
                                 <h3>{strategy?.title}</h3>
                                 <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-
-                                {console.log(strategy, "====strategy")
-                                }
                                 <div className={styles.pricingSection}>
                                     {strategy.strategyPlan?.map((plan, planIndex) => (
                                         <div key={planIndex} className={styles.priceCard}>

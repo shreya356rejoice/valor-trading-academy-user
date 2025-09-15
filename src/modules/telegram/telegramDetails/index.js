@@ -51,7 +51,6 @@ export default function TelegramDetails() {
         try {
             setIsLoading(true);
             const data = await getTelegramChannels(selectedCategory, '', page, ITEMS_PER_PAGE);
-console.log(data,"data");
             if (data?.success) {
                 setChannels(data?.payload?.data || []);
             }
@@ -159,8 +158,6 @@ console.log(data,"data");
                     {/* )} */}
                 {/* </div>
             </div> */}
-            {console.log(channels,"channels")
-            }
             <div className={styles.grid}>
                 {isLoading ? (
                     renderSkeleton()
@@ -176,8 +173,6 @@ console.log(data,"data");
                                 <h3>{channel?.channelName}</h3>
                                 <p dangerouslySetInnerHTML={{ __html: channel?.description }} />
 
-                                {console.log(channel, "====channel")
-                                }
                                 <div className={styles.pricingSection}>
                                     {channel.telegramPlan?.map((plan, planIndex) => (
                                         <div key={planIndex} className={styles.priceCard}>

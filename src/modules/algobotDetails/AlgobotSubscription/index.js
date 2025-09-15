@@ -58,10 +58,7 @@ export default function AlgobotSubscription({ onClose, plan, channel }) {
         }
     }
 
-    async function handlePayment() {
-
-        console.log(plan,"plan");
-        
+    async function handlePayment() {        
 
         try {
             const paymentData = {
@@ -70,15 +67,9 @@ export default function AlgobotSubscription({ onClose, plan, channel }) {
                 strategyPlanId: plan?._id,
                 success_url: window.location.href,
                 cancel_url: window.location.href
-            };
+            };            
 
-            console.log(paymentData, "paymentData");
-            
-
-            const response = await getPaymentUrl(paymentData);
-
-            console.log(response,"response");
-            
+            const response = await getPaymentUrl(paymentData);            
             
             if (response.success) {
                 router.replace(response?.payload?.data?.checkout_url);
@@ -111,8 +102,6 @@ export default function AlgobotSubscription({ onClose, plan, channel }) {
                             <h3>{plan?.planType} Plan
                             </h3>
                         </div>
-                        {console.log(plan, "1111111111111plan")
-                        }
                         <div className={styles.detailsAlignment}>
                             <div className={styles.text}>
                                 <p>Quantity:</p>
