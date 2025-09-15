@@ -173,6 +173,9 @@ export default function CourseDetails() {
             <div className={styles.iconText}>
               <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
             </div>
+            <div className={styles.iconText}>
+            <span>Price:</span> <h4>${courses?.price}</h4>
+            </div>
           </div>
           <div className={styles.rightContentAlignment}>
             {chapters?.isPayment === true ? '' : (
