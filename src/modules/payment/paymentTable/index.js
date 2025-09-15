@@ -170,13 +170,11 @@ export default function PaymentTable() {
 
                 window.URL.revokeObjectURL(url);
 
-                toast.success("Invoice downloaded successfully!");
             } else {
                 throw new Error("Failed to generate invoice");
             }
         } catch (error) {
             console.error("Error generating invoice:", error);
-            toast.error(error.message || "Failed to generate invoice");
         } finally {
             setLoadingInvoices(prev => ({ ...prev, [payment._id]: false }));
         }
@@ -340,27 +338,27 @@ export default function PaymentTable() {
                                             {payment.status || 'Pending'}
                                         </button>
                                     </td>
-                                    <td><span
-                                                onClick={() => !loadingInvoices[payment._id] && handleDownloadInvoice(payment)}
-                                                title={
-                                                    loadingInvoices[payment._id]
-                                                        ? "Generating invoice..."
-                                                        : "Download Invoice"
-                                                }
-                                                style={{
-                                                    cursor: loadingInvoices[payment._id] ? 'not-allowed' : 'pointer',
-                                                    display: 'inline-flex',
-                                                    opacity: loadingInvoices[payment._id] ? 0.6 : 1
-                                                }}
-                                            >
-                                                {loadingInvoices[payment._id] ? (
-                                                    <span className={styles.downloadAnimation}>
+                                        <td><span
+                                                    onClick={() => !loadingInvoices[payment._id] && handleDownloadInvoice(payment)}
+                                                    title={
+                                                        loadingInvoices[payment._id]
+                                                            ? "Generating invoice..."
+                                                            : "Download Invoice"
+                                                    }
+                                                    style={{
+                                                        cursor: loadingInvoices[payment._id] ? 'not-allowed' : 'pointer',
+                                                        display: 'inline-flex',
+                                                        opacity: loadingInvoices[payment._id] ? 0.6 : 1
+                                                    }}
+                                                >
+                                                    {loadingInvoices[payment._id] ? (
+                                                        <span className={styles.downloadAnimation}>
+                                                            <DownloadIcon />
+                                                        </span>
+                                                    ) : (
                                                         <DownloadIcon />
-                                                    </span>
-                                                ) : (
-                                                    <DownloadIcon />
-                                                )}
-                                            </span></td>
+                                                    )}
+                                                </span></td>
                                 </tr>
                             ))
                         ) : (

@@ -16,6 +16,7 @@ import { getChapters, getCourses, getPaymentUrl, getSessionData } from '@/app/ap
 import Button from '@/components/button';
 import { getCookie } from '../../../cookie';
 import CourseSession from './courseSession';
+import CustomVideoPlayer from '@/components/customeVideoPlayer';
 
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
@@ -62,6 +63,14 @@ export default function CourseDetails() {
   const searchParams = useSearchParams();
   const id = searchParams.get('courseId');
   const router = useRouter();
+
+  const [user , setUser] = useState({});
+      useEffect(() => {
+          const userData = getCookie('user');
+          if (userData) {
+              setUser(JSON.parse(userData));
+          }
+      }, []);
 
   useEffect(() => {
     const fetchChapter = async () => {
@@ -195,7 +204,7 @@ export default function CourseDetails() {
             {chapters.data && chapters.data.length > 0 ? (
               <div className={styles.courseInformation}>
                 <div className={styles.video}>
-                  <iframe
+                  {/* <iframe
                     width="100%"
                     height="400"
                     src={(selectedChapter || chapters.data[0])?.chapterVideo?.replace("watch?v=", "embed/")}
@@ -203,7 +212,51 @@ export default function CourseDetails() {
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                  ></iframe>
+                  ></iframe> */}
+
+{console.log(chapters.data[0]?.chapterVideo,"chapters.data[0]?.chapterVideo")}
+
+{chapters.data[0]?.chapterVideo ? (
+                      // !isPaid ? (
+                      //   <div className={styles.videoLocked}>
+                      //     <div className={styles.lockOverlay}>
+                      //       <img src={LockIcon} alt="Locked" />
+                      //       <p>Enroll to unlock this video</p>
+                      //     </div>
+                      //     <img
+                      //       src={`https://img.youtube.com/vi/${chapters.data[0]?.chapterVideo.split('v=')[1]}/hqdefault.jpg`}
+                      //       alt="Video thumbnail"
+                      //       className={styles.videoThumbnail}
+                      //     />
+                      //   </div>
+                      // ) : (
+                        <div className={styles.videoWrapper}>
+                          {/* <VideoPlayer
+                            src={selectedChapter.chapterVideo}
+                            userId={user?._id}
+                            controls
+                            controlsList="nodownload"
+                            disablePictureInPicture
+                            noremoteplayback
+                            className={styles.videoPlayer}
+                          /> */}
+                          {console.log("selectedChapter.chapterVideo",chapters.data[0]?.chapterVideo)}
+                          <CustomVideoPlayer
+                            src={chapters.data[0]?.chapterVideo}
+                            // src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            // src="https://pipsveda.s3.us-east-1.azonaws.com/pipsveda/blob-1757418874956new%20latest.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVJSBBJ5XMZUEA2XW%2F20250913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250913T063038Z&X-Amz-Expires=3600&X-Amz-Signature=e0ed6c6d43a4038201fd1206007456c1387457b7cb86fb7335d92417d65ba51b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                            userId={user?._id}
+                            controls
+                            controlsList="nodownload"
+                            disablePictureInPicture
+                            noremoteplayback
+                            className={styles.videoPlayer}
+                          />
+                        </div>
+                      // )
+                    ) : (
+                      <div className={styles.noVideo}>Video not available</div>
+                    )}
                 </div>
                 <div>
                   <h2>

@@ -127,6 +127,8 @@ export default function MyCourseDetails() {
 
                        
         const courseId = isCourse ? item?.courseId?._id : null;
+        const botId = item?.botId?.strategyId?._id ? item?.botId?.strategyId?._id : null;
+        const telegramId = item?.telegramId?.telegramId?._id ? item?.telegramId?.telegramId?._id : null;
                        
         // Additional data based on tab type
         const instructorName = isCourse ? item?.courseId?.instructor : '';
@@ -140,8 +142,21 @@ export default function MyCourseDetails() {
         const location = isCourse ? item.courseId?.location : '';
         const planType = item.planType || 'Standard';
 
+        console.log(item,"item");
+        
+
+        const handleCardClick = () => {
+            if (selectedTab === 'TELEGRAM') {
+                router.push(`/telegram-details/${telegramId}`);
+            } else if (selectedTab === 'BOTS') {
+                router.push(`/algobot-details?algobotId=${botId}`);
+            } else if (['RECORDED', 'LIVE', 'PHYSICAL'].includes(selectedTab)) {
+                router.push(`/course-details?courseId=${courseId}`);
+            }
+        };
+
         return (
-            <div className={styles.griditems} key={item._id} onClick={() => router.push(`/course-details?courseId=${courseId}`)}>
+            <div className={styles.griditems} key={item._id} onClick={handleCardClick}>
                 {selectedTab !== 'TELEGRAM' && (imageUrl && (
                     <div className={styles.image}>
                         <img 

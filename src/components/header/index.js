@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styles from './header.module.scss';
 import Logo from '../logo';
 import UserIcon from '../icons/userIcon';
@@ -8,6 +8,10 @@ import classNames from 'classnames';
 import CloseIcon from '../icons/closeIcon';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import { getCookie, removeCookie } from '../../../cookie';
+import { toast } from 'react-toastify';
+import ProfileIconSm from '../icons/ProfileIconSm';
+import LogoutIcon from '../icons/logoutIcon';
 
 function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = useState("noScroll");
@@ -35,7 +39,40 @@ function useScrollDirection() {
 export default function Header() {
   const scrollDirection = useScrollDirection();
   const [header, setHeader] = useState(false);
+  const [user, setUser] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const userData = getCookie('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // Handle clicks outside the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const handleLogout = () => {
+    removeCookie('user');
+    removeCookie('userToken');
+    setUser(null);
+    toast.success('Logged out successfully');
+    router.push('/');
+  };
   return (
     <>
       <header
@@ -59,11 +96,45 @@ export default function Header() {
                 <a className={pathname === '/blog' ? styles.active : ''} href='/blog' aria-label='Blog'>Blogs</a>
                 <a className={pathname === '/about-us' ? styles.active : ''} href='/about-us' aria-label='About Us'>About Us</a>
               </div>
-              <Link href="/login">
-                <div className={styles.profile}>
-                  <UserIcon />
+              {user ? (
+                <div className={styles.profileDropdown} ref={dropdownRef}>
+                  <div 
+                    className={styles.profile} 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDropdown(!showDropdown);
+                    }}
+                  >
+                    <UserIcon />
+                  </div>
+                  <div className={`${styles.dropdownMenu} ${showDropdown ? styles.show : ''}`}>
+                      <Link 
+                        href="/user-profile" 
+                        className={styles.dropdownItem}
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <ProfileIconSm />
+                        Profile
+                      </Link>
+                      <button 
+                        className={styles.dropdownItem}
+                        onClick={() => {
+                          handleLogout();
+                          setShowDropdown(false);
+                        }}
+                      >
+                        <LogoutIcon />
+                        Logout
+                      </button>
+                    </div>
                 </div>
-              </Link>
+              ) : (
+                <Link href="/login">
+                  <div className={styles.profile}>
+                    <UserIcon />
+                  </div>
+                </Link>
+              )}
               <div className={classNames(styles.profile, styles.menuIcon)} onClick={() => setHeader(!header)}>
                 <MenuIcon />
               </div>

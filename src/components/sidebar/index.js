@@ -178,8 +178,8 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </button>
           <div className={classNames(styles.dropdownProfile, profileDropdown ? styles.show : styles.hide)}>
             <div className={styles.dropodowAlignment}>
-              <Link href="/profile" onClick={handleCommonDropdownChange}>
-                                <div className={classNames(styles.iconText, pathname === "/profile" ? styles.iconTextActive : "")}>
+              <Link href="/user-profile" onClick={() => setProfileDropdown(false)}>
+                                <div className={classNames(styles.iconText, pathname === "/user-profile" ? styles.iconTextActive : "")}>
                                     <ProfileIconSm />
                                     <span>Profile</span>
                                 </div>

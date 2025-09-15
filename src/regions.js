@@ -56,7 +56,6 @@ export const regions = [
     { code: "GQ", name: "Equatorial Guinea", numberCode: "+240" },
     { code: "ER", name: "Eritrea", numberCode: "+291" },
     { code: "EE", name: "Estonia", numberCode: "+372" },
-    { code: "SZ", name: "Eswatini", numberCode: "+268" },
     { code: "ET", name: "Ethiopia", numberCode: "+251" },
     { code: "FJ", name: "Fiji", numberCode: "+679" },
     { code: "FI", name: "Finland", numberCode: "+358" },

@@ -3,8 +3,6 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../../firebase";
 import api from "@/utils/axiosInstance";
 
-
-
 export const signIn = async (email, password) => {
   try {
     const response = await api.post(`/user/signin`, {
@@ -90,10 +88,18 @@ export const loginWithGoogle = async () => {
 };
 
 export const editProfile = async (id, data) => {
-   
   try {
-    const response = await api.put(`/user/update?id=${id}`, {
-      data,
+    const formData = new FormData();
+    
+    // Append all data fields to formData
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key]);
+    });
+    
+    const response = await api.put(`/user/update?id=${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
     return response.data;

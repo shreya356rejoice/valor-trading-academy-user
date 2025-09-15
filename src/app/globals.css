@@ -149,3 +149,43 @@ input[type="number"] {
   color: #333 !important;
   opacity: 1;
 }
+
+
+/* <---- React date picker css starts here ----> */
+.react-datepicker__header {
+  background: #fff !important;
+}
+
+.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
+  fill: #fff !important;
+  color: #fff !important;
+}
+
+.react-datepicker__day--selected {
+  background: var(--button-gradient) !important;
+}
+
+.react-datepicker {
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.react-datepicker__day--selected,.react-datepicker__day--keyboard-selected {
+  background-color: #423d92 !important;
+  color: #fff !important;
+}
+
+.react-datepicker__input-container input {
+  background-color: #f7f8fa !important;
+  font-family: var(--font-lexend);
+  color: var(--black-500) !important;
+  border: 1px solid var(--border-color2) !important;
+  border-radius: 10px !important;
+  height: 55px;
+  padding: 0 16px !important;
+  font-size: 16px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  transition: all .3s ease-in-out;
+}
