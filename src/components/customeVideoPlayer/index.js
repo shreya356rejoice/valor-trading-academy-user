@@ -9,10 +9,11 @@ import Audiomuteicon from '../../../public/assets/icons/audiomuteicon';
 import Fullscreenicon from '../../../public/assets/icons/fullscreenicon';
 import Minimizedicon from '../../../public/assets/icons/minimizedicon';
 
-const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props }) => {    
+const CustomVideoPlayer = React.memo(({ src, userId, className = '', ...props }) => {
     const canvasRef = useRef(null);
     const videoRef = useRef(null);
     const containerRef = useRef(null);
+
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
     const [volume, setVolume] = useState(1);
@@ -31,42 +32,15 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
         }
 
         const video = document.createElement('video');
-
-        // If your S3 bucket allows CORS, keep this; else, remove it to test.
-        // video.crossOrigin = 'anonymous';
-
-        try {
-            video.src = src;
-        } catch (error) {
-            console.error('Invalid video URL:', src, error);
-            return;
-        }
-
+        video.src = src;
         video.preload = 'auto';
         video.playsInline = true;
-        video.muted = true; // Required for autoplay
-
-        const logVideoState = () => ({
-            readyState: video.readyState,
-            networkState: video.networkState,
-            error: video.error,
-            currentSrc: video.currentSrc,
-            src: video.src,
-            videoWidth: video.videoWidth,
-            videoHeight: video.videoHeight,
-            duration: video.duration,
-            paused: video.paused,
-            ended: video.ended,
-            seeking: video.seeking,
-            buffered: video.buffered?.length ? `${video.buffered.length} ranges` : 'none',
-        });
+        video.muted = true;
 
         const renderFrame = () => {
             if (!video || !canvasRef.current) return;
-
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (video.readyState >= video.HAVE_CURRENT_DATA) {
@@ -87,9 +61,7 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
                     offsetY = (canvas.height - renderHeight) / 2;
                 }
 
-                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                    offsetX, offsetY, renderWidth, renderHeight);
-
+                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, offsetX, offsetY, renderWidth, renderHeight);
                 drawWatermark(ctx, canvas);
             }
 
@@ -130,27 +102,15 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
         };
 
         const handleLoadedMetadata = () => {
-            console.log('Metadata loaded:', logVideoState());
-
             setDuration(video.duration || 0);
-
-            if (canvasRef.current) {
-                canvasRef.current.width = canvasRef.current.offsetWidth;
-                canvasRef.current.height = canvasRef.current.offsetHeight;
-            }
-
+            resizeCanvas();
             renderFrame();
         };
 
         const handleCanPlay = () => {
-            console.log('Video can play:', logVideoState());
-
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.warn('Autoplay failed:', error);
-                });
-            }
+            video.play().catch(error => {
+                console.warn('Autoplay failed:', error);
+            });
         };
 
         const handleTimeUpdate = () => {
@@ -174,10 +134,9 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
         };
 
         const handleError = (e) => {
-            console.error('Video error:', e, logVideoState());
+            console.error('Video error:', e);
         };
 
-        // Attach events
         video.addEventListener('loadedmetadata', handleLoadedMetadata);
         video.addEventListener('canplay', handleCanPlay);
         video.addEventListener('timeupdate', handleTimeUpdate);
@@ -193,7 +152,6 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
             video.removeAttribute('src');
             video.load();
             video.remove();
-
             cancelAnimationFrame(animationFrameRef.current);
         };
     }, [src]);
@@ -204,28 +162,26 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
         }
     }, [isMuted]);
 
+    useEffect(() => {
+        resizeCanvas();
+    }, [isFullscreen]);
+
     const togglePlay = () => {
         if (!videoRef.current) return;
-
         if (isPlaying) {
             videoRef.current.pause();
         } else {
-            videoRef.current.play().catch(err => {
-                console.error('Play failed:', err);
-            });
+            videoRef.current.play().catch(err => console.error('Play failed:', err));
         }
     };
 
-    const toggleMute = () => {
-        setIsMuted(!isMuted);
-    };
+    const toggleMute = () => setIsMuted(!isMuted);
 
     const handleVolumeSliderChange = (e) => {
         const newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
         if (videoRef.current) {
             videoRef.current.volume = newVolume;
-            // Unmute when volume is adjusted
             if (isMuted && newVolume > 0) {
                 setIsMuted(false);
             }
@@ -240,33 +196,26 @@ const CustomVideoPlayer =React.memo (({ src, userId, className = '', ...props })
     };
 
     const toggleFullscreen = () => {
-        if (!containerRef.current) return;
-        if (!document.fullscreenElement) {
-            containerRef.current.requestFullscreen?.();
-            setIsFullscreen(true);
-        } else {
-            document.exitFullscreen?.();
-            setIsFullscreen(false);
+        setIsFullscreen(prev => !prev); // Don't use native fullscreen API
+    };
+
+    const resizeCanvas = () => {
+        if (canvasRef.current) {
+            canvasRef.current.width = canvasRef.current.offsetWidth;
+            canvasRef.current.height = canvasRef.current.offsetHeight;
         }
     };
+
+    useEffect(() => {
+        window.addEventListener('resize', resizeCanvas);
+        return () => window.removeEventListener('resize', resizeCanvas);
+    }, []);
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (canvasRef.current) {
-                canvasRef.current.width = canvasRef.current.offsetWidth;
-                canvasRef.current.height = canvasRef.current.offsetHeight;
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     return (
         <div
