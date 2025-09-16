@@ -73,41 +73,35 @@ export default function CourseDetails() {
       }, []);
 
   useEffect(() => {
-    const fetchChapter = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      
       try {
-        const response = await getChapters(id);
-        setChapters(response.payload);
+        const [courseResponse, chapterResponse, sessionResponse] = await Promise.all([
+          getCourses({ id }),
+          getChapters(id),
+          getSessionData(id)
+        ]);
+        
+        setCourses(courseResponse.payload.data[0]);
+        setChapters(chapterResponse.payload);
+        setSessions(sessionResponse.payload);
       } catch (error) {
-        console.error('Error fetching course:', error);
+        console.error('Error fetching data:', error);
+        setError('Failed to load course data. Please try again.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    const fetchSession = async () => {
-      try {
-        const response = await getSessionData(id);        
-        setSessions(response.payload);
-      } catch (error) {
-        console.error('Error fetching course:', error);
-      }
-    };
-
-    const fetchCourse = async () => {
-      try {
-        const response = await getCourses({ id });
-        setCourses(response.payload.data[0]);
-      } catch (error) {
-        console.error('Error fetching course:', error);
-      }
-    };
-    fetchCourse();
     const userToken = getCookie('userToken');
     if (userToken) {
       setIsLogin(true);
-      fetchChapter();
-      fetchSession();
-    }
-    else {
+      fetchData();
+    } else {
       setIsLogin(false);
+      fetchData(); // Still fetch course data even if not logged in
     }
   }, [id]);
 
@@ -136,10 +130,18 @@ export default function CourseDetails() {
     }
   }
 
+  if (loading) {
+    return <CourseDetailsSkeleton />;
+  }
+
+  if (error) {
+    return <div className={styles.errorMessage}>Error loading course details. Please try again later.</div>;
+  }
+
   return (
     <div className={styles.courseDetails}>
       <div className={styles.breadcumbAlignment}>
-        <a aria-label="Home" href="/">Home</a>
+        <a aria-label="Home" href="/dashboard">Home</a>
         <RightArrow />
         <a aria-label="Course" href="/courses">Course</a>
         {/* <RightArrow />
@@ -217,7 +219,6 @@ export default function CourseDetails() {
                     allowFullScreen
                   ></iframe> */}
 
-{console.log(chapters.data[0]?.chapterVideo,"chapters.data[0]?.chapterVideo")}
 
 {chapters.data[0]?.chapterVideo ? (
                       // !isPaid ? (

@@ -4,6 +4,9 @@ import styles from './ourCourseDetails.module.scss';
 import Button from '@/components/button';
 import { useRouter, usePathname } from 'next/navigation';
 import { getCourses } from '@/app/api/dashboard';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
 const ITEMS_PER_PAGE = 4;
@@ -67,6 +70,42 @@ export default function OurCourseDetails() {
             fetchCourses();
         }, [selectedTab]);
 
+    const CourseCardSkeleton = () => (
+        <div className={styles.griditems}>
+            <Skeleton height={200} className={styles.cardImage} />
+            <div className={styles.cardDetails}>
+                <Skeleton height={24} width="80%" style={{ marginBottom: '10px' }} />
+                <Skeleton count={3} style={{ marginBottom: '15px' }} />
+                <div className={styles.twoContentAlignment}>
+                    <Skeleton width={60} height={24} />
+                    <Skeleton width={100} height={24} />
+                </div>
+                <Skeleton height={40} style={{ marginTop: '15px' }} />
+            </div>
+        </div>
+    );
+
+    if (isLoading) {
+        return (
+            <div className={styles.ourCourseDetails}>
+                <div className='container'>
+                    {/* <div className={styles.tabCenter}>
+                        <div className={styles.tab}>
+                            <Skeleton width={150} height={40} style={{ margin: '0 10px' }} />
+                            <Skeleton width={120} height={40} style={{ margin: '0 10px' }} />
+                            <Skeleton width={140} height={40} style={{ margin: '0 10px' }} />
+                        </div>
+                    </div> */}
+                    <div className={styles.grid}>
+                        {[...Array(3)].map((_, i) => (
+                            <CourseCardSkeleton key={i} />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className={styles.ourCourseDetails}>
@@ -78,9 +117,11 @@ export default function OurCourseDetails() {
                             <button className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
                         </div>
                     </div>
-                    <div className={styles.grid}>
-                        {
-                            allCourses.map((course, i) => {
+                    {error ? (
+                        <div className={styles.errorMessage}>{error}</div>
+                    ) : (
+                        <div className={styles.grid}>
+                            {allCourses.length > 0 ? allCourses.map((course, i) => {
                                 
                                 return (
                                     <div className={styles.griditems} key={i}>
@@ -115,9 +156,13 @@ export default function OurCourseDetails() {
                                         </div>
                                     </div>
                                 )
-                            })
-                        }
-                    </div>
+                            }) : (
+                                <div className={styles.noCourses}>
+                                    <p>No courses available for the selected category.</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={styles.valorText}>

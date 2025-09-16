@@ -1,11 +1,12 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './herobanner.module.scss';
 import ArrowIcon from '@/components/icons/arrowIcon';
 import SearchIcon from '@/components/icons/searchIcon';
 import Button from '@/components/button';
 import { useRouter } from 'next/navigation';
+import { getCookie } from '../../../../cookie';
 const MenImage = '/assets/images/men.png';
 const DotsLine = '/assets/images/dots-line.svg';
 const BottomVec = '/assets/images/bottom-vec.svg';
@@ -43,6 +44,22 @@ const floatingVariants = {
 
 export default function Herobanner() {
     const router = useRouter();
+    const [user, setUser] = useState("");
+
+    useEffect(() => {
+        const user = getCookie("user");
+        const userName = user && JSON.parse(user)?.name;
+        setUser(userName);
+    }, []);
+
+    const handleNavigate = () => {
+        if (user) {
+            router.push('/courses')
+        } else {
+            router.push('/login')
+        }
+    }
+
     return (
         <div className={styles.herobanner}>
             <div className='container'>
@@ -78,8 +95,8 @@ export default function Herobanner() {
                             </div>
                         </motion.div>
                         <motion.div className={styles.buttonAlignment} variants={itemVariants}>
-                            <Button text='Explore Courses' fill onClick={() => router.push('/login')} />
-                            <Button text='Join Free Community' onClick={() => router.push('/login')} />
+                            <Button text='Explore Courses' fill onClick={handleNavigate} />
+                            <Button text='Join Free Community' />
                         </motion.div>
                     </motion.div>
                     <motion.div className={styles.griditems} variants={imageVariants}>

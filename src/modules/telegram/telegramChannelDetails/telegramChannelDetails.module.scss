@@ -5,7 +5,7 @@
 .algobotPage {
     background-color: var(--bg-white);
     border-radius: 22px;
-    padding: 40px 20px;
+    padding: 25px;
     min-height: calc(100dvh - 40px);
 }
 
@@ -25,6 +25,7 @@
         @include heading20;
         color: var(--black-100);
         margin: 0 0 10px 0;
+        padding-top: 20px;
 
         span {
             background: var(--linear-gradient);
@@ -280,4 +281,24 @@
         }
     }
 
+}
+
+.breadcumbAlignment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #E9E9E9;
+
+    a {
+        display: block;
+        @include font16medium;
+        cursor: pointer;
+        color: var(--grey-600);
+    }
+
+    a:last-child {
+        background: var(--linear-gradient);
+        @include text-type;
+    }
 }

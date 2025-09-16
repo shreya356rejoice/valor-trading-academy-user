@@ -86,7 +86,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </div>
         </Link>
         <Link href="/courses">
-          <div className={classNames(styles.menu, pathname.includes("/courses") ? styles.activeMenu : "")} ref={menuRef} onClick={() => setDropdown((prev) => !prev)}>
+          <div className={classNames(styles.menu, (pathname.includes("/courses") || pathname.includes("/course-details")) ? styles.activeMenu : "")} ref={menuRef} onClick={() => setDropdown((prev) => !prev)}>
             <div className={styles.iconAlignment}>
               <img src={CourseIcon} alt="CourseIcon" />
               <img src={CourseIconActive} alt="CourseIconActive" />
@@ -125,7 +125,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                     </div>
                 </div> */}
         <Link href="/algobot">
-          <div className={classNames(styles.menu, pathname === "/algobot" ? styles.activeMenu : " ")}>
+          <div className={classNames(styles.menu, (pathname === "/algobot" || pathname.includes("/algobot-details")) ? styles.activeMenu : " ")}>
             <div className={styles.iconAlignment}>
               <img src={AlgobotIconWhite} alt="AlgobotIcon" />
               <img src={AlgobotIcon} alt="AlgobotIconActive" />
@@ -134,7 +134,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </div>
         </Link>
         <Link href="/telegram">
-          <div className={classNames(styles.menu, pathname === "/telegram" ? styles.activeMenu : " ")}>
+          <div className={classNames(styles.menu, (pathname === "/telegram" || pathname.includes("/telegram-details")) ? styles.activeMenu : " ")}>
             <div className={styles.iconAlignment}>
               <img src={TelegramIcon} alt="TelegramIcon" />
               <img src={TelegramIconActive} alt="TelegramIconActive" />

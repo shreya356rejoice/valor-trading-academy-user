@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import dynamic from 'next/dynamic';
+import RightArrow from '@/components/icons/rightArrow';
 
 const YourSubscription = dynamic(() => import('../yourSubscription'), {
     ssr: false
@@ -61,8 +62,35 @@ export default function TelegramChannelDetails() {
         }
     }, [channelId]);
 
+    const TelegramChannelSkeleton = () => (
+        <div className={styles.algobotPage}>
+            <div className={styles.algobotBanner}>
+                <div>
+                    <Skeleton height={40} width="60%" style={{ marginBottom: '20px' }} />
+                    <Skeleton count={3} style={{ marginBottom: '20px' }} />
+                    <Skeleton height={20} width="30%" style={{ marginBottom: '30px' }} />
+                </div>
+            </div>
+            <div className={styles.plansContainer}>
+                <Skeleton height={30} width="20%" style={{ marginBottom: '20px' }} />
+                <div className={styles.plansGrid}>
+                    {[1, 2, 3].map((_, index) => (
+                        <div key={index} className={styles.planCard}>
+                            <Skeleton height={30} width="50%" style={{ marginBottom: '15px' }} />
+                            <div style={{ margin: '20px 0' }}>
+                                <Skeleton height={20} width="70%" style={{ marginBottom: '10px' }} />
+                                <Skeleton height={20} width="60%" />
+                            </div>
+                            <Skeleton height={45} width="100%" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+
     if (loading) {
-        return <div className={styles.algobotPage}>Loading...</div>;
+        return <TelegramChannelSkeleton />;
     }
 
     if (!channel) {
@@ -76,6 +104,11 @@ export default function TelegramChannelDetails() {
 
     return (
         <div className={styles.algobotPage}>
+            <div className={styles.breadcumbAlignment}>
+                <a aria-label="Home" href="/dashboard">Home</a>
+                <RightArrow />
+                <a aria-label="Telegram Channels" href="/telegram">Telegram Channels</a>
+            </div>
 
             <div className={styles.algobotBanner}>
                 <div>

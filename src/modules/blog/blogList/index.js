@@ -10,7 +10,52 @@ import { motion } from 'framer-motion';
 import { GET_ALL_BLOG_DATA, GET_BLOG_CATEGORIES } from '@/graphql/getBlogData';
 import { useQuery } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 const ArticlesImage = '/assets/images/articles.png';
+
+const BlogListSkeleton = () => (
+    <div className={styles.blogListAlignment}>
+        <div className='container'>
+            <div className={styles.blogHeaderAlignment}>
+                <div className={styles.searchBox}>
+                    <Skeleton height={50} style={{ borderRadius: '99px' }} />
+                </div>
+                {/* <div className={styles.tab}>
+                    {[...Array(4)].map((_, i) => (
+                        <Skeleton key={i} width={80} height={45} style={{ borderRadius: '99px', margin: '0 5px' }} />
+                    ))}
+                </div> */}
+            </div>
+            <div className={styles.grid}>
+                {[...Array(3)].map((_, i) => (
+                    <div className={styles.griditems} key={i}>
+                        <div className={styles.image}>
+                            <Skeleton height={250} style={{ borderRadius: '16px 16px 0 0' }} />
+                        </div>
+                        <div style={{ padding: '20px' }}>
+                            <Skeleton height={28} style={{ marginBottom: '12px' }} />
+                            <Skeleton count={3} style={{ marginBottom: '16px' }} />
+                            <div className={styles.allIconText}>
+                                <div className={styles.iconText}>
+                                    <Skeleton circle width={20} height={20} style={{ marginRight: '8px' }} />
+                                    <Skeleton width={100} />
+                                </div>
+                                <div className={styles.iconText}>
+                                    <Skeleton circle width={20} height={20} style={{ marginRight: '8px' }} />
+                                    <Skeleton width={80} />
+                                </div>
+                            </div>
+                            <div style={{ marginTop: '20px' }}>
+                                <Skeleton height={45} style={{ borderRadius: '8px' }} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+);
 
 
 const itemVariants = {
@@ -36,7 +81,16 @@ export default function BlogList() {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [filters, setFilters] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+    
+    useEffect(() => {
+        // Simulate loading delay
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         const newFilters = {};
@@ -86,6 +140,10 @@ export default function BlogList() {
           setBlogs(blogData?.blogs_connection?.nodes);
         }
       }, [blogData]);
+
+    if (isLoading) {
+        return <BlogListSkeleton />;
+    }
 
     return (
         <>

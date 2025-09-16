@@ -21,6 +21,7 @@ import { motion } from 'framer-motion';
 // import AlgobotSubscription from './AlgobotSubscription';
 import Dropdownarrow from '../../../../public/assets/icons/dropdownarrow';
 import CommonBanner from '@/components/commonBanner';
+import { getCookie } from '../../../../cookie';
 
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
@@ -38,31 +39,80 @@ const cardVariants = {
     }),
 }
 
-const CourseDetailsSkeleton = () => (
-    <div className={styles.courseDetails}>
-        <div className={styles.breadcumbAlignment}>
-            <Skeleton width={50} />
-            <Skeleton width={100} style={{ marginLeft: 10 }} />
+const AlgoBotDetailSkeleton = () => (
+    <div className={styles.algobotDetailsAlignment}>
+        <div className={styles.pageHeaderAlignment}>
+            <div className={styles.text}>
+                <Skeleton height={40} width="60%" style={{ marginBottom: '20px' }} />
+            </div>
         </div>
-        <div className={styles.contentAlignment}>
-            <Skeleton height={40} width="70%" style={{ marginBottom: 16 }} />
-            <Skeleton count={3} style={{ marginBottom: 8 }} />
-            <Skeleton width="60%" style={{ marginBottom: 24 }} />
+        
+        {/* AlgoBot Banner Section */}
+        <div className={styles.algobanner}>
+            <div className={styles.grid}>
+                <div className={styles.griditems}>
+                    <Skeleton height={300} style={{ borderRadius: '16px' }} />
+                </div>
+                <div className={styles.griditems}>
+                    <Skeleton count={5} style={{ marginBottom: '10px' }} />
+                </div>
+            </div>
+        </div>
 
-            <div className={styles.allIconTextAlignment}>
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className={styles.iconText}>
-                        <Skeleton circle width={20} height={20} style={{ marginRight: 8 }} />
-                        <Skeleton width={80} />
+        {/* Tutorial Section */}
+        <div className={styles.tutorial}>
+            <Skeleton width={100} height={24} style={{ marginBottom: '15px' }} />
+            <div className={styles.textdropdown}>
+                <Skeleton width={200} height={20} style={{ marginBottom: '10px' }} />
+                <Skeleton width="100%" height={40} style={{ borderRadius: '8px' }} />
+            </div>
+        </div>
+
+        {/* Video Player */}
+        <div className={styles.tutorialVideo}>
+            <Skeleton height={400} style={{ borderRadius: '16px' }} />
+        </div>
+
+        {/* Plans Section */}
+        <div className={styles.plansContainer}>
+            <Skeleton width={120} height={28} style={{ marginBottom: '20px' }} />
+            <div className={styles.plansGrid}>
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className={styles.planCard}>
+                        <div className={styles.planType}>
+                            <Skeleton width={120} height={24} />
+                            <Skeleton width={80} height={24} style={{ marginLeft: 'auto' }} />
+                        </div>
+                        <div className={styles.plandetails}>
+                            <Skeleton width={150} height={20} style={{ marginBottom: '10px' }} />
+                            <Skeleton width={120} height={20} />
+                        </div>
+                        <div className={styles.counterAlignment}>
+                            <Skeleton width={30} height={30} circle />
+                            <Skeleton width={40} height={30} style={{ margin: '0 10px' }} />
+                            <Skeleton width={30} height={30} circle />
+                        </div>
+                        <Skeleton height={45} style={{ marginTop: '15px', borderRadius: '8px' }} />
                     </div>
                 ))}
             </div>
         </div>
 
-        <div className={styles.courseInformation}>
-            <Skeleton height={400} style={{ marginBottom: 20 }} />
-            <Skeleton height={30} width="50%" style={{ marginBottom: 16 }} />
-            <Skeleton count={4} />
+        {/* Similar Bots Section */}
+        <div className={styles.plansContainer}>
+            <Skeleton width={150} height={28} style={{ marginBottom: '20px' }} />
+            <div className={styles.grid}>
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className={styles.griditems}>
+                        <Skeleton height={200} style={{ borderRadius: '16px 16px 0 0' }} />
+                        <div style={{ padding: '15px' }}>
+                            <Skeleton height={24} width="80%" style={{ marginBottom: '10px' }} />
+                            <Skeleton count={2} style={{ marginBottom: '15px' }} />
+                            <Skeleton height={40} style={{ borderRadius: '8px' }} />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     </div>
 );
@@ -84,6 +134,21 @@ export default function AlgobotInDetails() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(0);
     const [availableLanguages, setAvailableLanguages] = useState([]);
+    const [user, setUser] = useState("");
+
+    useEffect(() => {
+        const user = getCookie("user");
+        const userName = user && JSON.parse(user)?.name;
+        setUser(userName);
+    }, []);
+
+    const handleNavigate = () => {
+        if (user) {
+            router.push('/algobot')
+        } else {
+            router.push('/login')
+        }
+    }
 
     const handleLanguageChange = (index) => {
         setSelectedLanguageIndex(index);
@@ -205,6 +270,14 @@ export default function AlgobotInDetails() {
         }
     }, [searchParams]);
 
+
+    if (isLoading) {
+        return (
+            <div className='container-lg'>
+                <AlgoBotDetailSkeleton />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -350,9 +423,7 @@ export default function AlgobotInDetails() {
                                         <Button
                                             text='Buy Now'
                                             fill='fill'
-                                            onClick={() => {
-                                                router.push(`/login`)
-                                            }}
+                                            onClick={handleNavigate}
                                             disabled={false}
                                         />
                                     </div>
@@ -405,6 +476,9 @@ export default function AlgobotInDetails() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={styles.valorText}>
+                <h3>Valor Academy</h3>
             </div>
         </>
     )

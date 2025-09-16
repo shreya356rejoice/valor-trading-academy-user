@@ -8,6 +8,7 @@ import ClockIcon from "@/components/icons/clockIcon";
 import Button from "@/components/button";
 import { useRouter } from "next/navigation";
 import { getCourseByType } from "@/app/api/dashboard";
+import { getCookie } from "../../../../cookie";
 const CardImage = "/assets/images/card3.png";
 const TopLayer = "/assets/images/top-layer.svg";
 export default function ChooseYourPath() {
@@ -18,6 +19,21 @@ export default function ChooseYourPath() {
     });
     const [activeType, setActiveType] = useState("recorded");
     const router = useRouter();
+    const [user, setUser] = useState("");
+    
+        useEffect(() => {
+            const user = getCookie("user");
+            const userName = user && JSON.parse(user)?.name;
+            setUser(userName);
+        }, []);
+    
+        const handleNavigate = () => {
+            if (user) {
+                router.push('/courses')
+            } else {
+                router.push('/login')
+            }
+        }
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -107,7 +123,7 @@ export default function ChooseYourPath() {
                                                     </button>
                                                 </div>
                                                 <div className={styles.btnwidth}>
-                                                    <Button text="Enroll Now" onClick={() => router.push(`/login`)} />
+                                                    <Button text="Enroll Now" onClick={handleNavigate} />
                                                 </div>
                                             </div>
                                         </motion.div>)

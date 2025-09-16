@@ -38,32 +38,76 @@ const cardVariants = {
     }),
 }
 
-const CourseDetailsSkeleton = () => (
-    <div className={styles.courseDetails}>
-        <div className={styles.breadcumbAlignment}>
-            <Skeleton width={50} />
-            <Skeleton width={100} style={{ marginLeft: 10 }} />
-        </div>
-        <div className={styles.contentAlignment}>
-            <Skeleton height={40} width="70%" style={{ marginBottom: 16 }} />
-            <Skeleton count={3} style={{ marginBottom: 8 }} />
-            <Skeleton width="60%" style={{ marginBottom: 24 }} />
-
-            <div className={styles.allIconTextAlignment}>
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className={styles.iconText}>
-                        <Skeleton circle width={20} height={20} style={{ marginRight: 8 }} />
-                        <Skeleton width={80} />
+const BotPlansSkeleton = () => (
+    <div className={styles.plansContainer}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
+        <div className={styles.plansGrid}>
+            {[1, 2, 3].map((_, i) => (
+                <div key={i} className={styles.planCard}>
+                    <Skeleton height={30} width="70%" style={{ marginBottom: 15 }} />
+                    <Skeleton height={20} width="100%" style={{ marginBottom: 10 }} />
+                    <Skeleton height={20} width="80%" style={{ marginBottom: 15 }} />
+                    <div className={styles.counterAlignment} style={{ margin: '15px 0' }}>
+                        <Skeleton height={40} width={40} style={{ marginRight: 10 }} />
+                        <Skeleton height={40} width={40} style={{ margin: '0 10px' }} />
+                        <Skeleton height={40} width={40} style={{ marginLeft: 10 }} />
                     </div>
-                ))}
+                    <Skeleton height={45} width="100%" />
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+const SimilarBotsSkeleton = () => (
+    <div className={styles.plansContainer}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
+        <div className={styles.grid}>
+            {[1, 2, 3].map((_, i) => (
+                <div className={styles.griditems} key={i}>
+                    <Skeleton height={200} className={styles.image} />
+                    <div className={styles.details}>
+                        <Skeleton height={25} width="80%" style={{ marginBottom: 10 }} />
+                        <Skeleton height={60} style={{ marginBottom: 15 }} />
+                        <Skeleton height={100} style={{ marginBottom: 15 }} />
+                        <Skeleton height={45} width="100%" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+const AlgoBotDetailsSkeleton = () => (
+    <div className={styles.algobotDetailsAlignment}>
+        <div className={styles.pageHeaderAlignment}>
+            <div className={styles.text}>
+                <Skeleton height={40} width="60%" style={{ marginBottom: 20 ,marginLeft: 25 }} />
             </div>
         </div>
-
-        <div className={styles.courseInformation}>
-            <Skeleton height={400} style={{ marginBottom: 20 }} />
-            <Skeleton height={30} width="50%" style={{ marginBottom: 16 }} />
-            <Skeleton count={4} />
+        <div className={styles.algobanner}>
+            <div className={styles.grid}>
+                <div className={styles.griditems}>
+                    <Skeleton height={400} className={styles.algobotImage} style={{ marginLeft: 25 }} />
+                </div>
+                <div className={styles.griditems}>
+                    <Skeleton count={8} style={{ marginBottom: 10 , marginRight: 25 }} />
+                    <Skeleton width="70%" />
+                </div>
+            </div>
         </div>
+        <div className={styles.tutorial}>
+            <Skeleton height={30} width="20%" style={{ marginBottom: 20 , marginLeft: 25 }} />
+            <div className={styles.textdropdown}>
+                <Skeleton width={200} height={20} style={{ marginBottom: 10 , marginLeft: 25 }} />
+                <Skeleton width={200} height={40} />
+            </div>
+        </div>
+        <div className={styles.tutorialVideo}>
+            <Skeleton height={400} style={{ marginBottom: 20 }} />
+        </div>
+        <BotPlansSkeleton />
+        <SimilarBotsSkeleton />
     </div>
 );
 
@@ -119,7 +163,7 @@ export default function AlgoBotDetails() {
             setAlgobotData(response.payload);
 
             const plansResponse = await getPlan(id);
-            
+
             const initialQuantities = {};
             plansResponse.payload?.forEach((plan) => {
                 initialQuantities[plan._id] = 1; // Initialize quantity as 1 for each plan
@@ -315,9 +359,22 @@ export default function AlgoBotDetails() {
     }, [searchParams]);
 
 
+    if (isLoading) {
+        return <AlgoBotDetailsSkeleton />;
+    }
+
+    if (error) {
+        return <div className={styles.errorMessage}>Error loading AlgoBot details. Please try again later.</div>;
+    }
+
     return (
         <>
             <div className={styles.courseDetails}>
+                <div className={styles.breadcumbAlignment}>
+                    <a aria-label="Home" href="/dashboard">Home</a>
+                    <RightArrow />
+                    <a aria-label="AlgoBots" href="/algobot">AlgoBots</a>
+                </div>
                 <div className={styles.algobotDetailsAlignment}>
                     <div className={styles.pageHeaderAlignment}>
                         <div className={styles.text}>
@@ -410,124 +467,131 @@ export default function AlgoBotDetails() {
                             )}
                         </div>
                     </div>
-                    <div className={styles.plansContainer}>
-                        <h3>Bot Plans</h3>
-                        <div className={styles.plansGrid}>
-                            {plans.map((plan, index) => (                                
-                                <div key={plan._id || index} className={styles.planCard}>
-                                    <div className={styles.planType}>
-                                        <div className={styles.planTypeflx}>
-                                            <h3>{plan.planType}</h3>
-                                            <div className={styles.priceContainer}>
-                                                <span className={styles.originalPrice}>
-                                                    ${(plan.price * (planQuantities[plan._id] || 1)).toFixed(2)}
-                                                </span>
+                    {isLoading ? (
+                        <BotPlansSkeleton />
+                    ) : (
+                        <div className={styles.plansContainer}>
+                            <h3>Bot Plans</h3>
+                            <div className={styles.plansGrid}>
+                                {plans.map((plan, index) => (
+                                    <div key={plan._id || index} className={styles.planCard}>
+                                        <div className={styles.planType}>
+                                            <div className={styles.planTypeflx}>
+                                                <h3>{plan.planType}</h3>
+                                                <div className={styles.priceContainer}>
+                                                    <span className={styles.originalPrice}>
+                                                        ${(plan.price * (planQuantities[plan._id] || 1)).toFixed(2)}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.plandetails}>
-                                        <div className={styles.plandetailsflx}>
-                                            <p>M.R.P :</p>
-                                            <span>${plan.initialPrice.toFixed(2)}</span>
+                                        <div className={styles.plandetails}>
+                                            <div className={styles.plandetailsflx}>
+                                                <p>M.R.P :</p>
+                                                <span>${plan.initialPrice.toFixed(2)}</span>
+                                            </div>
+                                            <div className={styles.plandetailsflx}>
+                                                <p>Discount :</p>
+                                                <span className={styles.discount}>-{plan.discount}%</span>
+                                            </div>
                                         </div>
-                                        <div className={styles.plandetailsflx}>
-                                            <p>Discount :</p>
-                                            <span className={styles.discount}>-{plan.discount}%</span>
-                                        </div>
-                                    </div>
-                                    <div className={styles.counterAlignment}>
-                                        <div
-                                            className={`${styles.icons} ${(planQuantities[plan._id] || 1) <= 1
-                                                ? styles.disabled
-                                                : ""
-                                                }`}
-                                            onClick={() => handleDecrement(plan._id)}
-                                        >
-                                            <img src={MinusIcon} alt="Decrease quantity" />
-                                        </div>
-                                        <div className={styles.textDesign}>
-                                            <span>{planQuantities[plan._id] || 1}</span>
-                                        </div>
-                                        <div
-                                            className={styles.icons}
-                                            onClick={() => handleIncrement(plan._id)}
-                                        >
-                                            <img src={PlusIcon} alt="Increase quantity" />
-                                        </div>
-                                    </div>
-                                    <Button 
-                                        text='Buy Now' 
-                                        fill='fill' 
-                                        onClick={() => {
-                                            setSelectedPlan(plan);
-                                            setShowSubscriptionModal(true);
-                                        }} 
-                                        disabled={false} 
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-
-                    <div className={styles.plansContainer}>
-                        <h3>Similar Bots</h3>
-                        <div className={styles.grid}>
-                            {similarAlgobotData
-                                .filter(strategy => strategy._id !== id) // Filter out current bot
-                                .map((strategy, i) => (                                    
-                                <div className={styles.griditems} key={i}>
-                                    <div className={styles.image}>
-                                        <img src={strategy?.imageUrl} alt={strategy?.title} />
-                                    </div>
-                                    <div className={styles.details}>
-                                        <h3>{strategy?.title}</h3>
-                                        <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                        <div className={styles.pricingSection}>
-                                            {strategy.strategyPlan?.map((plan, planIndex) => (
-                                                <div key={planIndex} className={styles.priceCard}>
-                                                    <div className={styles.priceSubtitle}>
-                                                        <span>{plan.planType}</span>
-                                                        <span className={styles.price}>${plan.price}</span>
-                                                    </div>
-                                                    <div className={styles.priceSubtitle}>
-                                                        <span>M.R.P:</span>
-                                                        <span>${plan.price}</span>
-                                                    </div>
-                                                    <div className={styles.priceSubtitle}>
-                                                        <span>Discount:</span>
-                                                        <span>{plan.discount}%</span>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                        <div className={styles.counterAlignment}>
+                                            <div
+                                                className={`${styles.icons} ${(planQuantities[plan._id] || 1) <= 1
+                                                    ? styles.disabled
+                                                    : ""
+                                                    }`}
+                                                onClick={() => handleDecrement(plan._id)}
+                                            >
+                                                <img src={MinusIcon} alt="Decrease quantity" />
+                                            </div>
+                                            <div className={styles.textDesign}>
+                                                <span>{planQuantities[plan._id] || 1}</span>
+                                            </div>
+                                            <div
+                                                className={styles.icons}
+                                                onClick={() => handleIncrement(plan._id)}
+                                            >
+                                                <img src={PlusIcon} alt="Increase quantity" />
+                                            </div>
                                         </div>
                                         <Button
-                                            text="Buy Now"
-                                            onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                            text='Buy Now'
+                                            fill='fill'
+                                            onClick={() => {
+                                                setSelectedPlan(plan);
+                                                setShowSubscriptionModal(true);
+                                            }}
+                                            disabled={false}
                                         />
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+                    {isLoading ? (
+                        <SimilarBotsSkeleton />
+                    ) : similarAlgobotData?.filter(strategy => strategy._id !== id).length > 0 && (
+                        <div className={styles.plansContainer}>
+                            <h3>Similar Bots</h3>
+                            <div className={styles.grid}>
+                                {similarAlgobotData
+                                    .filter(strategy => strategy._id !== id) // Filter out current bot
+                                    .map((strategy, i) => (
+                                        <div className={styles.griditems} key={i}>
+                                            <div className={styles.image}>
+                                                <img src={strategy?.imageUrl} alt={strategy?.title} />
+                                            </div>
+                                            <div className={styles.details}>
+                                                <h3>{strategy?.title}</h3>
+                                                <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                                <div className={styles.pricingSection}>
+                                                    {strategy.strategyPlan?.map((plan, planIndex) => (
+                                                        <div key={planIndex} className={styles.priceCard}>
+                                                            <div className={styles.priceSubtitle}>
+                                                                <span>{plan.planType}</span>
+                                                                <span className={styles.price}>${plan.price}</span>
+                                                            </div>
+                                                            <div className={styles.priceSubtitle}>
+                                                                <span>M.R.P:</span>
+                                                                <span>${plan.price}</span>
+                                                            </div>
+                                                            <div className={styles.priceSubtitle}>
+                                                                <span>Discount:</span>
+                                                                <span>{plan.discount}%</span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <Button
+                                                    text="Buy Now"
+                                                    onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
             {showSubscriptionModal && selectedPlan && (
-            <AlgobotSubscription
-                plan={{
-                    ...selectedPlan,
-                    quantity: planQuantities[selectedPlan._id] || 1,
-                    totalPrice: selectedPlan.price * (planQuantities[selectedPlan._id] || 1)
-                }}
-                botId={id}
-                onClose={() => {
-                    setShowSubscriptionModal(false);
-                    setSelectedPlan(null);
-                    setSelectedPlanQuantity(1);
-                }}
-            />
-        )}
+                <AlgobotSubscription
+                    plan={{
+                        ...selectedPlan,
+                        quantity: planQuantities[selectedPlan._id] || 1,
+                        totalPrice: selectedPlan.price * (planQuantities[selectedPlan._id] || 1)
+                    }}
+                    botId={id}
+                    onClose={() => {
+                        setShowSubscriptionModal(false);
+                        setSelectedPlan(null);
+                        setSelectedPlanQuantity(1);
+                    }}
+                />
+            )}
         </>
     )
 }

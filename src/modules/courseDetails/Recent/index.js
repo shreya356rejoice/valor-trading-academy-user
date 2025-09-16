@@ -1,13 +1,34 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import styles from './recent.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCourses } from '@/app/api/dashboard';
 import Button from '@/components/button';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const ITEMS_PER_PAGE = 4;
 
-export default function Recent({ searchQuery,selectedType, courses, setCourses }) {
+const RecentCourseSkeleton = () => (
+  <div className={styles.grid}>
+    {[...Array(4)].map((_, index) => (
+      <div className={styles.griditems} key={index}>
+        <Skeleton height={200} className={styles.image} />
+        <div className={styles.details}>
+          <Skeleton height={24} width="80%" style={{ marginBottom: '10px' }} />
+          <Skeleton count={2} style={{ marginBottom: '10px' }} />
+          <div className={styles.iconalignment}>
+            <Skeleton width={40} height={20} style={{ marginRight: '10px' }} />
+            <Skeleton width={100} height={20} />
+          </div>
+          <Skeleton height={40} style={{ marginTop: '15px' }} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+export default function Recent({ searchQuery, selectedType, courses, setCourses }) {
     const [selectedTab, setSelectedTab] = useState("recorded");
     const [allCourses, setAllCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -60,12 +81,17 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
         <>
             <div className={styles.recentCourseAlignment}>
                 <div className={styles.title}>
-                    <h2>Recent Courses</h2>
+                    <h2>Similar Courses</h2>
                 </div>
             </div>
-            <div className={styles.grid}>
+            {isLoading ? (
+              <RecentCourseSkeleton />
+            ) : error ? (
+              <div className={styles.errorMessage}>{error}</div>
+            ) : (
+              <div className={styles.grid}>
                 {allCourses
-                  .filter(course => course._id !== currentCourseId) // Filter out current course
+                  .filter(course => course._id !== currentCourseId)
                   .map((course, i) => (
                     <div className={styles.griditems} key={i}>
                         <div className={styles.image}>
@@ -87,8 +113,9 @@ export default function Recent({ searchQuery,selectedType, courses, setCourses }
                             />
                         </div>
                     </div>
-                ))}
-            </div>
+                  ))}
+              </div>
+            )}
         </>
     )
 }

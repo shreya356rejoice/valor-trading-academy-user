@@ -4,9 +4,11 @@ import styles from './recetCourse.module.scss';
 import Button from '@/components/button';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCourses } from '@/app/api/dashboard';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
-
 const ITEMS_PER_PAGE = 4;
 
 export default function RecetCourse() {
@@ -62,55 +64,77 @@ export default function RecetCourse() {
             fetchCourses();
         }, [selectedTab , currentCourseId]);
 
+    const CourseCardSkeleton = () => (
+        <div className={styles.griditems}>
+            <div className={styles.cardImage}>
+                <Skeleton height={200} width="100%" />
+            </div>
+            <div className={styles.cardDetails}>
+                <Skeleton height={24} width="80%" style={{ marginBottom: '10px' }} />
+                <Skeleton count={3} style={{ marginBottom: '15px' }} />
+                <div className={styles.twoContentAlignment}>
+                    <Skeleton width={60} height={24} />
+                    <div className={styles.iconText}>
+                        <Skeleton width={16} height={16} style={{ marginRight: '5px' }} />
+                        <Skeleton width={80} height={16} />
+                    </div>
+                </div>
+                <Skeleton height={40} style={{ marginTop: '15px' }} />
+            </div>
+        </div>
+    );
+
     return (
         <>
             <div className={styles.recetCourse}>
                 <div className='container'>
                     <div className={styles.title}>
                         <h2>
-                            Recet Course
+                            Recent Course
                         </h2>
-                        {/* <p>
-                            Lorem Ipsum is simply dummy text of the printing
-                            and typesetting industry.
-                        </p> */}
                     </div>
-                    <div className={styles.grid}>
-                        {
-                            allCourses?.map((course, i) => {                                
-                                return (
-                                    <div className={styles.griditems} key={i}>
-                                        <div className={styles.cardImage}>
-                                            <img src={course?.courseVideo} alt='CoursesImage' />
-                                </div>
-                                        <div className={styles.cardDetails}>
-                                            <h3>
-                                                {course?.CourseName}
-                                            </h3>
-                                            <p className={styles.description}>
-                                                {course?.description?.split(' ').slice(0, 20).join(' ')}
-                                                {course?.description?.split(' ').length > 20 ? '...' : ''}
-                                            </p>
-                                            <div className={styles.twoContentAlignment}>
-                                                <h4>
-                                                    ${course?.price}
-                                                </h4>
-                                                <div className={styles.iconText}>
-                                                    <img src={BathIcon} alt='BathIcon' />
-                                                    <span>{course?.instructor}</span>
-                                                </div>
-                                            </div>
-                                            <Button 
-                                                text="Enroll Now" 
-                                                fill 
-                                                onClick={() => router.push(`/our-course-details?id=${course?._id}`)}
-                                            />
-                                        </div>
+                    {isLoading ? (
+                        <div className={styles.grid}>
+                            {[...Array(3)].map((_, i) => (
+                                <CourseCardSkeleton key={i} />
+                            ))}
+                        </div>
+                    ) : error ? (
+                        <div className={styles.errorMessage}>{error}</div>
+                    ) : allCourses.length > 0 ? (
+                        <div className={styles.grid}>
+                            {allCourses.map((course, i) => (
+                                <div className={styles.griditems} key={i}>
+                                    <div className={styles.cardImage}>
+                                        <img src={course?.courseVideo} alt={course?.CourseName} />
                                     </div>
-                                )
-                            })
-                        }
-                    </div>
+                                    <div className={styles.cardDetails}>
+                                        <h3>{course?.CourseName}</h3>
+                                        <p className={styles.description}>
+                                            {course?.description?.split(' ').slice(0, 20).join(' ')}
+                                            {course?.description?.split(' ').length > 20 ? '...' : ''}
+                                        </p>
+                                        <div className={styles.twoContentAlignment}>
+                                            <h4>${course?.price}</h4>
+                                            <div className={styles.iconText}>
+                                                <img src={BathIcon} alt='Instructor' />
+                                                <span>{course?.instructor}</span>
+                                            </div>
+                                        </div>
+                                        <Button 
+                                            text="Enroll Now" 
+                                            fill 
+                                            onClick={() => router.push(`/our-course-details?id=${course?._id}`)}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className={styles.noCourses}>
+                            <p>No other courses available at the moment.</p>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={styles.valorText}>

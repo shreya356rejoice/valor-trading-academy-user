@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import dynamic from 'next/dynamic';
+import { getCookie } from '../../../../cookie';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -24,6 +25,22 @@ export default function TelegramChannelDetails() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get('telegramId');
+
+    const [user, setUser] = useState("");
+
+    useEffect(() => {
+        const user = getCookie("user");
+        const userName = user && JSON.parse(user)?.name;
+        setUser(userName);
+    }, []);
+
+    const handleNavigate = () => {
+        if (user) {
+            router.push('/telegram')
+        } else {
+            router.push('/login')
+        }
+    }
 
     const params = useParams();
     const channelId = params?.id;
@@ -113,7 +130,7 @@ export default function TelegramChannelDetails() {
                                     <Button
                                         text='Subscribe Now'
                                         fill='fill'
-                                        onClick={() => router.push(`/login`)}
+                                        onClick={handleNavigate}
                                         disabled={false}
                                     />
                                 </div>

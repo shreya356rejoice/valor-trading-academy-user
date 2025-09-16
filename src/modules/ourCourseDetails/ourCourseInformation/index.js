@@ -8,18 +8,78 @@ import Button from '@/components/button';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getChapters, getCourses } from '@/app/api/dashboard';
 import { getCookie } from '../../../../cookie';
-const BathPrimaryIcon = '/assets/icons/bath-primary.svg';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
+const BathPrimaryIcon = '/assets/icons/bath-primary.svg';
 const LockIcon = '/assets/icons/lock.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
+
+const CourseInfoSkeleton = () => (
+    <div className={styles.ourCourseInformation}>
+        <div className='container'>
+            <div className={styles.contentAlignment}>
+                <div className={styles.leftContent}>
+                    <Skeleton height={40} width="70%" style={{ marginBottom: '20px' }} />
+                    <Skeleton count={3} style={{ marginBottom: '20px' }} />
+                    <div className={styles.allIconText}>
+                        <div className={styles.blogtextsflx}>
+                            {[...Array(5)].map((_, i) => (
+                                <div key={i} className={styles.iconText} style={{ marginRight: '20px' }}>
+                                    <Skeleton width={100} height={20} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className={styles.rightContent}>
+                            <Skeleton width={150} height={45} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.ourCourseInformation}>
+                {/* <div className={styles.allTabAlignment}>
+                    {[...Array(4)].map((_, i) => (
+                        <Skeleton key={i} width={100} height={40} style={{ marginRight: '10px' }} />
+                    ))}
+                </div> */}
+                <div className={styles.grid} style={{ marginTop: '20px' }}>
+                    <div className={styles.gridItems}>
+                        <Skeleton height={400} />
+                    </div>
+                    <div className={styles.gridItems}>
+                        <Skeleton height={30} width="80%" style={{ marginBottom: '20px' }} />
+                        <Skeleton count={5} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
 
 export default function OurCourseInformation() {
     const [course, setCourse] = useState({});
     const [chapters, setChapters] = useState([]);
     const [activeChapter, setActiveChapter] = useState(null);
     const [isLogin, setIsLogin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const id = useSearchParams().get('id');
     const router = useRouter();
+
+    const [user, setUser] = useState("");
+    
+        useEffect(() => {
+            const user = getCookie("user");
+            const userName = user && JSON.parse(user)?.name;
+            setUser(userName);
+        }, []);
+    
+        const handleNavigate = () => {
+            if (user) {
+                router.push('/courses')
+            } else {
+                router.push('/login')
+            }
+        }
 
     // Set the first chapter as active when chapters are loaded
     useEffect(() => {
@@ -34,29 +94,37 @@ export default function OurCourseInformation() {
                 const response = await getChapters(id);
                 setChapters(response.payload.data);
             } catch (error) {
-                console.error('Error fetching course:', error);
+                console.error('Error fetching chapters:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         const fetchCourse = async () => {
             try {
                 const response = await getCourses({ id });
-
                 setCourse(response.payload.data[0]);
             } catch (error) {
                 console.error('Error fetching course:', error);
+                setIsLoading(false);
             }
         };
+        
+        setIsLoading(true);
         fetchCourse();
         const userToken = getCookie('userToken');
         if (userToken) {
             setIsLogin(true);
             fetchChapter();
-        }
-        else {
+        } else {
             setIsLogin(false);
+            setIsLoading(false);
         }
     }, [id]);
+
+    if (isLoading) {
+        return <CourseInfoSkeleton />;
+    }
 
     return (
         <div className={styles.ourCourseInformation}>
@@ -95,7 +163,7 @@ export default function OurCourseInformation() {
                                 </div>
                             </div>
                             <div className={styles.rightContent}>
-                                <Button text="Enroll Now" onClick={() => router.push(`/login`)} fill />
+                                <Button text="Enroll Now" onClick={handleNavigate} fill />
                             </div>
                         </div>
 
