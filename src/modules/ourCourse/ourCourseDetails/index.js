@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './ourCourseDetails.module.scss';
 import Button from '@/components/button';
 import { useRouter, usePathname } from 'next/navigation';
-import { getCourses } from '@/app/api/dashboard';
+import { getCourses, getDashboardCourses } from '@/app/api/dashboard';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -45,18 +45,17 @@ export default function OurCourseDetails() {
                     limit: ITEMS_PER_PAGE,
                     courseType: selectedTab || "recorded",
                   };
-            
-                  const data = await getCourses(params);
-            
-                  if (data?.success) {
-                    setAllCourses(data?.payload?.data || []);
-                  }
-            
-                  setPagination((prev) => ({
-                    ...prev,
-                    currentPage: page,
-                    totalItems: data?.payload?.count || 0,
-                  }));
+
+                    const data = await getDashboardCourses(params);
+                    if (data?.success) {
+                        setAllCourses(data?.payload?.data || []);
+                    }
+
+                    setPagination((prev) => ({
+                        ...prev,
+                        currentPage: page,
+                        totalItems: data?.payload?.count || 0,
+                    }));
                 }
              catch (error) {
                 console.error('Error fetching courses:', error);

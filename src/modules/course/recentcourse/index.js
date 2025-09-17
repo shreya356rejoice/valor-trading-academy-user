@@ -139,10 +139,14 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                         <span>{course?.instructor || "John Doe"}</span>
                                     </div>
                                 </div>
-                                <Button
+                                {course?.isPayment ? (<Button
+                                    text="Enrolled"
+                                    fill
+                                    onClick={() => router.push(`/my-course-details?courseId=${course?._id}`)}
+                                />) : (<Button
                                     text="Enroll Now"
                                     onClick={() => router.push(`/course-details?courseId=${course?._id}`)}
-                                />
+                                />)}
                             </div>
                         </div>
                     ))

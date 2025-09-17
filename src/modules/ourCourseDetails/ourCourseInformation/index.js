@@ -6,7 +6,7 @@ import StarIcon from '@/components/icons/starIcon';
 import ProfileIcon from '@/components/icons/profileIcon';
 import Button from '@/components/button';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getChapters, getCourses } from '@/app/api/dashboard';
+import { getChapters, getCourses, getDashboardCourses } from '@/app/api/dashboard';
 import { getCookie } from '../../../../cookie';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -102,7 +102,7 @@ export default function OurCourseInformation() {
 
         const fetchCourse = async () => {
             try {
-                const response = await getCourses({ id });
+                const response = await getDashboardCourses({ id });
                 setCourse(response.payload.data[0]);
             } catch (error) {
                 console.error('Error fetching course:', error);

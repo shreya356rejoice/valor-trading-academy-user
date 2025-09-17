@@ -46,6 +46,29 @@ export const getAlgobot = async (id = '', searchQuery = '', page = 1, limit = 10
       throw error;
     }
   };
+
+  export const getDashboardAlgobot = async (id = '', searchQuery = '', page = 1, limit = 10) => {
+    try {
+      const params = new URLSearchParams({
+        page,
+        limit,
+      });
+  
+      if (id) {
+        params.append("categoryId", id);
+      }
+  
+      if (searchQuery) {
+        params.append("search", searchQuery);
+      }
+  
+      const response = await api.get(`/strategyPlan/getStrategiesDashboard?${params.toString()}`);
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+      throw error;
+    }
+  };
   
 
 export const getOneBot = async (id) => {
@@ -61,6 +84,16 @@ export const getOneBot = async (id) => {
 export const getPlan = async (id) => {
     try {
         const response = await api.get(`/strategyPlan/all/${id}`)
+        return response.data;
+    } catch (error) {
+        console.log("error", error)
+        throw error;
+    }
+}
+
+export const getDashboardPlan = async (id) => {
+    try {
+        const response = await api.get(`/strategyPlan/allDashboard/${id}`)
         return response.data;
     } catch (error) {
         console.log("error", error)

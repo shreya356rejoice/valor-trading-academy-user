@@ -14,7 +14,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { getPaymentUrl } from '@/app/api/dashboard';
 import Button from '@/components/button';
-import { getAlgobot, getOneBot, getPlan } from '@/app/api/algobot';
+import { getAlgobot, getDashboardAlgobot, getDashboardPlan, getOneBot, getPlan } from '@/app/api/algobot';
 import RightIcon from '@/components/icons/rightIcon';
 import { marked } from "marked";
 import { motion } from 'framer-motion';
@@ -174,15 +174,13 @@ export default function AlgobotInDetails() {
             setIsLoading(true);
             const response = await getOneBot(id);
             setAlgobotData(response.payload);
-
-            const plansResponse = await getPlan(id);
-
-            const initialQuantities = {};
-            plansResponse.payload?.forEach((plan) => {
-                initialQuantities[plan._id] = 1; // Initialize quantity as 1 for each plan
-            });
-            setPlanQuantities(initialQuantities);
-            setPlans(plansResponse.payload || []);
+                const plansResponse = await getDashboardPlan(id);
+                const initialQuantities = {};
+                plansResponse.payload?.forEach((plan) => {
+                    initialQuantities[plan._id] = 1; // Initialize quantity as 1 for each plan
+                });
+                setPlanQuantities(initialQuantities);
+                setPlans(plansResponse.payload || []);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
@@ -199,7 +197,7 @@ export default function AlgobotInDetails() {
     useEffect(() => {
         const fetchSimilarAlgobotData = async () => {
             try {
-                const response = await getAlgobot(algobotData?.categoryId?._id);
+                const response = await getDashboardAlgobot(algobotData?.categoryId?._id);
 
                 setSimilarAlgobotData(response?.payload?.result); // Get first 3 strategies
             } catch (error) {

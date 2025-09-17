@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import styles from './paymentTable.module.scss';
-import { downloadInvoice, getpaymentHistory } from '@/app/api/payment';
-import Modal from '@/components/Modal';
+import { addmetaAccountNo, downloadInvoice, getpaymentHistory } from '@/app/api/payment';
 import DownloadIcon from '@/components/icons/downloadIcon';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Modal from '@/components/Modal';
+import { toast } from 'react-toastify';
 
 const TABS = {
     ALL: { label: 'All Payments', type: '' },
@@ -27,6 +30,8 @@ export default function PaymentTable() {
     const [metaAccounts, setMetaAccounts] = useState(['']);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loadingInvoices, setLoadingInvoices] = useState({});
+    const [isSaving, setIsSaving] = useState(false);
+    const [paymentHistory, setPaymentHistory] = useState({});
 
     const fetchPaymentHistory = async () => {
         try {
@@ -93,6 +98,42 @@ export default function PaymentTable() {
         }
 
         setIsModalOpen(true);
+    };
+
+    const handleSaveAccounts = async () => {
+        if (isSaving) return;
+
+        try {
+            setIsSaving(true);
+            const validAccounts = metaAccounts.filter(account => account.trim() !== '');
+
+            if (validAccounts.length === 0) {
+                toast.error('Please enter at least one valid account number');
+                return;
+            }
+
+            const response = await addmetaAccountNo(currentPayment._id, validAccounts);
+
+            if(response?.success){
+                await fetchPaymentHistory();
+            }else{
+                console.log("error while saved meta account.")
+            }
+        
+            const updatedPayments = payments?.map(payment =>
+                payment._id === currentPayment._id
+                    ? { ...payment, metaAccountNo: validAccounts }
+                    : payment
+            );
+
+            setPaymentHistory(updatedPayments);
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error('Error saving meta accounts:', error);
+            toast.error('Failed to save accounts. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleCloseModal = () => {
@@ -183,44 +224,62 @@ export default function PaymentTable() {
     return (
         <>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                <h2 className={styles.metaAccountNo}>{isViewMode ? 'Meta Account Numbers' : 'Add Meta Account Numbers'}</h2>
-                <div className={styles.modalContent}>
-                    {isViewMode ? (
-                        <div className={styles.accountsList}>
-                            {metaAccounts.map((account, index) => (
-                                <div key={index} className={styles.accountItem}>
-                                    <span>Account {index + 1} : </span>
-                                    <span>{account || 'N/A'}</span>
-                                </div>
-                            ))}
+    <div className={styles.modalContainer}>
+        <div className={styles.modalHeader}>
+            <h2>{isViewMode ? 'Meta Account Numbers' : 'Add Meta Account Numbers'}</h2>
+            <button className={styles.closeBtn} onClick={handleCloseModal}>×</button>
+        </div>
+
+        <div className={styles.modalBody}>
+            {isViewMode ? (
+                <div className={styles.accountsList}>
+                    {metaAccounts.map((account, index) => (
+                        <div key={index} className={styles.accountItem}>
+                            <span>Account {index + 1}:</span>
+                            <span>{account || 'N/A'}</span>
                         </div>
-                    ) : (
-                        <div className={styles.accountInputs}>
-                            {metaAccounts.map((account, index) => (
-                                <div key={index} className={styles.inputGroup}>
-                                    <label>Account {index + 1}:</label>
-                                    <input
-                                        type="text"
-                                        value={account}
-                                        onChange={(e) => {
-                                            const newAccounts = [...metaAccounts];
-                                            newAccounts[index] = e.target.value;
-                                            setMetaAccounts(newAccounts);
-                                        }}
-                                        placeholder={`Enter Meta Account ${index + 1}`}
-                                    />
-                                </div>
-                            ))}
-                            <div className={styles.modalActions}>
-                                <button className={styles.saveButton}>Save</button>
-                                <button className={styles.cancelButton} onClick={handleCloseModal}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                    ))}
                 </div>
-            </Modal>
+            ) : (
+                <div className={styles.accountInputs}>
+                    {metaAccounts.map((account, index) => (
+                        <div key={index} className={styles.inputGroup}>
+                            <label>Account {index + 1} :</label>
+                            <input
+                                type="text"
+                                value={account}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Only update if the input is empty or has 6 characters or less
+                                    if (value === '' || /^\d{0,6}$/.test(value)) {
+                                        const newAccounts = [...metaAccounts];
+                                        newAccounts[index] = value;
+                                        setMetaAccounts(newAccounts);
+                                    }
+                                }}
+                                maxLength={6}
+                                placeholder={`Enter Meta Account ${index + 1}`}
+                                className={account.length > 0 && account.length !== 6 ? styles.errorInput : ''}
+                            />
+                            {account.length > 0 && account.length !== 6 && (
+                                <span className={styles.errorText}>Meta Account number must be exactly 6 digits</span>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+
+        {!isViewMode && (
+            <div className={styles.modalActions}>
+                {!isViewMode && (<button className={styles.saveButton} onClick={handleSaveAccounts}
+                                disabled={isSaving}>Save</button>)}
+                <button className={styles.cancelButton} onClick={handleCloseModal}>Cancel</button>
+            </div>
+        )}
+    </div>
+</Modal>
+
 
             <div className={styles.tabCenteralignment}>
                 <div className={styles.tab}>
@@ -322,13 +381,22 @@ export default function PaymentTable() {
                                     
                                     {(selectedTab === 'BOTS' || selectedTab === 'ALL') && (
                                         <td>
-                                            {payment.metaAccountNo?.length > 0 ? (
-                                                <button
-                                                    className={styles.viewmore}
-                                                    onClick={() => handleOpenModal(payment, true)}
-                                                >
-                                                    View More
-                                                </button>
+                                            {payment.botId ? (
+                                                payment.metaAccountNo?.length > 0 ? (
+                                                    <button
+                                                        className={styles.viewmore}
+                                                        onClick={() => handleOpenModal(payment, true)}
+                                                    >
+                                                        View More
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className={styles.viewmore}
+                                                        onClick={() => handleOpenModal(payment, false)}
+                                                    >
+                                                        Add
+                                                    </button>
+                                                )
                                             ) : "-"}
                                         </td>
                                     )}

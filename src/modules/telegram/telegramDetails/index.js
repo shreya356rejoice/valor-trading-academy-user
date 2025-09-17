@@ -203,10 +203,28 @@ export default function TelegramDetails() {
                                         <span>View Details</span>
                                     </div>
                                 </div> */}
-                                <Button
-                                    text="Join Channel"
-                                    onClick={() => router.push(`/telegram-details/${channel?._id}`)}
-                                />
+
+                                {(() => {
+                                    const hasPaidPlan = channel.telegramPlan?.some(plan => plan?.isPayment);
+
+                                    if (hasPaidPlan) {
+                                        return (
+                                            <Button
+                                                text="Joined"
+                                                fill="fill"
+                                                onClick={() => router.push(`/my-telegram-details/${channel?._id}`)}
+                                                className={styles.joinedButton}
+                                            />
+                                        );
+                                    }
+
+                                    return (
+                                        <Button
+                                            text="Join Channel"
+                                            onClick={() => router.push(`/telegram-details/${channel?._id}`)}
+                                        />
+                                    );
+                                })()}
                             </div>
                         </div>
                     ))

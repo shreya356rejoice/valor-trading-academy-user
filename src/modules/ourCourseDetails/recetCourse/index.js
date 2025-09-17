@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './recetCourse.module.scss';
 import Button from '@/components/button';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getCourses } from '@/app/api/dashboard';
+import { getCourses, getDashboardCourses } from '@/app/api/dashboard';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -36,7 +36,7 @@ export default function RecetCourse() {
                     courseType: selectedTab || "recorded",
                 };
     
-                const data = await getCourses(params);
+                const data = await getDashboardCourses(params);
     
                 if (data?.success) {
                     // Filter out the current course from the list

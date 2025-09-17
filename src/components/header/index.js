@@ -7,7 +7,7 @@ import MenuIcon from '../icons/menuIcon';
 import classNames from 'classnames';
 import CloseIcon from '../icons/closeIcon';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { getCookie, removeCookie } from '../../../cookie';
 import { toast } from 'react-toastify';
 import ProfileIconSm from '../icons/ProfileIconSm';
@@ -42,6 +42,7 @@ export default function Header() {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const dropdownRef = useRef(null);
 
@@ -92,7 +93,18 @@ export default function Header() {
                 <a className={pathname === '/our-course' ? styles.active : ''} href='/our-course' aria-label='Courses'>Courses</a>
                 <a className={pathname === '/live-online-classes' ? styles.active : ''} href='/live-online-classes' aria-label='Live Online Classes'>Live Online Classes</a>
                 <a className={pathname === '/offline-sessions' ? styles.active : ''} href='/offline-sessions' aria-label='Offline Sessions'>Offline Sessions</a>
-                <a className={pathname === '/algobots' ? styles.active : ''} href='/algobots' aria-label='Algobots'>Algobots</a>
+                <a 
+                  className={pathname === '/algobots' && searchParams.get('category') === 'Arbitrage Algo' ? styles.active : ''} 
+                  href='/algobots?category=Arbitrage Algo' 
+                >
+                  Algobots
+                </a>
+                <a 
+                  className={pathname === '/algobots' && searchParams.get('category') === 'Trading Tools' ? styles.active : ''} 
+                  href='/algobots?category=Trading Tools' 
+                >
+                  Trading Tools
+                </a>
                 <a className={pathname === '/blog' ? styles.active : ''} href='/blog' aria-label='Blog'>Blogs</a>
                 <a className={pathname === '/about-us' ? styles.active : ''} href='/about-us' aria-label='About Us'>About Us</a>
               </div>

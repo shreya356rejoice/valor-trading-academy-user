@@ -143,7 +143,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </div>
         </Link>
         <Link href="/my-courses">
-          <div className={classNames(styles.menu, pathname === "/my-courses" ? styles.activeMenu : " ")}>
+          <div className={classNames(styles.menu, (pathname === "/my-courses" || pathname.includes("/my-algobot-details") || pathname.includes("/my-course-details") || pathname.includes("/my-telegram-details")) ? styles.activeMenu : " ")}>
             <div className={styles.iconAlignment}>
               <img src={MyCoursesIcon} alt="MyCoursesIcon" />
               <img src={MyCoursesIconActive} alt="MyCoursesIconActive" />

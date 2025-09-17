@@ -140,18 +140,15 @@ export default function MyCourseDetails() {
         const scheduleOn = formattedDateRange;
         const courseType = isCourse ? item.courseId?.courseType : '';
         const location = isCourse ? item.courseId?.location : '';
-        const planType = item.planType || 'Standard';
-
-        console.log(item,"item");
-        
+        const planType = item.planType || 'Standard';        
 
         const handleCardClick = () => {
             if (selectedTab === 'TELEGRAM') {
-                router.push(`/telegram-details/${telegramId}`);
+                router.push(`/my-telegram-details/${telegramId}`);
             } else if (selectedTab === 'BOTS') {
-                router.push(`/algobot-details?algobotId=${botId}`);
+                router.push(`/my-algobot-details?algobotId=${botId}`);
             } else if (['RECORDED', 'LIVE', 'PHYSICAL'].includes(selectedTab)) {
-                router.push(`/course-details?courseId=${courseId}`);
+                router.push(`/my-course-details?courseId=${courseId}`);
             }
         };
 

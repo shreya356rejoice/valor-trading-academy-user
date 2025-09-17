@@ -1,0 +1,316 @@
+@use '../../scss/main.scss' as *;
+@use '../../scss/breakpoints/breakpoints.scss' as *;
+@use '../../scss/typography/typography.scss' as *;
+
+.algobotPage {
+    background-color: var(--bg-white);
+    border-radius: 22px;
+    padding: 25px;
+    min-height: calc(100dvh - 40px);
+}
+
+.algobotBanner {
+    background-color: var(--bg-white);
+    // padding: 0 0 20px 0;
+    border-bottom: 1px solid var(--border-color5);
+    // display: grid;
+    // grid-template-columns: 1fr 400px;
+    gap: 10px;
+
+    @media (max-width:1500px) {
+        grid-template-columns: 1fr 300px;
+    }
+
+    h1 {
+        @include heading20;
+        color: var(--black-100);
+        margin: 0 0 10px 0;
+        padding-top: 20px;
+
+        span {
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+    }
+
+    p {
+        @include font16;
+        color: #051600CC;
+        margin: 0 0 10px 0;
+
+        span{
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+    }
+
+    .searchbar {
+        position: relative;
+
+        input {
+            width: 100%;
+            border-radius: 99px;
+            padding-left: 56px;
+            padding-right: 16px;
+            background-color: var(--bg-white-light);
+            border: 1px solid var(--border-color2);
+            height: 48px;
+            transition: .3s ease-in-out;
+            @include font16medium;
+            color: var(--black-100);
+            font-weight: 400;
+
+            &:focus {
+                outline: none;
+                border: 1px solid var(--primary);
+            }
+        }
+
+        .iconAlignment {
+            position: absolute;
+            left: 20px;
+            top: 40%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        ::placeholder {
+            @include font16medium;
+            color: var(--black-200);
+            opacity: 0.36;
+            font-weight: 400;
+        }
+    }
+}
+
+.availablePlans {
+    padding: 20px 0 ;
+    border-bottom: 1px solid var(--border-color5);
+}
+
+// Main container
+.channelContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    color: var(--black-200);
+}
+
+// Loading and error states
+.loading,
+.notFound {
+    text-align: center;
+    padding: 50px 0;
+    @include font18;
+    color: var(--black-100);
+}
+
+// Channel header section
+.channelHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+
+    @include respond-to("md") {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.channelIcon {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid var(--primary);
+}
+
+.channelImage {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.channelInfo {
+    flex: 1;
+
+    h1 {
+        // @include font28;
+        color: var(--black-200);
+        margin: 0 0 15px 0;
+        font-weight: 600;
+    }
+}
+
+.channelDescription {
+    @include font16;
+    color: var(--black-100);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.channelStats {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+
+    .statItem {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        // @include font14;
+        color: var(--black-100);
+
+        i {
+            color: var(--primary);
+            width: 18px;
+            text-align: center;
+        }
+    }
+}
+
+// Plans section
+.plansContainer {
+    margin-top: 20px;
+
+    h2 {
+        // @include font24;
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--black-200);
+        font-weight: 600;
+    }
+}
+
+.plansGrid {
+    display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    @media (max-width:1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width:768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width:576px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .planCard {
+        background: linear-gradient(90deg, rgba(48, 87, 239, 0.08) 4.37%, rgba(185, 102, 231, 0.08) 100%);
+        border-radius: 12px;
+        padding: 35px 40px;
+        position: relative;
+        transition: .4s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        &.disabledCard {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .planType {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+
+            h3 {
+                // @include font20;
+                font-size: 16px;
+                line-height: 20px;
+                color: var(--black-500);
+                font-weight: 600;
+            }
+
+            span {
+                background: linear-gradient(180deg, #3D348B 0%, #7678ED 100%);
+                -webkit-text-fill-color: rgba(0, 0, 0, 0);
+                -webkit-background-clip: text;
+                background-clip: text;
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 24px;
+            }
+        }
+
+        .plandetails {
+            padding: 14px;
+            margin-bottom: 20px;
+            background-color: var(--bg-white);
+            border-radius: 10px;
+
+            .plandetailsflx {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                p,
+                span {
+                    color: var(--grey-600);
+                    @include font16;
+                }
+
+                .discount {
+                    color: #ce4553 !important;
+                }
+            }
+        }
+
+
+        button {
+            width: 100%;
+        }
+    }
+
+}
+
+.breadcumbAlignment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #E9E9E9;
+
+    a {
+        display: block;
+        @include font16medium;
+        cursor: pointer;
+        color: var(--grey-600);
+    }
+
+    a:last-child {
+        background: var(--linear-gradient);
+        @include text-type;
+    }
+}

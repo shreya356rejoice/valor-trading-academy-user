@@ -198,10 +198,20 @@ export default function AlgobotDetails() {
                                         <span>View Details</span>
                                     </div>
                                 </div> */}
-                                <Button
-                                    text="Buy Now"
-                                    onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
-                                />
+
+                                {strategy.strategyPlan?.some(plan => plan?.isPayment) ? (
+                                    <Button
+                                        text="Purchased"
+                                        fill
+                                        onClick={() => router.push(`/my-algobot-details?algobotId=${strategy?._id}`)}
+                                        style={{ opacity: 0.7, cursor: 'not-allowed' }}
+                                    />
+                                ) : (
+                                    <Button
+                                        text="Buy Now"
+                                        onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                    />
+                                )}
                             </div>
                         </div>
                     ))

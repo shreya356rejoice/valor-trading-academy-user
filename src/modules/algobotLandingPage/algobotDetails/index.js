@@ -3,18 +3,16 @@ import React, { useEffect, useState } from 'react'
 import styles from './algobotDetails.module.scss';
 import Button from '@/components/button';
 import Pagination from '@/components/pagination';
-
-
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation'; 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { getAlgobot, getAlgobotCategories } from '@/app/api/algobot';
-const CardImage = '/assets/images/card9.png';
-const BathIcon = '/assets/icons/bath.svg';
+import { getAlgobotCategories, getDashboardAlgobot } from '@/app/api/algobot';
 
 const ITEMS_PER_PAGE = 4;
 
 export default function AlgobotDetails() {
+    const searchParams = useSearchParams();
+    const categoryQuery = searchParams.get('category'); 
     const [selectedTab, setSelectedTab] = useState("recorded");
     const [strategies, setStrategies] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -27,6 +25,7 @@ export default function AlgobotDetails() {
         totalItems: 0,
         itemsPerPage: ITEMS_PER_PAGE
     });
+
     const router = useRouter();
 
     const fetchCategories = async () => {
@@ -35,8 +34,17 @@ export default function AlgobotDetails() {
             const data = await getAlgobotCategories();
             if (data?.success && data.payload?.length > 0) {
                 setCategories(data.payload);
-                // Set the first category as selected by default
-                setSelectedCategory(data.payload[0]._id);
+
+                // ✅ Match URL query param with category title
+                const matchedCategory = categoryQuery
+                    ? data.payload.find(cat => cat.title.toLowerCase() === categoryQuery.toLowerCase())
+                    : null;
+
+                if (matchedCategory) {
+                    setSelectedCategory(matchedCategory._id);
+                } else {
+                    setSelectedCategory(data.payload[0]._id); // fallback
+                }
             }
         } catch (err) {
             console.error('Error fetching categories:', err);
@@ -49,22 +57,18 @@ export default function AlgobotDetails() {
     const fetchStrategies = async (page = 1) => {
         try {
             setIsLoading(true);
-            const data = await getAlgobot(selectedCategory, '', page, ITEMS_PER_PAGE);
-
+            const data = await getDashboardAlgobot(selectedCategory, '', page, ITEMS_PER_PAGE);
             if (data?.success) {
                 setStrategies(data?.payload?.result || []);
+                setPagination(prev => ({
+                    ...prev,
+                    currentPage: page,
+                    totalItems: data?.payload?.count || 0,
+                }));
             }
-
-            setPagination(prev => ({
-                ...prev,
-                currentPage: page,
-                totalItems: data?.payload?.count || 0,
-            }));
-        }
-        catch (error) {
-            console.error('Error fetching courses:', error);
-            setError('Failed to load courses. Please try again later.');
-            // setCourses([]);
+        } catch (error) {
+            console.error('Error fetching strategies:', error);
+            setError('Failed to load strategies.');
         } finally {
             setIsLoading(false);
         }
@@ -74,21 +78,15 @@ export default function AlgobotDetails() {
         fetchCategories();
     }, []);
 
-    // Reset to first category when categories change
     useEffect(() => {
-        if (categories.length > 0 && !selectedCategory) {
-            setSelectedCategory(categories[0]._id);
+        if (categories.length > 0 && selectedCategory) {
+            fetchStrategies(pagination.currentPage);
         }
-    }, [categories]);
-
-    useEffect(() => {
-        fetchStrategies(pagination.currentPage);
     }, [pagination.currentPage, selectedCategory]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= Math.ceil(pagination.totalItems / pagination.itemsPerPage)) {
             fetchStrategies(newPage);
-            // Optional: Scroll to top when changing pages
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
@@ -134,30 +132,23 @@ export default function AlgobotDetails() {
         <div className={styles.recentcourse}>
             <div className={styles.tabCenteralignment}>
                 <div className={styles.tab}>
-                    {/* <button 
-                        className={!selectedCategory ? styles.active : ''}
-                        onClick={() => setSelectedCategory('')}
-                        disabled={isCategoriesLoading}
-                    >
-                        All Categories
-                    </button> */}
-                    {/* {isCategoriesLoading ? (
-                        <div>Loading categories...</div>
-                    ) : ( */}
-                    {categories.map((category, index) => (
+                    {[...categories].sort((a, b) => {
+                        if (a.title === 'Arbitrage Algo') return -1;
+                        if (b.title === 'Arbitrage Algo') return 1;
+                        return 0;
+                    }).map((category, index) => (
                         <button
                             key={category._id}
                             className={selectedCategory === category._id ? styles.active : ''}
                             onClick={() => setSelectedCategory(category._id)}
-                            // Set first tab as active by default if none selected
                             {...(index === 0 && !selectedCategory ? { 'data-active': true } : {})}
                         >
                             {category.title}
                         </button>
                     ))}
-                    {/* )} */}
                 </div>
             </div>
+
             <div className={styles.grid}>
                 {isLoading ? (
                     renderSkeleton()
@@ -190,14 +181,6 @@ export default function AlgobotDetails() {
                                         </div>
                                     ))}
                                 </div>
-
-                                {/* <div className={styles.iconalignment}>
-                                    <h4>${strategy?.strategyPlan?.[0]?.price || '0'}</h4>
-                                    <div className={styles.iconText}>
-                                        <img src={BathIcon} alt="BathIcon" />
-                                        <span>View Details</span>
-                                    </div>
-                                </div> */}
                                 <Button
                                     text="Buy Now"
                                     onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}

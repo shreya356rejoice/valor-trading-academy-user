@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './telegramChannelDetails.module.scss';
 import Button from '@/components/button';
-import { getTelegramChannels } from '@/app/api/dashboard';
+import { getDashboardTelegramChannels, getTelegramChannels } from '@/app/api/dashboard';
 import { motion } from 'framer-motion';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -58,7 +58,7 @@ export default function TelegramChannelDetails() {
     useEffect(() => {
         const fetchChannel = async () => {
             try {
-                const data = await getTelegramChannels(id);
+                const data = await getDashboardTelegramChannels(id);
 
                 if (data.payload && data.payload.data.length > 0) {
                     setChannel(data.payload.data[0]);

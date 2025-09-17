@@ -2,6 +2,105 @@
 @use '../../../scss/breakpoints/breakpoints.scss' as *;
 @use '../../../scss/typography/typography.scss' as *;
 
+// .modalContainer {
+//     background: white;
+//     border-radius: 12px;
+//     overflow: hidden;
+//     width: 100%;
+//     max-width: 500px;
+//     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+// }
+
+.errorText{
+    color: red;
+    font-size: 14px;
+    padding-bottom: 8px;
+}
+
+.modalHeader {
+    // background: linear-gradient(90deg, #5f38f0, #7a5cf3);
+    padding-bottom: 12px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .closeBtn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+}
+
+
+.inputGroup {
+    margin-bottom: 15px;
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: #5f38f0;
+            outline: none;
+        }
+    }
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.3s ease;
+
+        &.saveButton {
+            background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+            color: white;
+
+            &:hover {
+                background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+            }
+        }
+
+        &.cancelButton {
+            background: #e5e5e5;
+            color: #333;
+
+            &:hover {
+                background: #d4d4d4;
+            }
+        }
+    }
+}
+
+
 .paymentTable {
     background: #7677EC0D;
     border: 1px solid #7577EB21;

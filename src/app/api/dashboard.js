@@ -33,6 +33,32 @@ export const getCourses = async ({ page = 1, limit = 10, searchQuery = "", cours
   }
 };
 
+export const getDashboardCourses = async ({ page = 1, limit = 10, searchQuery = "", courseType = "", id = "" }) => {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    if (searchQuery) {
+      params.append("search", searchQuery);
+    }
+    if (courseType) {
+      params.append("courseType", courseType);
+    }
+    if (id) {
+      params.append("id", id);
+    }
+
+    const response = await api.get(`/course/getAllCourseDashboard?${params.toString()}`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses", error);
+    throw error;
+  }
+};
+
 export const getCourseByType = async () => {
   try {
     const res = await api.get(`/course/getCoueseByType`);
@@ -159,6 +185,17 @@ export const getSessionData = async (id) => {
 export const getTelegramChannels = async (id, searchQuery) => {
   try {
     const res = await api.get(`/telegram/getAllTelegram${id ? `?telegramId=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
+    const data = await res.data;
+    return data;
+  } catch (error) {
+    console.error("Error fetching dashboard data", error);
+    throw error;
+  }
+};
+
+export const getDashboardTelegramChannels = async (id, searchQuery) => {
+  try {
+    const res = await api.get(`/telegram/getAllTelegramDashboard${id ? `?telegramId=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
     const data = await res.data;
     return data;
   } catch (error) {

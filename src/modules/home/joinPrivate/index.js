@@ -6,7 +6,7 @@ import Button from '@/components/button'
 import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useRouter } from 'next/navigation'
-import { getTelegramChannels } from '@/app/api/dashboard'
+import { getDashboardTelegramChannels, getTelegramChannels } from '@/app/api/dashboard'
 
 const BottomLayer = '/assets/images/bottom-layer.svg'
 const ProfileImage = '/assets/images/profile-sm.png'
@@ -42,13 +42,13 @@ export default function JoinPrivate() {
     }, [inView, animationControls])
 
     const [telegramChannels, setTelegramChannels] = useState([]);
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         const fetchTelegramChannels = async () => {
             try {
-                const response = await getTelegramChannels();
-                setTelegramChannels(response.payload.data);
+                    const response = await getDashboardTelegramChannels();
+                    setTelegramChannels(response.payload.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
