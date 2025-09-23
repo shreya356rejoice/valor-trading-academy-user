@@ -207,7 +207,7 @@ export default function OurCourseInformation() {
                                 <div className={styles.blogtextsflx}>
                                     <div className={styles.iconText}>
                                         <CalanderIcon />
-                                        <span>{course?.createdAt ? new Date(course.createdAt).toLocaleDateString('en-CA') : 'N/A'}</span>
+                                        <span>Schedule On: {course?.createdAt ? new Date(course.createdAt).toLocaleDateString('en-CA') : 'N/A'}</span>
                                     </div>
                                     <div className={styles.iconText}>
                                         <ClockIcon />
@@ -227,6 +227,10 @@ export default function OurCourseInformation() {
                                         <ProfileIcon />
                                         <span>{course?.subscribed}</span>
                                     </div>
+                                    <div className={styles.iconText}>
+                                        <CalanderIcon />
+                                        <span>Register End Date: {course?.courseEnd ? new Date(course.courseEnd).toLocaleDateString('en-CA') : 'N/A'}</span>
+                                    </div>
                                 </div>
                             )}
 
@@ -239,6 +243,8 @@ export default function OurCourseInformation() {
                                 ) : (
                                     course?.registration?.isActive ? 
                                     (<Button text="Registered" disabled fill />) : 
+                                    (course?.courseEnd && new Date(course.courseEnd) < new Date()) ?
+                                    (<Button text="Registration Closed" disabled fill />) :
                                     (<Button text="Register" onClick={handleRegister} fill />)
                                 )}
                             </div>

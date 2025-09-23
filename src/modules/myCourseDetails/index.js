@@ -187,7 +187,7 @@ export default function MyCourseDetails() {
             <><div className={styles.coursdetailstext}>
               <div className={styles.iconText}>
                 <CalanderIcon />
-                <span>{new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
+                <span>Schedule On: {new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
               </div>
               <div className={styles.iconText}>
                 <ClockIcon />

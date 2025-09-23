@@ -223,7 +223,7 @@ export default function CourseDetails() {
           </div>) : (<div className={styles.coursdetailstext}>
             <div className={styles.iconText}>
               <CalanderIcon />
-              <span>{new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
+              <span>Schedule On: {new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
             </div>
             <div className={styles.iconText}>
               <ClockIcon />
@@ -240,6 +240,10 @@ export default function CourseDetails() {
             <div className={styles.iconText}>
               <ProfileIcon />
               <span>{courses?.subscribed}</span>
+            </div>
+            <div className={styles.iconText}>
+              <CalanderIcon />
+              <span>Register End Date: {new Date(courses?.courseEnd || new Date()).toLocaleDateString('en-GB')}</span>
             </div>
           </div>)}
 
