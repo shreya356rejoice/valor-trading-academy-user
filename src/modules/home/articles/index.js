@@ -92,7 +92,9 @@ export default function Articles() {
               blogs?.map((blog, i) => (
                 <motion.div className={styles.griditems} key={i} variants={cardVariants}>
                   <div className={styles.image}>
-                    <img src={ArticlesImage} alt='ArticlesImage' />
+                   { console.log(blog,"blog")}
+                    
+                    <img src={process.env.NEXT_PUBLIC_NEXT_GRAPHQL_IMAGE_URL + blog?.coverImage?.url} alt='ArticlesImage' />
                   </div>
                   <div>
                     <h3>

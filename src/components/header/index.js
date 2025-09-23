@@ -91,8 +91,8 @@ export default function Header() {
             <div className={styles.rightAlignmet}>
               <div className={styles.menu}>
                 <a className={pathname === '/our-course' ? styles.active : ''} href='/our-course' aria-label='Courses'>Courses</a>
-                <a className={pathname === '/live-online-classes' ? styles.active : ''} href='/live-online-classes' aria-label='Live Online Classes'>Live Online Classes</a>
-                <a className={pathname === '/offline-sessions' ? styles.active : ''} href='/offline-sessions' aria-label='Offline Sessions'>Offline Sessions</a>
+                <a className={pathname === '/live-online-classes' ? styles.active : ''} href='/live-online-classes' aria-label='Live Online Classes'>Live Webinars</a>
+                <a className={pathname === '/offline-sessions' ? styles.active : ''} href='/offline-sessions' aria-label='Offline Sessions'>Traders Meet</a>
                 <a 
                   className={pathname === '/algobots' && searchParams.get('category') === 'Arbitrage Algo' ? styles.active : ''} 
                   href='/algobots?category=Arbitrage Algo' 

@@ -114,12 +114,16 @@ export default function YourSubscription({ onClose, plan, channel }) {
                             placeholder='Enter your Telegram ID'
                             value={telegramId}
                             onChange={(e) => {
-                                setTelegramId(e.target.value);
-                                if (errors.telegramId) {
-                                    setErrors(prev => ({ ...prev, telegramId: '' }));
+                                const value = e.target.value;
+                                // Only update if the value matches the allowed pattern or is empty
+                                if (value === '' || /^[a-zA-Z0-9_]*$/.test(value)) {
+                                    setTelegramId(value);
+                                    if (errors.telegramId) {
+                                        setErrors(prev => ({ ...prev, telegramId: '' }));
+                                    }
                                 }
                             }}
-                            error={errors.telegramId}
+                            error={errors.telegramId || (telegramId && !/^[a-zA-Z0-9_]+$/.test(telegramId) ? 'Only letters, numbers, and underscores are allowed' : '')}
                         />
                         <p className={styles.errorMessage}>{errors?.telegramId}</p>
                     </div>

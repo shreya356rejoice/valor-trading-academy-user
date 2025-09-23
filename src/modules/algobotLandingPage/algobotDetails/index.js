@@ -3,16 +3,40 @@ import React, { useEffect, useState } from 'react'
 import styles from './algobotDetails.module.scss';
 import Button from '@/components/button';
 import Pagination from '@/components/pagination';
-import { useRouter, useSearchParams } from 'next/navigation'; 
+import { useRouter, useSearchParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { getAlgobotCategories, getDashboardAlgobot } from '@/app/api/algobot';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Sliderarrow from '@/components/icons/sliderarrow';
 
 const ITEMS_PER_PAGE = 4;
 
+function SampleNextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.nextArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.prevArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
+
 export default function AlgobotDetails() {
     const searchParams = useSearchParams();
-    const categoryQuery = searchParams.get('category'); 
+    const categoryQuery = searchParams.get('category');
     const [selectedTab, setSelectedTab] = useState("recorded");
     const [strategies, setStrategies] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -161,44 +185,75 @@ export default function AlgobotDetails() {
                                 <img src={strategy?.imageUrl} alt={strategy?.title} />
                             </div>
                             <div className={styles.details}>
-                                <h3>{strategy?.title}</h3>
-                                <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                <div className={styles.pricingSection}>
-                                    {strategy.strategyPlan?.map((plan, planIndex) => (
-                                        <div key={planIndex} className={styles.priceCard}>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>{plan.planType}</span>
-                                                <span className={styles.price}>${plan.price}</span>
-                                            </div>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>M.R.P:</span>
-                                                <span>${plan.price}</span>
-                                            </div>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>Discount:</span>
-                                                <span>{plan.discount}%</span>
-                                            </div>
-                                        </div>
-                                    ))}
+                                <div>
+                                    <h3>{strategy?.title}</h3>
+                                    <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
                                 </div>
-                                <Button
-                                    text="Buy Now"
-                                    onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
-                                />
+                                <div>
+                                    <div className={styles.pricingSection}>
+                                        <Slider
+                                            dots={false}
+                                            infinite={false}
+                                            speed={300}
+                                            slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
+                                            slidesToScroll={1}
+                                            arrows={true}
+                                            className={styles.priceSlider}
+                                            nextArrow={<SampleNextArrow />}
+                                            prevArrow={<SamplePrevArrow />}
+                                            responsive={[
+                                                {
+                                                    breakpoint: 768,
+                                                    settings: {
+                                                        slidesToShow: 1.5,
+                                                        slidesToScroll: 1,
+                                                        infinite: false,
+                                                        dots: true
+                                                    }
+                                                }
+                                            ]}
+                                        >
+                                            {strategy.strategyPlan?.map((plan, planIndex) => (
+                                                <div key={planIndex} className={styles.slideItem}>
+                                                    <div className={styles.priceCard}>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>{plan.planType}</span>
+                                                            <span className={styles.price}>${plan.price}</span>
+                                                        </div>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>M.R.P:</span>
+                                                            <span>${plan.price}</span>
+                                                        </div>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>Discount:</span>
+                                                            <span>{plan.discount}%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </Slider>
+                                    </div>
+                                    <Button
+                                        text="Buy Now"
+                                        onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))
                 )}
             </div>
-            {!isLoading && strategies.length > 0 && (
-                <Pagination
-                    currentPage={pagination.currentPage}
-                    totalItems={pagination.totalItems}
-                    itemsPerPage={pagination.itemsPerPage}
-                    onPageChange={handlePageChange}
-                />
-            )}
-        </div>
+            {
+                !isLoading && strategies.length > 0 && (
+                    <Pagination
+                        currentPage={pagination.currentPage}
+                        totalItems={pagination.totalItems}
+                        itemsPerPage={pagination.itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
+                )
+            }
+        </div >
 
     )
 }

@@ -22,6 +22,28 @@ import { motion } from 'framer-motion';
 import Dropdownarrow from '../../../../public/assets/icons/dropdownarrow';
 import CommonBanner from '@/components/commonBanner';
 import { getCookie } from '../../../../cookie';
+import Slider from 'react-slick';
+import Sliderarrow from '@/components/icons/sliderarrow';
+
+function SampleNextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.nextArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.prevArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
 
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
@@ -46,7 +68,7 @@ const AlgoBotDetailSkeleton = () => (
                 <Skeleton height={40} width="60%" style={{ marginBottom: '20px' }} />
             </div>
         </div>
-        
+
         {/* AlgoBot Banner Section */}
         <div className={styles.algobanner}>
             <div className={styles.grid}>
@@ -174,13 +196,13 @@ export default function AlgobotInDetails() {
             setIsLoading(true);
             const response = await getOneBot(id);
             setAlgobotData(response.payload);
-                const plansResponse = await getDashboardPlan(id);
-                const initialQuantities = {};
-                plansResponse.payload?.forEach((plan) => {
-                    initialQuantities[plan._id] = 1; // Initialize quantity as 1 for each plan
-                });
-                setPlanQuantities(initialQuantities);
-                setPlans(plansResponse.payload || []);
+            const plansResponse = await getDashboardPlan(id);
+            const initialQuantities = {};
+            plansResponse.payload?.forEach((plan) => {
+                initialQuantities[plan._id] = 1; // Initialize quantity as 1 for each plan
+            });
+            setPlanQuantities(initialQuantities);
+            setPlans(plansResponse.payload || []);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
@@ -443,9 +465,11 @@ export default function AlgobotInDetails() {
                                                 <img src={strategy?.imageUrl} alt={strategy?.title} />
                                             </div>
                                             <div className={styles.details}>
-                                                <h3>{strategy?.title}</h3>
-                                                <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                                <div className={styles.pricingSection}>
+                                                <div>
+                                                    <h3>{strategy?.title}</h3>
+                                                    <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                                </div>
+                                                {/* <div className={styles.pricingSection}>
                                                     {strategy.strategyPlan?.map((plan, planIndex) => (
                                                         <div key={planIndex} className={styles.priceCard}>
                                                             <div className={styles.priceSubtitle}>
@@ -462,11 +486,56 @@ export default function AlgobotInDetails() {
                                                             </div>
                                                         </div>
                                                     ))}
+                                                </div> */}
+                                                <div>
+                                                    <div className={styles.pricingSection}>
+                                                        <Slider
+                                                            dots={false}
+                                                            infinite={false}
+                                                            speed={300}
+                                                            slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
+                                                            slidesToScroll={1}
+                                                            arrows={true}
+                                                            className={styles.priceSlider}
+                                                            nextArrow={<SampleNextArrow />}
+                                                            prevArrow={<SamplePrevArrow />}
+                                                            responsive={[
+                                                                {
+                                                                    breakpoint: 768,
+                                                                    settings: {
+                                                                        slidesToShow: 1.5,
+                                                                        slidesToScroll: 1,
+                                                                        infinite: false,
+                                                                        dots: true
+                                                                    }
+                                                                }
+                                                            ]}
+                                                        >
+                                                            {strategy.strategyPlan?.map((plan, planIndex) => (
+                                                                <div key={planIndex} className={styles.slideItem}>
+                                                                    <div className={styles.priceCard}>
+                                                                        <div className={styles.priceSubtitle}>
+                                                                            <span>{plan.planType}</span>
+                                                                            <span className={styles.price}>${plan.price}</span>
+                                                                        </div>
+                                                                        <div className={styles.priceSubtitle}>
+                                                                            <span>M.R.P:</span>
+                                                                            <span>${plan.price}</span>
+                                                                        </div>
+                                                                        <div className={styles.priceSubtitle}>
+                                                                            <span>Discount:</span>
+                                                                            <span>{plan.discount}%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </Slider>
+                                                    </div>
+                                                    <Button
+                                                        text="Buy Now"
+                                                        onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
+                                                    />
                                                 </div>
-                                                <Button
-                                                    text="Buy Now"
-                                                    onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
-                                                />
                                             </div>
                                         </div>
                                     ))}

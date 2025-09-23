@@ -96,7 +96,7 @@ export default function Herobanner() {
                         </motion.div>
                         <motion.div className={styles.buttonAlignment} variants={itemVariants}>
                             <Button text='Explore Courses' fill onClick={handleNavigate} />
-                            <Button text='Join Free Community' />
+                            <Button text='Join Free Community' onClick={() => window.open('https://t.me/algomaticbot', '_blank')} />
                         </motion.div>
                     </motion.div>
                     <motion.div className={styles.griditems} variants={imageVariants}>

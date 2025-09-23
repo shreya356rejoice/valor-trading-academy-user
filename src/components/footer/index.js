@@ -11,6 +11,8 @@ import { createNewsLetter, getUtilityData } from '@/app/api/dashboard';
 import Link from 'next/link';
 const WhiteLogo = '/assets/logo/whitelogo.svg';
 
+const TelegramIcon = "/assets/icons/telegram-footer.svg";
+
 export default function Footer() {
     const [footerData, setFooterData] = useState([]);
     const [email, setEmail] = useState('');
@@ -70,26 +72,31 @@ export default function Footer() {
                             financial success.
                         </p>
                         <div className={styles.socialIcon}>
-                            <Link target='_blank' href={footerData?.facebookLink || ''}>
+                            <Link target='_blank' href={footerData?.telegramLink || ''}>
+                                    <div>
+                                        <img src={TelegramIcon} alt="TelegramIcon" />
+                                    </div>
+                                </Link>
+                                <Link target='_blank' href={footerData?.facebookLink || ''}>
                                     <div>
                                         <FacebookIcon />
                                     </div>
                                 </Link>
-                                <Link target='_blank' href={footerData?.twitter || ''}>
+                                {/* <Link target='_blank' href={footerData?.twitter || ''}>
                                     <div>
                                         <TwitterIcon /> 
                                     </div>
-                                </Link>
+                                </Link> */}
                                 <Link target='_blank' href={footerData?.instagramLink || ''}>
                                     <div>
                                         <InstagramIcon />
                                     </div>
                                 </Link>
-                                <Link target='_blank' href={footerData?.linkedin || ''}>
+                                {/* <Link target='_blank' href={footerData?.linkedin || ''}>
                                     <div>
                                         <LinkdinIcon />
                                     </div>
-                                </Link>
+                                </Link> */}
                         </div>
                     </div>
                     <div className={styles.menu}>

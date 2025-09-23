@@ -104,14 +104,71 @@
             padding: 0 0 20px 0;
         }
 
+        :global(.slick-slider) {
+            min-width: 0;
+        }
+
         .griditems {
             background-color: var(--bg-white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            min-width: 0;
+            display: grid;
+            grid-template-rows: 180px 1fr;
 
             @include respond-to("sm") {
                 padding: 14px;
+            }
+
+            .nextArrow,
+            .prevArrow {
+                position: absolute;
+                top: 50%;
+                z-index: 9;
+                transform: translateY(-50%);
+                padding: 5px;
+                border-radius: 50%;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid var(--primary);
+                transition: .4s ease-in-out;
+
+                &:hover {
+                    background: var(--linear-gradient);
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                    transition: .4s ease-in-out;
+
+                    path {
+                        fill: #000;
+                        transition: .4s ease-in-out;
+                    }
+                }
+            }
+
+            .nextArrow {
+                right: -15px;
+            }
+
+            .prevArrow {
+                left: -15px;
+
+                svg {
+                    rotate: 180deg;
+                }
             }
 
             .image {
@@ -125,7 +182,11 @@
             }
 
             .details {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
                 padding: 16px 0 0 0;
+                min-width: 0;
 
                 h3 {
                     @include font18;

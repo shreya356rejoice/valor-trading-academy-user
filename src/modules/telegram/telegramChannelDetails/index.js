@@ -126,7 +126,23 @@ export default function TelegramChannelDetails() {
             <div className={styles.plansContainer}>
 
                 <div className={styles.plansGrid}>
-                    {channel.telegramPlan.map((plan) => (
+                    {channel.telegramPlan
+                        .slice()
+                        .sort((a, b) => {
+                            const getMonths = (planType) => {
+                                if (typeof planType !== 'string') return 0;
+                                const planStr = planType.toLowerCase();
+                                if (planStr.includes('month')) {
+                                    return parseInt(planStr);
+                                }
+                                if (planStr.includes('year')) {
+                                    return parseInt(planStr) * 12;
+                                }
+                                return 0;
+                            };
+                            return getMonths(a.planType) - getMonths(b.planType);
+                        })
+                        .map((plan) => (
                         <div key={plan._id} className={styles.planCard}>
                             <div className={styles.planType}>
                                 <h3>{plan.planType}</h3>

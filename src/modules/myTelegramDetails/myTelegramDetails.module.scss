@@ -314,3 +314,88 @@
         @include text-type;
     }
 }
+
+.planTable {
+    margin-top: 20px;
+
+    h2 {
+        // @include font24;
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--black-200);
+        font-weight: 600;
+    }
+
+    h3 {
+        @include heading20;
+        color: black;
+        margin: 0 0 20px 0;
+        text-align: left !important;
+        border-bottom: 1px solid var(--border-color5);
+        padding-bottom: 10px;
+    }
+}
+
+.paymentTable {
+    background: #7677EC0D;
+    border: 1px solid #7577EB21;
+    border-radius: 12px;
+    overflow: auto;
+    margin-top: 20px;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+            background: #f1f1fd;
+
+            position: sticky;
+            top: 0;
+            z-index: 9;
+
+            tr {
+                border-bottom: 1px solid #7577EB21;
+
+                th {
+                    padding: 14px;
+                    @include font14normal;
+                    text-align: left;
+                    font-weight: 500;
+                    color: var(--black-250);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid #7577EB21;
+
+                td {
+                    padding: 14px;
+                    @include font14normal;
+                    text-align: left;
+                    color: var(--black-400);
+
+                    .status {
+                        background: #DCFCE7;
+                        padding: 4px 20px;
+                        border: 1px solid #22C55E;
+                        border-radius: 99px;
+                        @include font12normal;
+                        color: #000;
+                    }
+
+                    .viewmore {
+                        background: #FFF5F1;
+                        padding: 4px 20px;
+                        border: 1px solid #F8E3D8;
+                        border-radius: 99px;
+                        @include font12normal;
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}

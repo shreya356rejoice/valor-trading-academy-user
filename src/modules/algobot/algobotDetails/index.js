@@ -3,16 +3,38 @@ import React, { useEffect, useState } from 'react'
 import styles from './algobotDetails.module.scss';
 import Button from '@/components/button';
 import Pagination from '@/components/pagination';
-
-
-import { useRouter } from 'next/navigation';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { getAlgobot, getAlgobotCategories } from '@/app/api/algobot';
+import Slider from 'react-slick';
+import Sliderarrow from '@/components/icons/sliderarrow';
 const CardImage = '/assets/images/card9.png';
 const BathIcon = '/assets/icons/bath.svg';
 
 const ITEMS_PER_PAGE = 4;
+
+function SampleNextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.nextArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            className={styles.prevArrow}
+            onClick={onClick}
+        ><Sliderarrow /></div>
+    );
+}
 
 export default function AlgobotDetails() {
     const [selectedTab, setSelectedTab] = useState("recorded");
@@ -21,6 +43,7 @@ export default function AlgobotDetails() {
     const [isLoading, setIsLoading] = useState(true);
     const [isCategoriesLoading, setIsCategoriesLoading] = useState(true);
     const [error, setError] = useState(null);
+    const searchParams = useSearchParams();
     const [selectedCategory, setSelectedCategory] = useState('');
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -70,16 +93,42 @@ export default function AlgobotDetails() {
         }
     };
 
+    // Sort categories to ensure 'Arbitrage Algo' comes first
+    const sortCategories = (categories) => {
+        if (!categories || !Array.isArray(categories)) return [];
+        return [...categories].sort((a, b) => {
+            if (a.title === 'Arbitrage Algo') return -1;
+            if (b.title === 'Arbitrage Algo') return 1;
+            return 0;
+        });
+    };
+
     useEffect(() => {
         fetchCategories();
     }, []);
 
-    // Reset to first category when categories change
+    // Handle URL parameters and set selected category
     useEffect(() => {
-        if (categories.length > 0 && !selectedCategory) {
-            setSelectedCategory(categories[0]._id);
+        if (categories.length > 0) {
+            const categoryParam = searchParams?.get('category');
+            const sortedCategories = sortCategories(categories);
+
+            if (categoryParam) {
+                // Find category by title (converting to lowercase for case-insensitive comparison)
+                const category = categories.find(
+                    cat => cat.title.toLowerCase().replace(/\s+/g, '-') === categoryParam.toLowerCase()
+                );
+                if (category) {
+                    setSelectedCategory(category._id);
+                    return;
+                }
+            }
+
+            // Default to 'Arbitrage Algo' if no category in URL or not found
+            const defaultCategory = sortedCategories[0]?._id || '';
+            setSelectedCategory(defaultCategory);
         }
-    }, [categories]);
+    }, [categories, searchParams]);
 
     useEffect(() => {
         fetchStrategies(pagination.currentPage);
@@ -134,28 +183,15 @@ export default function AlgobotDetails() {
         <div className={styles.recentcourse}>
             <div className={styles.tabCenteralignment}>
                 <div className={styles.tab}>
-                    {/* <button 
-                        className={!selectedCategory ? styles.active : ''}
-                        onClick={() => setSelectedCategory('')}
-                        disabled={isCategoriesLoading}
-                    >
-                        All Categories
-                    </button> */}
-                    {/* {isCategoriesLoading ? (
-                        <div>Loading categories...</div>
-                    ) : ( */}
-                    {categories.map((category, index) => (
+                    {sortCategories(categories).map((category) => (
                         <button
                             key={category._id}
                             className={selectedCategory === category._id ? styles.active : ''}
                             onClick={() => setSelectedCategory(category._id)}
-                            // Set first tab as active by default if none selected
-                            {...(index === 0 && !selectedCategory ? { 'data-active': true } : {})}
                         >
                             {category.title}
                         </button>
                     ))}
-                    {/* )} */}
                 </div>
             </div>
             <div className={styles.grid}>
@@ -165,33 +201,73 @@ export default function AlgobotDetails() {
                     <EmptyState />
                 ) : (
                     strategies.map((strategy, i) => (
-                        <div className={styles.griditems} key={i}>
-                            <div className={styles.image}>
-                                <img src={strategy?.imageUrl} alt={strategy?.title} />
-                            </div>
-                            <div className={styles.details}>
-                                <h3>{strategy?.title}</h3>
-                                <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                <div className={styles.pricingSection}>
-                                    {strategy.strategyPlan?.map((plan, planIndex) => (
-                                        <div key={planIndex} className={styles.priceCard}>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>{plan.planType}</span>
-                                                <span className={styles.price}>${plan.price}</span>
-                                            </div>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>M.R.P:</span>
-                                                <span>${plan.price}</span>
-                                            </div>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>Discount:</span>
-                                                <span>{plan.discount}%</span>
-                                            </div>
-                                        </div>
-                                    ))}
+                        <>
+                            <div className={styles.griditems} key={i}>
+                                <div className={styles.image}>
+                                    <img src={strategy?.imageUrl} alt={strategy?.title} />
                                 </div>
+                                <div className={styles.details}>
+                                    <h3>{strategy?.title}</h3>
+                                    <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                    <div className={styles.pricingSection}>
+                                        <Slider
+                                            dots={false}
+                                            infinite={false}
+                                            speed={300}
+                                            slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
+                                            slidesToScroll={1}
+                                            arrows={true}
+                                            className={styles.priceSlider}
+                                            nextArrow={<SampleNextArrow />}
+                                            prevArrow={<SamplePrevArrow />}
+                                            responsive={[
+                                                {
+                                                    breakpoint: 768,
+                                                    settings: {
+                                                        slidesToShow: 1.5,
+                                                        slidesToScroll: 1,
+                                                        infinite: false,
+                                                        dots: true
+                                                    }
+                                                }
+                                            ]}
+                                        >
+                                            {strategy.strategyPlan
+                                                ?.slice()
+                                                .sort((a, b) => {
+                                                    const getMonths = (planType) => {
+                                                        if (planType?.toLowerCase().includes('month')) {
+                                                            return parseInt(planType);
+                                                        }
+                                                        if (planType?.toLowerCase().includes('year')) {
+                                                            return parseInt(planType) * 12;
+                                                        }
+                                                        return 0;
+                                                    };
 
-                                {/* <div className={styles.iconalignment}>
+                                                    return getMonths(a.planType) - getMonths(b.planType);
+                                                })
+                                                .map((plan, planIndex) => (
+                                                    <div key={planIndex} className={styles.priceCard}>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>{plan.planType}</span>
+                                                            <span className={styles.price}>${plan.price}</span>
+                                                        </div>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>M.R.P:</span>
+                                                            <span>${plan.price}</span>
+                                                        </div>
+                                                        <div className={styles.priceSubtitle}>
+                                                            <span>Discount:</span>
+                                                            <span>{plan.discount}%</span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </Slider>
+                                    </div>
+
+                                    {/* <div className={styles.iconalignment}>
                                     <h4>${strategy?.strategyPlan?.[0]?.price || '0'}</h4>
                                     <div className={styles.iconText}>
                                         <img src={BathIcon} alt="BathIcon" />
@@ -199,21 +275,28 @@ export default function AlgobotDetails() {
                                     </div>
                                 </div> */}
 
-                                {strategy.strategyPlan?.some(plan => plan?.isPayment) ? (
-                                    <Button
-                                        text="Purchased"
-                                        fill
-                                        onClick={() => router.push(`/my-algobot-details?algobotId=${strategy?._id}`)}
-                                        style={{ opacity: 0.7, cursor: 'not-allowed' }}
-                                    />
-                                ) : (
-                                    <Button
-                                        text="Buy Now"
-                                        onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
-                                    />
-                                )}
+                                    {strategy.strategyPlan?.some(plan => plan?.isPayment) ? (
+                                        <Button
+                                            text="Purchased"
+                                            fill
+                                            onClick={() => {
+                                                const categoryParam = searchParams.get('category');
+                                                router.push(`/my-algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
+                                            }}
+                                            style={{ opacity: 0.7, cursor: 'not-allowed' }}
+                                        />
+                                    ) : (
+                                        <Button
+                                            text="Buy Now"
+                                            onClick={() => {
+                                                const categoryParam = searchParams.get('category');
+                                                router.push(`/algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        </>
                     ))
                 )}
             </div>

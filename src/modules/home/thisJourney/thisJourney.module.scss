@@ -57,13 +57,11 @@
         }
 
         .cardGrid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            @include respond-to("sm") {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 500px;
 
             .cardGridItems {
                 background-color: var(--bg-white);

@@ -54,9 +54,9 @@ export default function ChooseYourPath() {
     }, []);
 
     const courseTypes = [
-        { id: "recorded", label: "On demand courses", course: "pre-recorded" },
-        { id: "live", label: "Live Online Courses", course: "live-online" },
-        { id: "physical", label: "In-Person Courses", course: "in-person" },
+        { id: "recorded", label: "Recorded courses", course: "pre-recorded" },
+        { id: "live", label: "Live Webinars", course: "live-online" },
+        { id: "physical", label: "Traders Meet", course: "in-person" },
     ];
 
     const currentCourses = courses[activeType] || [];

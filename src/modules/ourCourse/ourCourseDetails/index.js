@@ -112,8 +112,8 @@ export default function OurCourseDetails() {
                     <div className={styles.tabCenter}>
                         <div className={styles.tab}>
                             <button className={selectedTab === "recorded" ? styles.active : ""} onClick={() => setSelectedTab("recorded")}>Recorded courses</button>
-                            <button className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Courses</button>
-                            <button className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
+                            <button className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Webinars</button>
+                            <button className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>Traders Meet</button>
                         </div>
                     </div>
                     {error ? (

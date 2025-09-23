@@ -16,7 +16,10 @@ import Button from '@/components/button';
 import { getCookie } from '../../../cookie';
 import CustomVideoPlayer from '@/components/customeVideoPlayer';
 import CourseSession from '../courseDetails/courseSession';
+import CalanderIcon from '@/components/icons/calanderIcon';
+import LocationIcon from '@/components/icons/locationIcon';
 
+const BathPrimaryIcon = '/assets/icons/bath-primary.svg';
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
 const LockIcon = '/assets/icons/lock.svg';
@@ -61,28 +64,29 @@ export default function MyCourseDetails() {
   const [isProcessing, setIsProcessing] = useState(false);
   const searchParams = useSearchParams();
   const id = searchParams.get('courseId');
+  const category = searchParams.get('category');
   const router = useRouter();
 
-  const [user , setUser] = useState({});
-      useEffect(() => {
-          const userData = getCookie('user');
-          if (userData) {
-              setUser(JSON.parse(userData));
-          }
-      }, []);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const userData = getCookie('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         const [courseResponse, chapterResponse, sessionResponse] = await Promise.all([
           getCourses({ id }),
           getChapters(id),
           getSessionData(id)
         ]);
-        
+
         setCourses(courseResponse.payload.data[0]);
         setChapters(chapterResponse.payload);
         setSessions(sessionResponse.payload);
@@ -154,72 +158,123 @@ export default function MyCourseDetails() {
           {courses?.description}
         </p>
         <div className={styles.allIconTextAlignment}>
-          <div className={styles.coursdetailstext}>
-            <div className={styles.iconText}>
-              <ClockIcon />
-              <span>{courses?.hours} hours</span>
-            </div>
-            <div className={styles.iconText}>
-              <img src={BathIcon} alt="BathIcon" />
-              <span>{courses?.instructor || "John Doe"}</span>
-            </div>
-            {/* <div className={styles.iconText}>
+          {!category ? (
+            <div className={styles.coursdetailstext}>
+              <div className={styles.iconText}>
+                <ClockIcon />
+                <span>{courses?.hours} hours</span>
+              </div>
+              <div className={styles.iconText}>
+                <img src={BathPrimaryIcon} alt='BathPrimaryIcon' />
+                <span>{courses?.instructor || "John Doe"}</span>
+              </div>
+              {/* <div className={styles.iconText}>
             <StarIcon />
             <span>4.8</span>
           </div> */}
-            <div className={styles.iconText}>
-              <ProfileIcon />
-              <span>{courses?.subscribed}</span>
+              <div className={styles.iconText}>
+                <ProfileIcon />
+                <span>{courses?.subscribed}</span>
+              </div>
+              <div className={styles.iconText}>
+                <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
+              </div>
+              {!chapters?.isPayment && (<div className={styles.iconText}>
+                <span>Price:</span> <h4>${courses?.price}</h4>
+              </div>)}
             </div>
-            <div className={styles.iconText}>
-              <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
-            </div>
-            {!chapters?.isPayment && (<div className={styles.iconText}>
-              <span>Price:</span> <h4>${courses?.price}</h4>
-            </div>)}
-          </div>
+          ) : (
+            <><div className={styles.coursdetailstext}>
+              <div className={styles.iconText}>
+                <CalanderIcon />
+                <span>{new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
+              </div>
+              <div className={styles.iconText}>
+                <ClockIcon />
+                <span>{courses?.startTime} to {courses?.endTime}</span>
+              </div>
+              {category === "physical" && (<div className={styles.iconText}>
+                <LocationIcon />
+                <span>{courses?.location}</span>
+              </div>)}
+              <div className={styles.iconText}>
+                <img src={BathPrimaryIcon} alt='BathPrimaryIcon' />
+                <span>{courses?.instructor}</span>
+              </div>
+              <div className={styles.iconText}>
+                <ProfileIcon />
+                <span>{courses?.subscribed}</span>
+              </div>
+            </div></>
+          )}
+
           <div className={styles.rightContentAlignment}>
-            {chapters?.isPayment === true ? '' : (
+            {category ? (
+              courses?.registration && (
+                <Button
+                  text={'Registered'}
+                  fill
+                  onClick={handlePayment}
+                  disabled
+                  className={isProcessing ? styles.processingButton : ''}
+                />
+              )
+            ) : (chapters?.isPayment === true ? '' : (
+              <Button
+                text={isProcessing ? 'Enrolling...' : 'Enroll Now'}
+                fill
+                onClick={() => handlePayment()}
+                disabled={isProcessing}
+                className={isProcessing ? styles.processingButton : ''}
+              />
+            )
+            )}
+            {/* {chapters?.isPayment === true ? '' : (
               <Button
                 text={isProcessing ? 'Enrolling...' : 'Enroll Now'}
                 onClick={() => handlePayment()}
                 disabled={isProcessing}
                 className={isProcessing ? styles.processingButton : ''}
               />
-            )}
+            )} */}
           </div>
         </div>
+        <div>
+          {(category === "LIVE" || category === "live") && (<p>Meeting Link : {courses?.meetingLink}</p>)}
+        </div>
       </div>
-      {chapters?.data?.length > 0 ? (
-        <>
-          <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
-            <div className={styles.courseDetailsTab}>
-              {chapters.data.map((chapter, index) => (
-                <button
-                  key={chapter._id}
-                  aria-label={`Chapter ${chapter.chapterNo}`}
-                  className={selectedChapter?._id === chapter._id ? styles.active : ''}
-                  onClick={() => setSelectedChapter(chapter)}
-                >
-                  <span>Chapter {chapter.chapterNo}</span>
-                </button>
-              ))}
-            </div>
-            {chapters.data && chapters.data.length > 0 ? (
-              <div className={styles.courseInformation}>
-                <div className={styles.video}>
-                  {/* <iframe
-                    width="100%"
-                    height="400"
-                    src={(selectedChapter || chapters.data[0])?.chapterVideo?.replace("watch?v=", "embed/")}
-                    title={(selectedChapter || chapters.data[0])?.chapterName}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe> */}
+
+      {!category ? (
+        chapters?.data?.length > 0 ? (
+          <>
+            <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
+              <div className={styles.courseDetailsTab}>
+                {chapters.data.map((chapter, index) => (
+                  <button
+                    key={chapter._id}
+                    aria-label={`Chapter ${chapter.chapterNo}`}
+                    className={selectedChapter?._id === chapter._id ? styles.active : ''}
+                    onClick={() => setSelectedChapter(chapter)}
+                  >
+                    <span>Chapter {chapter.chapterNo}</span>
+                  </button>
+                ))}
+              </div>
+              {chapters.data && chapters.data.length > 0 ? (
+                <div className={styles.courseInformation}>
+                  <div className={styles.video}>
+                    {/* <iframe
+                      width="100%"
+                      height="400"
+                      src={(selectedChapter || chapters.data[0])?.chapterVideo?.replace("watch?v=", "embed/")}
+                      title={(selectedChapter || chapters.data[0])?.chapterName}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe> */}
 
 
-{chapters.data[0]?.chapterVideo ? (
+                    {chapters.data[0]?.chapterVideo ? (
                       // !isPaid ? (
                       //   <div className={styles.videoLocked}>
                       //     <div className={styles.lockOverlay}>
@@ -233,64 +288,72 @@ export default function MyCourseDetails() {
                       //     />
                       //   </div>
                       // ) : (
-                        <div className={styles.videoWrapper}>
-                          {/* <VideoPlayer
-                            src={selectedChapter.chapterVideo}
-                            userId={user?._id}
-                            controls
-                            controlsList="nodownload"
-                            disablePictureInPicture
-                            noremoteplayback
-                            className={styles.videoPlayer}
-                          /> */}
-                          {console.log("selectedChapter.chapterVideo",chapters.data[0]?.chapterVideo)}
-                          <CustomVideoPlayer
-                            src={chapters.data[0]?.chapterVideo}
-                            // src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                            // src="https://pipsveda.s3.us-east-1.azonaws.com/pipsveda/blob-1757418874956new%20latest.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVJSBBJ5XMZUEA2XW%2F20250913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250913T063038Z&X-Amz-Expires=3600&X-Amz-Signature=e0ed6c6d43a4038201fd1206007456c1387457b7cb86fb7335d92417d65ba51b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
-                            userId={user?._id}
-                            controls
-                            controlsList="nodownload"
-                            disablePictureInPicture
-                            noremoteplayback
-                            className={styles.videoPlayer}
-                          />
-                        </div>
+                      <div className={styles.videoWrapper}>
+                        {/* <VideoPlayer
+                              src={selectedChapter.chapterVideo}
+                              userId={user?._id}
+                              controls
+                              controlsList="nodownload"
+                              disablePictureInPicture
+                              noremoteplayback
+                              className={styles.videoPlayer}
+                            /> */}
+                        {console.log("selectedChapter.chapterVideo", chapters.data[0]?.chapterVideo)}
+                        <CustomVideoPlayer
+                          src={chapters.data[0]?.chapterVideo}
+                          // src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                          // src="https://pipsveda.s3.us-east-1.azonaws.com/pipsveda/blob-1757418874956new%20latest.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVJSBBJ5XMZUEA2XW%2F20250913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250913T063038Z&X-Amz-Expires=3600&X-Amz-Signature=e0ed6c6d43a4038201fd1206007456c1387457b7cb86fb7335d92417d65ba51b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                          userId={user?._id}
+                          controls
+                          controlsList="nodownload"
+                          disablePictureInPicture
+                          noremoteplayback
+                          className={styles.videoPlayer}
+                        />
+                      </div>
                       // )
                     ) : (
                       <div className={styles.noVideo}>Video not available</div>
                     )}
-                </div>
-                <div>
-                  <h2>
-                    Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
-                  </h2>
-                  <p>{(selectedChapter || chapters.data[0])?.description}</p>
-                </div>
-              </div>
-            ) : (<div className={styles.noChapters}>
-              <div className={styles.iconCenterAlignment}>
-                <img src={NoCoursesIcon} alt="No Courses" />
-              </div>
-              <p>No Course Content Available</p>
-              <p>This course doesn't have any chapters yet. Please check back later.</p>
-            </div>)}
-
-            {chapters?.isPayment === false && (
-              <div className={styles.layer}>
-                <div>
-                  <div className={styles.iconCenterAlignment}>
-                    <img src={LockIcon} alt='LockIcon' />
                   </div>
-                  <p>
-                    Enroll Now to unlock
-                  </p>
+                  <div>
+                    <h2>
+                      Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
+                    </h2>
+                    <p>{(selectedChapter || chapters.data[0])?.description}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : (<div className={styles.noChapters}>
+                <div className={styles.iconCenterAlignment}>
+                  <img src={NoCoursesIcon} alt="No Courses" />
+                </div>
+                <p>No Course Content Available</p>
+                <p>This course doesn't have any chapters yet. Please check back later.</p>
+              </div>)}
+
+              {chapters?.isPayment === false && (
+                <div className={styles.layer}>
+                  <div>
+                    <div className={styles.iconCenterAlignment}>
+                      <img src={LockIcon} alt='LockIcon' />
+                    </div>
+                    <p>
+                      Enroll Now to unlock
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)
+      ) : (
+        <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
+          <div className={styles.thumbnail}>
+            <img src={courses?.courseVideo} alt="Thumbnail" />
           </div>
-        </>
-      ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)}
+        </div>
+      )}
+
     </div>
   )
 }

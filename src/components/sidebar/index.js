@@ -11,7 +11,7 @@ import SettingIcon from "../icons/settingIcon";
 import LogoutIcon from "../icons/logoutIcon";
 import CloseIcon from "../icons/closeIcon";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getCookie, removeCookie } from "../../../cookie";
 const SidebarLogo = "/assets/logo/sidebar-logo.svg";
 const DashboardIcon = "/assets/icons/dashboaard.svg";
@@ -30,6 +30,7 @@ const TelegramIconActive = "/assets/icons/telegram-icon.svg";
 const ContactIconActive = "/assets/icons/contact-active.svg";
 export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [dropdown, setDropdown] = useState(true);
   const router = useRouter();
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -86,16 +87,47 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
           </div>
         </Link>
         <Link href="/courses">
-          <div className={classNames(styles.menu, (pathname.includes("/courses") || pathname.includes("/course-details")) ? styles.activeMenu : "")} ref={menuRef} onClick={() => setDropdown((prev) => !prev)}>
+          <div className={classNames(styles.menu, 
+            (pathname === "/courses" && !searchParams.get('category')) || 
+            (pathname.includes("/course-details") && !searchParams.get('category')) ? styles.activeMenu : "")} 
+            ref={menuRef} 
+            onClick={() => setDropdown((prev) => !prev)}>
             <div className={styles.iconAlignment}>
               <img src={CourseIcon} alt="CourseIcon" />
               <img src={CourseIconActive} alt="CourseIconActive" />
             </div>
             <div className={styles.textIconAlignment}>
               <span>Course</span>
-              {/* <div className={classNames(styles.icons, dropdown ? styles.rotate : "")}>
-                            <SidebarArrow />
-                        </div> */}
+            </div>
+          </div>
+        </Link>
+        <Link href="/courses?category=live">
+          <div className={classNames(styles.menu, 
+            (pathname === "/courses" || pathname.startsWith("/course-details")) && 
+            (searchParams.get('category') === 'live' || searchParams.get('category') === 'live') ? styles.activeMenu : "")} 
+            ref={menuRef} 
+            onClick={() => setDropdown((prev) => !prev)}>
+            <div className={styles.iconAlignment}>
+              <img src={CourseIcon} alt="CourseIcon" />
+              <img src={CourseIconActive} alt="CourseIconActive" />
+            </div>
+            <div className={styles.textIconAlignment}>
+              <span>Live Webinars</span>
+            </div>
+          </div>
+        </Link>
+        <Link href="/courses?category=physical">
+          <div className={classNames(styles.menu, 
+            (pathname === "/courses" || pathname.startsWith("/course-details")) && 
+            (searchParams.get('category') === 'physical' || searchParams.get('category') === 'physical') ? styles.activeMenu : "")} 
+            ref={menuRef} 
+            onClick={() => setDropdown((prev) => !prev)}>
+            <div className={styles.iconAlignment}>
+              <img src={CourseIcon} alt="CourseIcon" />
+              <img src={CourseIconActive} alt="CourseIconActive" />
+            </div>
+            <div className={styles.textIconAlignment}>
+              <span>Traders Meet</span>
             </div>
           </div>
         </Link>
@@ -125,12 +157,25 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
                     </div>
                 </div> */}
         <Link href="/algobot">
-          <div className={classNames(styles.menu, (pathname === "/algobot" || pathname.includes("/algobot-details")) ? styles.activeMenu : " ")}>
+          <div className={classNames(styles.menu, 
+            (pathname === "/algobot" || pathname.includes("/algobot-details")) && 
+            (!searchParams.get('category') || searchParams.get('category') !== 'trading-tools') ? styles.activeMenu : " ")}>
             <div className={styles.iconAlignment}>
               <img src={AlgobotIconWhite} alt="AlgobotIcon" />
               <img src={AlgobotIcon} alt="AlgobotIconActive" />
             </div>
             <span>AlgoBots</span>
+          </div>
+        </Link>
+        <Link href="/algobot?category=trading-tools">
+          <div className={classNames(styles.menu, 
+            (pathname === "/algobot" || pathname.includes("/algobot-details")) && 
+            searchParams.get('category') === 'trading-tools' ? styles.activeMenu : " ")}>
+            <div className={styles.iconAlignment}>
+              <img src={AlgobotIconWhite} alt="AlgobotIcon" />
+              <img src={AlgobotIcon} alt="AlgobotIconActive" />
+            </div>
+            <span>Trading Tools</span>
           </div>
         </Link>
         <Link href="/telegram">

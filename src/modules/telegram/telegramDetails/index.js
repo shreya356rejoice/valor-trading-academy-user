@@ -174,7 +174,22 @@ export default function TelegramDetails() {
                                 <p dangerouslySetInnerHTML={{ __html: channel?.description }} />
 
                                 <div className={styles.pricingSection}>
-                                    {channel.telegramPlan?.map((plan, planIndex) => (
+                                    {channel.telegramPlan
+                                        ?.slice()
+                                        .sort((a, b) => {
+                                            const getMonths = (planType) => {
+                                                if (typeof planType !== 'string') return 0;
+                                                const planStr = planType.toLowerCase();
+                                                if (planStr.includes('month')) {
+                                                    return parseInt(planStr);
+                                                }
+                                                if (planStr.includes('year')) {
+                                                    return parseInt(planStr) * 12;
+                                                }
+                                                return 0;
+                                            };
+                                            return getMonths(a.planType) - getMonths(b.planType);
+                                        })?.map((plan, planIndex) => (
                                         <div key={planIndex} className={styles.priceCard}>
                                             <div className={styles.priceSubtitle}>
                                                 <span>{plan.planType}</span>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +11,36 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import dynamic from 'next/dynamic';
 import RightArrow from '@/components/icons/rightArrow';
+import YourSubscription from '../telegram/yourSubscription';
+
+const calculateEndDate = (startDate, planType) => {
+    if (!startDate || !planType) return '-';
+    
+    const date = new Date(startDate);
+    const planTypeStr = String(planType).toLowerCase();
+    
+    const monthsMatch = planTypeStr.match(/(\d+)/);
+    if (!monthsMatch) return '-';
+    
+    const months = parseInt(monthsMatch[1], 10);
+    if (isNaN(months)) return '-';
+    
+    date.setMonth(date.getMonth() + months);
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
+const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -122,39 +152,98 @@ export default function MyTelegramDetails() {
             </div>
 
             <div className={styles.plansContainer}>
-
                 <div className={styles.plansGrid}>
-                    {channel.telegramPlan.map((plan) => (
-                        <div key={plan._id} className={`${styles.planCard} ${styles.disabledCard}`}>
-                            <div className={styles.planType}>
-                                <h3>{plan.planType}</h3>
-                                {plan.discount > 0 && (
-                                    <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
-                                )}
-                            </div>
-                            <div className={styles.plandetails}>
-                                <div className={styles.plandetailsflx}>
-                                    <p>M.R.P :</p>
-                                    <span>${plan.initialPrice.toFixed(2)}</span>
+                    {channel.telegramPlan
+                        .slice()
+                        .sort((a, b) => {
+                            const getMonths = (planType) => {
+                                if (typeof planType !== 'string') return 0;
+                                const planStr = planType.toLowerCase();
+                                if (planStr.includes('month')) {
+                                    return parseInt(planStr);
+                                }
+                                if (planStr.includes('year')) {
+                                    return parseInt(planStr) * 12;
+                                }
+                                return 0;
+                            };
+                            return getMonths(a.planType) - getMonths(b.planType);
+                        })
+                        .map((plan) => (
+                            <div key={plan._id} className={styles.planCard}>
+                                <div className={styles.planType}>
+                                    <h3>{plan.planType}</h3>
+                                    {plan.discount > 0 && (
+                                        <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
+                                    )}
                                 </div>
-                                <div className={styles.plandetailsflx}>
-                                    <p>Discount :</p>
-                                    <span className={styles.discount}>-{plan.discount}%</span>
+                                <div className={styles.plandetails}>
+                                    <div className={styles.plandetailsflx}>
+                                        <p>M.R.P :</p>
+                                        <span>${plan.initialPrice.toFixed(2)}</span>
+                                    </div>
+                                    <div className={styles.plandetailsflx}>
+                                        <p>Discount :</p>
+                                        <span className={styles.discount}>-{plan.discount}%</span>
+                                    </div>
                                 </div>
+                                {plan?.isPayment ? (<Button
+                                    text='Subscribed'
+                                    fill='fill'
+                                    onClick={() => handleSubscribe(plan)}
+                                    disabled={false}
+                                />) : (<Button
+                                    text='Subscribe Now'
+                                    onClick={() => handleSubscribe(plan)}
+                                    disabled={false}
+                                />)}
+
                             </div>
-                            {plan?.isPayment ? (<Button 
-                                text='Subscribed' 
-                                fill='fill' 
-                                onClick={() => handleSubscribe(plan)} 
-                                disabled={false} 
-                            />) : (<Button 
-                                text='Subscribe Now' 
-                                onClick={() => handleSubscribe(plan)} 
-                                disabled={false} 
-                            />)}
-                            
-                        </div>
-                    ))}
+                        ))}
+                </div>
+            </div>
+
+            {showSubscriptionDialog && selectedPlan && (
+                <YourSubscription 
+                    plan={selectedPlan}
+                    onClose={handleCloseDialog}
+                    channel={channel}
+                />
+            )}
+
+            <div className={styles.planTable}>
+                <h4 className={styles.availablePlans}>Subscribed Channel</h4>
+                <div className={styles.paymentTable}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Telegram User ID</th>
+                                <th>Plan Type</th>
+                                <th>Purchase Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {channel.telegramPlan?.flatMap(plan => 
+                                plan.payment?.map((payment, index) => (
+                                    <tr key={`${plan._id}-${index}`}>
+                                        <td>{payment.telegramAccountNo || '-'}</td>
+                                        <td>{plan.planType}</td>
+                                        <td>{formatDate(payment.createdAt)}</td>
+                                        <td>{
+                                            payment.createdAt && plan.planType 
+                                                ? calculateEndDate(payment.createdAt, plan.planType) 
+                                                : '-'
+                                        }</td>
+                                    </tr>
+                                ))
+                            ) || (
+                                <tr>
+                                    <td colSpan="4" className={styles.noData}>No subscription data available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

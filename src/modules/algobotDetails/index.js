@@ -40,8 +40,8 @@ const cardVariants = {
 
 const BotPlansSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
-        <div className={styles.plansGrid}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25  }} />
+        <div className={styles.plansGrid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div key={i} className={styles.planCard}>
                     <Skeleton height={30} width="70%" style={{ marginBottom: 15 }} />
@@ -61,8 +61,8 @@ const BotPlansSkeleton = () => (
 
 const SimilarBotsSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
-        <div className={styles.grid}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25  }} />
+        <div className={styles.grid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div className={styles.griditems} key={i}>
                     <Skeleton height={200} className={styles.image} />
@@ -373,7 +373,12 @@ export default function AlgoBotDetails() {
                 <div className={styles.breadcumbAlignment}>
                     <a aria-label="Home" href="/dashboard">Home</a>
                     <RightArrow />
-                    <a aria-label="AlgoBots" href="/algobot">AlgoBots</a>
+                    <a 
+                        aria-label={searchParams.get('category') === 'trading-tools' ? 'Trading Tools' : 'AlgoBots'}
+                        href={searchParams.get('category') === 'trading-tools' ? '/algobot?category=trading-tools' : '/algobot'}
+                    >
+                        {searchParams.get('category') === 'trading-tools' ? 'Trading Tools' : 'AlgoBots'}
+                    </a>
                 </div>
                 <div className={styles.algobotDetailsAlignment}>
                     <div className={styles.pageHeaderAlignment}>
@@ -473,7 +478,22 @@ export default function AlgoBotDetails() {
                         <div className={styles.plansContainer}>
                             <h3>Bot Plans</h3>
                             <div className={styles.plansGrid}>
-                                {plans.map((plan, index) => (
+                                {plans
+                                .slice()
+                                .sort((a, b) => {
+                                    const getMonths = (planType) => {
+                                        if (typeof planType !== 'string') return 0;
+                                        const planStr = planType.toLowerCase();
+                                        if (planStr.includes('month')) {
+                                            return parseInt(planStr);
+                                        }
+                                        if (planStr.includes('year')) {
+                                            return parseInt(planStr) * 12;
+                                        }
+                                        return 0;
+                                    };
+                                    return getMonths(a.planType) - getMonths(b.planType);
+                                }).map((plan, index) => (
                                     <div key={plan._id || index} className={styles.planCard}>
                                         <div className={styles.planType}>
                                             <div className={styles.planTypeflx}>

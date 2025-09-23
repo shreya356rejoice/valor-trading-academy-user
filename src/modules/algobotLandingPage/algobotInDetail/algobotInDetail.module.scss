@@ -1051,7 +1051,7 @@
             gap: 5px;
             margin-bottom: 10px;
 
-            .planTypeflx{
+            .planTypeflx {
                 display: flex;
                 align-items: start;
                 gap: 5px;
@@ -1174,9 +1174,62 @@
             border-radius: 12px;
             padding: 15px;
             box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            min-width: 0;
+            display: grid;
+            grid-template-rows: 180px 1fr;
 
             @include respond-to("sm") {
                 padding: 14px;
+            }
+
+            .nextArrow,
+            .prevArrow {
+                position: absolute;
+                top: 50%;
+                z-index: 9;
+                transform: translateY(-50%);
+                padding: 5px;
+                border-radius: 50%;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid var(--primary);
+                transition: .4s ease-in-out;
+
+                &:hover {
+                    background: var(--linear-gradient);
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                    transition: .4s ease-in-out;
+
+                    path {
+                        fill: #000;
+                        transition: .4s ease-in-out;
+                    }
+                }
+            }
+
+            .nextArrow {
+                right: -15px;
+            }
+
+            .prevArrow {
+                left: -15px;
+
+                svg {
+                    rotate: 180deg;
+                }
             }
 
             .image {
@@ -1190,7 +1243,11 @@
             }
 
             .details {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
                 padding: 16px 0 0 0;
+                min-width: 0;
 
                 h3 {
                     @include font18;
@@ -1253,11 +1310,28 @@
 }
 
 
-
 .pricingSection {
-    display: flex;
-    gap: 1rem;
-    margin: 8px 0 1rem 0;
+    margin: 8px 0 1.5rem 0;
+    position: relative;
+
+    .slick-dots {
+        bottom: -25px;
+
+        li {
+            margin: 0 2px;
+
+            button:before {
+                font-size: 10px;
+                color: #7678ED;
+                opacity: 0.3;
+            }
+
+            &.slick-active button:before {
+                color: #7678ED;
+                opacity: 1;
+            }
+        }
+    }
 }
 
 .priceCard {
@@ -1333,6 +1407,7 @@
         line-height: 200px;
         font-weight: 800;
         color: #07000C;
+        mix-blend-mode: exclusion;
 
         @include respond-to("md") {
             line-height: 120px;

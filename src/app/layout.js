@@ -4,6 +4,7 @@ import '../scss/main.scss';
 import './theme.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import React, { Suspense } from "react";
 
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${lexend.variable}`}>
+        <Suspense fallback={<div>Loading...</div>}>
         <AuthProvider>
           {children}
         </AuthProvider>
@@ -31,6 +33,7 @@ export default function RootLayout({ children }) {
           position="top-center"
           reverseOrder={false}
         />
+        </Suspense>
       </body>
     </html>
   );

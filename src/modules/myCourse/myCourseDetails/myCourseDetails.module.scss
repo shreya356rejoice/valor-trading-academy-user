@@ -109,6 +109,7 @@
             border-radius: 12px;
             padding: 15px;
             box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            cursor: pointer;
 
             @include respond-to("sm") {
                 padding: 14px;

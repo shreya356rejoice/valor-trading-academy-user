@@ -77,17 +77,17 @@ export default function ExploreDifferent() {
             description:
                 "Join interactive live sessions with market experts. Ask questions, participate in discussions, and get your trading queries resolved in real-time.",
             image: Card3,
-            courses: `${courses?.live?.length} Live Sessions`,
+            courses: `${courses?.live?.length} Live Webinars`,
             icon: BookIcon,
             link: "/our-course?course=live"
         },
         {
             id: 3,
-            title: "In-Person Training",
+            title: "Traders Meet",
             description:
                 "Experience hands-on learning with our expert instructors in a classroom setting. Get personalized guidance and real-time feedback to accelerate your trading journey.",
             image: Card2,
-            courses: `${courses?.physical?.length} In-Person Programs`,
+            courses: `${courses?.physical?.length} Traders Meet`,
             icon: BookIcon,
             link: "/our-course?course=physical"
         },

@@ -40,8 +40,8 @@ const cardVariants = {
 
 const BotPlansSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
-        <div className={styles.plansGrid}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25 }} />
+        <div className={styles.plansGrid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div key={i} className={styles.planCard}>
                     <Skeleton height={30} width="70%" style={{ marginBottom: 15 }} />
@@ -61,8 +61,8 @@ const BotPlansSkeleton = () => (
 
 const SimilarBotsSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20 }} />
-        <div className={styles.grid}>
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25 }} />
+        <div className={styles.grid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div className={styles.griditems} key={i}>
                     <Skeleton height={200} className={styles.image} />
@@ -473,7 +473,23 @@ export default function MyAlgoBotDetails() {
                         <div className={styles.plansContainer}>
                             <h3>Bot Plans</h3>
                             <div className={styles.plansGrid}>
-                                {plans.map((plan, index) => (
+                                {plans
+                                .slice()
+                                .sort((a, b) => {
+                                    const getMonths = (planType) => {
+                                        if (typeof planType !== 'string') return 0;
+                                        const planStr = planType.toLowerCase();
+                                        if (planStr.includes('month')) {
+                                            return parseInt(planStr);
+                                        }
+                                        if (planStr.includes('year')) {
+                                            return parseInt(planStr) * 12;
+                                        }
+                                        return 0;
+                                    };
+                                    return getMonths(a.planType) - getMonths(b.planType);
+                                })
+                                .map((plan, index) => (
                                     <div key={plan._id || index} className={styles.planCard}>
                                         <div className={styles.planType}>
                                             <div className={styles.planTypeflx}>
@@ -537,32 +553,48 @@ export default function MyAlgoBotDetails() {
                         </div>
                     )}
 
-                    {/* <div className={styles.plansContainer}>
+                    <div className={styles.plansContainer}>
                         <h3>Purchased Plans</h3>
                         <div className={styles.paymentTable}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Plan Type</th>
-                                        <th>Purchase Date</th>
-                                        <th>Meta Account No.</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1 Month</td>
-                                        <td>12/08/2006</td>
-                                        <td>323467</td>
-                                        <td>12/08/2006</td>
-                                        <td>12/08/2006</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> */}
+                            {plans?.length > 0 ? (
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Plan Type</th>
+                                            <th>Purchase Date</th>
+                                            <th>Meta Account No.</th>
+                                            <th>Quantity</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {plans.map((plan) => {
+                                            const payment = plan.payment?.[0];
+                                            const purchaseDate = payment?.createdAt ? new Date(payment.createdAt).toLocaleDateString() : 'N/A';
+                                            const quantity = payment?.noOfBots || 1;
+                                            const startDate = payment?.startDate ? new Date(payment.startDate).toLocaleDateString() : 'Not added';
+                                            const endDate = payment?.endDate ? new Date(payment.endDate).toLocaleDateString() : 'Not added';
+                                            const metaAccounts = payment?.metaAccountNo?.join(', ') || 'N/A';
 
+                                            return (
+                                                <tr key={plan._id}>
+                                                    <td>{plan.planType}</td>
+                                                    <td>{purchaseDate}</td>
+                                                    <td>{metaAccounts}</td>
+                                                    <td>{quantity}</td>
+                                                    <td>{startDate}</td>
+                                                    <td>{endDate}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>No purchased plans found.</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
 

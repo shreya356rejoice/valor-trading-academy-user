@@ -5,7 +5,7 @@ import Button from '@/components/button';
 import Pagination from '@/components/pagination';
 
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { getCourses } from '@/app/api/dashboard';
@@ -15,7 +15,9 @@ const BathIcon = '/assets/icons/bath.svg';
 const ITEMS_PER_PAGE = 4;
 
 export default function Recentcourse({ searchQuery, courses, setCourses }) {
-    const [selectedTab, setSelectedTab] = useState("recorded");
+    const searchParams = useSearchParams();
+    const category = searchParams.get('category');
+    const [selectedTab, setSelectedTab] = useState(category || "recorded");
     const [allCourses, setAllCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -58,9 +60,19 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
     };
 
     useEffect(() => {
-        
+        // Always update selectedTab based on URL category parameter
+        setSelectedTab(category || "recorded");
+    }, [category]);
+
+    useEffect(() => {
+        // Fetch courses when selectedTab or searchQuery changes
         fetchCourses(1);
-    }, [searchQuery,selectedTab]);
+    }, [searchQuery, selectedTab]);
+
+    // Handle tab change
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    };
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= Math.ceil(pagination.totalItems / pagination.itemsPerPage)) {
@@ -71,7 +83,7 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
     };
 
     const renderSkeleton = () => {
-        return Array(4).fill(0).map((_, index) => (
+        return Array(3).fill(0).map((_, index) => (
             <div className={styles.griditems} key={`skeleton-${index}`}>
                 <div className={styles.image}>
                     <Skeleton height={180} style={{ display: 'block', borderRadius: '10px' }} />
@@ -111,9 +123,9 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
         <div className={styles.recentcourse}>
             <div className={styles.tabCenteralignment}>
                 <div className={styles.tab}>
-                    <button aria-label='Pre Recorded Courses' className={selectedTab === "recorded" ? styles.active : ""} onClick={() => setSelectedTab("recorded")}>Pre Recorded Courses</button>
-                    <button aria-label='Live Courses' className={selectedTab === "live" ? styles.active : ""} onClick={() => setSelectedTab("live")}>Live Online Courses</button>
-                    <button aria-label='In Person Courses' className={selectedTab === "physical" ? styles.active : ""} onClick={() => setSelectedTab("physical")}>In-Person Courses</button>
+                    <button aria-label='Pre Recorded Courses' className={selectedTab === "recorded" ? styles.active : ""} onClick={() => handleTabChange("recorded")}>Pre Recorded Courses</button>
+                    <button aria-label='Live Courses' className={selectedTab === "live" ? styles.active : ""} onClick={() => handleTabChange("live")}>Live Webinars</button>
+                    <button aria-label='In Person Courses' className={selectedTab === "physical" ? styles.active : ""} onClick={() => handleTabChange("physical")}>Traders Meet</button>
                     <button aria-label='Trending Courses' className={selectedTab === "trending" ? styles.active : ""} onClick={() => setSelectedTab("trending")}>Trending Courses</button>
                     <button aria-label='Popular Courses' className={selectedTab === "popular" ? styles.active : ""} onClick={() => setSelectedTab("popular")}>Popular Courses</button>
                 </div>
@@ -139,14 +151,53 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                         <span>{course?.instructor || "John Doe"}</span>
                                     </div>
                                 </div>
-                                {course?.isPayment ? (<Button
+                                {console.log(selectedTab,"selectedTab")
+                                }
+                                {/* {course?.isPayment ? (<Button
                                     text="Enrolled"
                                     fill
                                     onClick={() => router.push(`/my-course-details?courseId=${course?._id}`)}
                                 />) : (<Button
                                     text="Enroll Now"
                                     onClick={() => router.push(`/course-details?courseId=${course?._id}`)}
-                                />)}
+                                />)} */}
+
+                                {selectedTab === "recorded" ? (
+                                    course?.isPayment ? (
+                                        <Button
+                                            text="Enrolled"
+                                            fill
+                                            onClick={() =>
+                                                router.push(`/my-course-details?courseId=${course?._id}`)
+                                            }
+                                        />
+                                    ) : (
+                                        <Button
+                                            text="Enroll Now"
+                                            onClick={() =>
+                                                router.push(`/course-details?courseId=${course?._id}`)
+                                            }
+                                        />
+                                    )
+                                ) : (selectedTab === "live" || selectedTab === "physical") ? (
+                                    course?.registration?.isActive ? (
+                                        <Button
+                                            text="Registered"
+                                            fill
+                                            onClick={() =>
+                                                router.push(`/my-course-details?courseId=${course?._id}&category=${selectedTab}`)
+                                            }
+                                        />
+                                    ) : (
+                                        <Button
+                                            text="Register"
+                                            onClick={() =>
+                                                router.push(`/course-details?courseId=${course?._id}&category=${selectedTab}`)
+                                            }
+                                        />
+                                    )
+                                ) : null}
+
                             </div>
                         </div>
                     ))

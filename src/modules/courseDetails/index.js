@@ -17,7 +17,11 @@ import Button from '@/components/button';
 import { getCookie } from '../../../cookie';
 import CourseSession from './courseSession';
 import CustomVideoPlayer from '@/components/customeVideoPlayer';
+import CalanderIcon from '@/components/icons/calanderIcon';
+import RegistrationDialog from '@/components/RegistrationDialog';
+import LocationIcon from '@/components/icons/locationIcon';
 
+const BathPrimaryIcon = '/assets/icons/bath-primary.svg';
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
 const LockIcon = '/assets/icons/lock.svg';
@@ -60,30 +64,34 @@ export default function CourseDetails() {
   const [error, setError] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const searchParams = useSearchParams();
   const id = searchParams.get('courseId');
+  const category = searchParams.get('category');
   const router = useRouter();
 
-  const [user , setUser] = useState({});
-      useEffect(() => {
-          const userData = getCookie('user');
-          if (userData) {
-              setUser(JSON.parse(userData));
-          }
-      }, []);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const userData = getCookie('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         const [courseResponse, chapterResponse, sessionResponse] = await Promise.all([
           getCourses({ id }),
           getChapters(id),
           getSessionData(id)
         ]);
-        
+
+        console.log(chapterResponse.payload, "chapterResponse.payload");
+
         setCourses(courseResponse.payload.data[0]);
         setChapters(chapterResponse.payload);
         setSessions(sessionResponse.payload);
@@ -106,7 +114,16 @@ export default function CourseDetails() {
   }, [id]);
 
   const handlePayment = async () => {
-    if (isLogin) {
+    if (!isLogin) {
+      router.push('/signin');
+      return;
+    }
+
+    if (category) {
+      // For categories (traders-meet, live-webinars), open registration dialog
+      setIsRegistrationOpen(true);
+    } else {
+      // For regular courses, proceed with payment
       setIsProcessing(true);
       try {
         const response = await getPaymentUrl({
@@ -125,10 +142,35 @@ export default function CourseDetails() {
       } finally {
         setIsProcessing(false);
       }
-    } else {
-      router.push('/signin');
     }
-  }
+  };
+
+  const handleRegistrationSubmit = async (formData) => {
+    try {
+      setIsProcessing(true);
+      // Update the course state to reflect registration
+      setCourses(prevCourse => ({
+        ...prevCourse,
+        registration: {
+          ...prevCourse.registration,
+          isActive: true
+        },
+        // Add the meeting link if available in the response
+        meetingLink: formData.meetingLink || prevCourse.meetingLink
+      }));
+
+      // The RegistrationDialog will handle showing the thank you message
+      return { success: true };
+      // For now, just close the dialog and show success message
+      setIsRegistrationOpen(false);
+      toast.success("Registration successful!");
+    } catch (error) {
+      console.error('Registration failed:', error);
+      toast.error("Registration failed. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   if (loading) {
     return <CourseDetailsSkeleton />;
@@ -155,13 +197,13 @@ export default function CourseDetails() {
           {courses?.description}
         </p>
         <div className={styles.allIconTextAlignment}>
-          <div className={styles.coursdetailstext}>
+          {!category ? (<div className={styles.coursdetailstext}>
             <div className={styles.iconText}>
               <ClockIcon />
               <span>{courses?.hours} hours</span>
             </div>
             <div className={styles.iconText}>
-              <img src={BathIcon} alt="BathIcon" />
+              <img src={BathPrimaryIcon} alt='BathPrimaryIcon' />
               <span>{courses?.instructor || "John Doe"}</span>
             </div>
             {/* <div className={styles.iconText}>
@@ -178,49 +220,105 @@ export default function CourseDetails() {
             {!chapters?.isPayment && (<div className={styles.iconText}>
               <span>Price:</span> <h4>${courses?.price}</h4>
             </div>)}
-          </div>
+          </div>) : (<div className={styles.coursdetailstext}>
+            <div className={styles.iconText}>
+              <CalanderIcon />
+              <span>{new Date(courses?.courseStart || new Date()).toLocaleDateString('en-GB')}</span>
+            </div>
+            <div className={styles.iconText}>
+              <ClockIcon />
+              <span>{courses?.startTime} to {courses?.endTime}</span>
+            </div>
+            {category === "physical" && (<div className={styles.iconText}>
+              <LocationIcon />
+              <span>{courses?.location}</span>
+            </div>)}
+            <div className={styles.iconText}>
+              <img src={BathPrimaryIcon} alt='BathPrimaryIcon' />
+              <span>{courses?.instructor}</span>
+            </div>
+            <div className={styles.iconText}>
+              <ProfileIcon />
+              <span>{courses?.subscribed}</span>
+            </div>
+          </div>)}
+
+
           <div className={styles.rightContentAlignment}>
-            {chapters?.isPayment === true ? '' : (
+            {category ? (
+              // Case 1: Category is present (e.g. traders-meet, live-webinars)
+              !courses?.registration ? (
+                <Button
+                  text={isProcessing ? 'Registering...' : 'Register'}
+                  fill
+                  onClick={handlePayment}
+                  disabled={isProcessing}
+                  className={isProcessing ? styles.processingButton : ''}
+                />
+              ) : (<Button
+                text={'Registered'}
+                fill
+                disabled
+              />)
+            ) : (chapters?.isPayment === true ? '' : (
+              <Button
+                text={isProcessing ? 'Enrolling...' : 'Enroll Now'}
+                fill
+                onClick={() => handlePayment()}
+                disabled={isProcessing}
+                className={isProcessing ? styles.processingButton : ''}
+              />
+            )
+            )}
+            {/* {chapters?.isPayment === true ? '' : (
               <Button
                 text={isProcessing ? 'Enrolling...' : 'Enroll Now'}
                 onClick={() => handlePayment()}
                 disabled={isProcessing}
                 className={isProcessing ? styles.processingButton : ''}
               />
-            )}
+            )} */}
           </div>
         </div>
+        {courses?.courseType === "live" && (
+          <div>
+            {courses?.registration?.isActive ?
+              (<p>Meeting Link: {courses?.meetingLink}</p>) : ""}
+          </div>
+        )}
       </div>
-      {chapters?.data?.length > 0 ? (
-        <>
-          <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
-            <div className={styles.courseDetailsTab}>
-              {chapters.data.map((chapter, index) => (
-                <button
-                  key={chapter._id}
-                  aria-label={`Chapter ${chapter.chapterNo}`}
-                  className={selectedChapter?._id === chapter._id ? styles.active : ''}
-                  onClick={() => setSelectedChapter(chapter)}
-                >
-                  <span>Chapter {chapter.chapterNo}</span>
-                </button>
-              ))}
-            </div>
-            {chapters.data && chapters.data.length > 0 ? (
-              <div className={styles.courseInformation}>
-                <div className={styles.video}>
-                  {/* <iframe
-                    width="100%"
-                    height="400"
-                    src={(selectedChapter || chapters.data[0])?.chapterVideo?.replace("watch?v=", "embed/")}
-                    title={(selectedChapter || chapters.data[0])?.chapterName}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe> */}
+
+      {!category ? (
+        chapters?.data?.length >= 0 && (
+          <>
+            <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
+              <div className={styles.courseDetailsTab}>
+                {chapters.data.map((chapter, index) => (
+                  <button
+                    key={chapter._id}
+                    aria-label={`Chapter ${chapter.chapterNo}`}
+                    className={selectedChapter?._id === chapter._id ? styles.active : ''}
+                    onClick={() => setSelectedChapter(chapter)}
+                  >
+                    <span>Chapter {chapter.chapterNo}</span>
+                  </button>
+                ))}
+              </div>
+              {chapters.data && chapters.data.length > 0 ? (
+                <div className={styles.courseInformation}>
+                  <div className={styles.video}>
+                    {/* <iframe
+                      width="100%"
+                      height="400"
+                      src={(selectedChapter || chapters.data[0])?.chapterVideo?.replace("watch?v=", "embed/")}
+                      title={(selectedChapter || chapters.data[0])?.chapterName}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe> */}
 
 
-{chapters.data[0]?.chapterVideo ? (
+                    {chapters.data[0]?.chapterVideo ? (
                       // !isPaid ? (
                       //   <div className={styles.videoLocked}>
                       //     <div className={styles.lockOverlay}>
@@ -234,66 +332,80 @@ export default function CourseDetails() {
                       //     />
                       //   </div>
                       // ) : (
-                        <div className={styles.videoWrapper}>
-                          {/* <VideoPlayer
-                            src={selectedChapter.chapterVideo}
-                            userId={user?._id}
-                            controls
-                            controlsList="nodownload"
-                            disablePictureInPicture
-                            noremoteplayback
-                            className={styles.videoPlayer}
-                          /> */}
-                          {console.log("selectedChapter.chapterVideo",chapters.data[0]?.chapterVideo)}
-                          <CustomVideoPlayer
-                            src={chapters.data[0]?.chapterVideo}
-                            // src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                            // src="https://pipsveda.s3.us-east-1.azonaws.com/pipsveda/blob-1757418874956new%20latest.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVJSBBJ5XMZUEA2XW%2F20250913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250913T063038Z&X-Amz-Expires=3600&X-Amz-Signature=e0ed6c6d43a4038201fd1206007456c1387457b7cb86fb7335d92417d65ba51b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
-                            userId={user?._id}
-                            controls
-                            controlsList="nodownload"
-                            disablePictureInPicture
-                            noremoteplayback
-                            className={styles.videoPlayer}
-                          />
-                        </div>
+                      <div className={styles.videoWrapper}>
+                        {/* <VideoPlayer
+                              src={selectedChapter.chapterVideo}
+                              userId={user?._id}
+                              controls
+                              controlsList="nodownload"
+                              disablePictureInPicture
+                              noremoteplayback
+                              className={styles.videoPlayer}
+                            /> */}
+                        <CustomVideoPlayer
+                          src={chapters.data[0]?.chapterVideo}
+                          // src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                          // src="https://pipsveda.s3.us-east-1.azonaws.com/pipsveda/blob-1757418874956new%20latest.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVJSBBJ5XMZUEA2XW%2F20250913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250913T063038Z&X-Amz-Expires=3600&X-Amz-Signature=e0ed6c6d43a4038201fd1206007456c1387457b7cb86fb7335d92417d65ba51b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                          userId={user?._id}
+                          controls
+                          controlsList="nodownload"
+                          disablePictureInPicture
+                          noremoteplayback
+                          className={styles.videoPlayer}
+                        />
+                      </div>
                       // )
                     ) : (
                       <div className={styles.noVideo}>Video not available</div>
                     )}
-                </div>
-                <div>
-                  <h2>
-                    Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
-                  </h2>
-                  <p>{(selectedChapter || chapters.data[0])?.description}</p>
-                </div>
-              </div>
-            ) : (<div className={styles.noChapters}>
-              <div className={styles.iconCenterAlignment}>
-                <img src={NoCoursesIcon} alt="No Courses" />
-              </div>
-              <p>No Course Content Available</p>
-              <p>This course doesn't have any chapters yet. Please check back later.</p>
-            </div>)}
-
-            {chapters?.isPayment === false && (
-              <div className={styles.layer}>
-                <div>
-                  <div className={styles.iconCenterAlignment}>
-                    <img src={LockIcon} alt='LockIcon' />
                   </div>
-                  <p>
-                    Enroll Now to unlock
-                  </p>
+                  <div>
+                    <h2>
+                      Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
+                    </h2>
+                    <p>{(selectedChapter || chapters.data[0])?.description}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : (<div className={styles.noChapters}>
+                <div className={styles.iconCenterAlignment}>
+                  <img src={NoCoursesIcon} alt="No Courses" />
+                </div>
+                <p>No Course Content Available</p>
+                <p>This course doesn't have any chapters yet. Please check back later.</p>
+              </div>)}
+
+              {chapters?.isPayment === false && (
+                <div className={styles.layer}>
+                  <div>
+                    <div className={styles.iconCenterAlignment}>
+                      <img src={LockIcon} alt='LockIcon' />
+                    </div>
+                    <p>
+                      Enroll Now to unlock
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )
+        // : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)
+      ) : (
+        <div className={`${styles.mainRelative} ${chapters?.isPayment === false ? styles.layeredrelative : ''}`}>
+          <div className={styles.thumbnail}>
+            <img src={courses?.courseVideo} alt="Thumbnail" />
           </div>
-        </>
-      ) : (<><CourseSession sessions={sessions} setSessions={setSessions} /></>)}
+        </div>
+      )}
+
       {/* <Recentcourse courses={courses} setCourses={setCourses} /> */}
-      <Recent courses={courses} selectedType={courses?.courseType} setCourses={setCourses} />
+      {!category && (<Recent courses={courses} selectedType={courses?.courseType} setCourses={setCourses} />)}
+
+      <RegistrationDialog
+        isOpen={isRegistrationOpen}
+        onClose={() => setIsRegistrationOpen(false)}
+        onSubmit={handleRegistrationSubmit}
+      />
     </div>
   )
 }

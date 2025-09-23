@@ -1,0 +1,172 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.header {
+  padding: 16px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  padding: 0;
+  line-height: 1;
+
+  &:hover {
+    color: #495057;
+  }
+}
+
+.form {
+  padding: 24px;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    &.errorInput {
+      padding-right: calc(1.5em + 0.75rem);
+    }
+  }
+
+  .errorMessage {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+    display: block;
+  }
+}
+
+.buttonContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  button {
+    padding: 12px 22px;
+  }
+}
+
+.formError {
+  color: #dc3545;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+// Thank You Dialog Styles
+.thankYouDialog {
+  text-align: center;
+
+  .thankYouContent {
+    padding: 24px 24px;
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #28a745;
+      color: white;
+      font-size: 40px;
+      line-height: 1;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+    }
+
+    h4 {
+      margin: 0 0 16px;
+      color: #28a745;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: #495057;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+  }
+
+  .thankYouButton {
+    margin: 0 auto;
+    min-width: 120px;
+    background-color: #28a745;
+    border-color: #28a745;
+
+    &:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+  }
+}

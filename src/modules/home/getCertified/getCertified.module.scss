@@ -36,12 +36,17 @@
     }
 
     .grid {
-        display: grid;
-        grid-template-columns: 1fr 550px;
+        display: flex;
+        // grid-template-columns: 1fr 550px;
+        width: 70%;
         gap: 30px;
+        margin: 0 auto;
+        justify-content: center;
         
         @include respond-to("md") {
-            grid-template-columns: 1fr;
+            width: 90%;
+            flex-direction: column;
+            align-items: center;
         }
         @include respond-to("sm") {
             gap: 20px;

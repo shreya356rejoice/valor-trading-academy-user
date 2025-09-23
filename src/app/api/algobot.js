@@ -11,6 +11,17 @@ export const getPurchasedCourses = async () => {
     }
 }   
 
+export const getRegisteredCourses = async (type) => {
+
+  try {
+      const response = await api.get(`/registration/getSingleRegistration?type=${type}`)
+      return response.data;
+  } catch (error) {
+      console.log("error", error)
+      throw error;
+  }
+} 
+
 
 export const getAlgobotCategories = async () =>{
     try {

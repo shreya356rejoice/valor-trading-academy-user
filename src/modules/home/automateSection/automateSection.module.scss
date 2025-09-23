@@ -7,13 +7,14 @@
     background: var(--d-9-d-9-d-9, linear-gradient(180deg, #3D348B 0%, #7678ED 100%));
 
     @include respond-to("sm") {
-    padding: 80px 0 180px 0;
+        padding: 80px 0 180px 0;
     }
 
     .title {
         padding: 0 0 50px 0;
+
         @include respond-to("sm") {
-            padding: 0  0 40px 0;
+            padding: 0 0 40px 0;
         }
 
         h2 {
@@ -21,6 +22,7 @@
             color: var(--text-white);
             text-align: center;
             margin: 0 0 8px 0;
+
             @include respond-to("sm") {
                 @include heading32;
             }
@@ -43,7 +45,7 @@
         gap: 24px;
 
         @include respond-to("md") {
-            grid-template-columns: repeat(1 , 1fr);
+            grid-template-columns: repeat(1, 1fr);
         }
 
         @include respond-to("sm") {
@@ -54,10 +56,70 @@
             padding: 30px 25px;
             background-color: var(--bg-white);
             border-radius: 18px;
+            min-width: 0;
 
             @include respond-to("sm") {
                 padding: 16px;
                 border-radius: 12px;
+            }
+
+            :global(.slick-track) {
+                margin: 0;
+            }
+
+            .planslider {
+                width: calc(100% - 40px);
+                margin: 0 auto;
+            }
+
+            .nextArrow,
+            .prevArrow {
+                position: absolute;
+                top: 50%;
+                z-index: 9;
+                transform: translateY(-50%);
+                padding: 5px;
+                border-radius: 50%;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid var(--primary);
+                transition: .4s ease-in-out;
+
+                &:hover {
+                    background: var(--linear-gradient);
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    transition: .4s ease-in-out;
+
+                    path {
+                        fill: #000;
+                        transition: .4s ease-in-out;
+                    }
+                }
+            }
+
+            .nextArrow {
+                right: -35px;
+            }
+
+            .prevArrow {
+                left: -35px;
+
+                svg {
+                    rotate: 180deg;
+                }
             }
 
             .twoColGrid {
@@ -79,7 +141,7 @@
                 padding: 0 0 25px 0;
 
                 @include respond-to("sm") {
-                    padding: 0  0 16px 0;
+                    padding: 0 0 16px 0;
                 }
 
                 button {
@@ -96,7 +158,7 @@
                 }
 
                 p {
-                    margin: 12px 0 0 0;
+                    margin: 15px 0 0 0;
                     @include font16medium;
                     color: var(--black-100);
                 }
@@ -106,13 +168,16 @@
                 display: flex;
                 gap: 43px;
                 padding: 0 0 25px 0;
+
                 @include respond-to("sm") {
                     gap: 20px;
                     padding: 0 0 16px 0;
                 }
+
                 p {
                     @include font16;
                     color: rgba(42, 48, 60, 0.70);
+
                     @include respond-to("sm") {
                         @include font14normal;
                     }
@@ -122,6 +187,7 @@
                     display: block;
                     @include font16bold;
                     color: var(--black-100);
+
                     @include respond-to("sm") {
                         font-size: 13px;
                     }
@@ -147,6 +213,7 @@
                     @include heading20;
                     margin: 0 0 2px 0;
                     color: var(--black-100);
+
                     @include respond-to("sm") {
                         @include font16bold;
                     }
@@ -156,6 +223,7 @@
                     background: var(--linear-gradient);
                     @include text-type;
                     @include font16medium;
+
                     @include respond-to("sm") {
                         font-size: 13px;
                     }
@@ -194,17 +262,44 @@
     display: flex;
     gap: 16px; // Adjust spacing between items
     align-items: start;
-  }
-  
-  .planItem {
+}
+
+.planItemmain {
+    display: flex;
+    justify-content: space-between;
+
+    .planItem {
+
+        p {
+            @include font16;
+            color: rgba(42, 48, 60, 0.70);
+
+            @include respond-to("sm") {
+                @include font14normal;
+            }
+        }
+
+        span {
+            display: block;
+            @include font16bold;
+            color: var(--black-100);
+
+            @include respond-to("sm") {
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+.planItem {
     display: flex;
     flex-direction: column;
     align-items: start;
     padding: 0 8px;
-  }
-  
-  .verticalDivider {
+}
+
+.verticalDivider {
     width: 1px;
     height: 40px; // Adjust height as needed
     background-color: #e0e0e0; // Your preferred line color
-  }
+}

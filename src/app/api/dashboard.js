@@ -203,3 +203,14 @@ export const getDashboardTelegramChannels = async (id, searchQuery) => {
     throw error;
   }
 };
+
+export const registerUser = async (data) => {
+  try {
+    const response = await api.post(`/registration/addRegistration`, data);
+    const responseData = await response.data;
+    return responseData;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};

@@ -75,20 +75,24 @@ export default function GetCertified() {
             <div className={styles.allIconText}>
               <div className={styles.iconText}>
                 <CheckIcon />
-                <span>Verified on LinkedIn & Professional Networks</span>
+                <span>Professional trading certification with lifetime validity</span>
               </div>
               <div className={styles.iconText}>
                 <CheckIcon />
-                <span>Industry-recognized credentials</span>
+                <span>Secure and easily shareable digital certificate</span>
               </div>
               <div className={styles.iconText}>
                 <CheckIcon />
-                <span>Lifetime validity</span>
+                <span>Endorsed by trusted industry partners</span>
+              </div>
+              <div className={styles.iconText}>
+                <CheckIcon />
+                <span>Enhances career opportunities in global financial markets</span>
               </div>
             </div>
           </motion.div>
 
-          <motion.div className={styles.griditems} variants={item}>
+          {/* <motion.div className={styles.griditems} variants={item}>
             <div className={styles.certificate}>
               <div className={styles.iconCenter}>
                 <img src={CertificateIcon} alt="CertificateIcon" />
@@ -130,7 +134,7 @@ export default function GetCertified() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         <motion.div

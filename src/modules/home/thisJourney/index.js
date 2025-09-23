@@ -64,9 +64,9 @@ export default function ThisJourney() {
               variants={cardContainer}
             >
               <div className={styles.cardGrid}>
-                {[0, 1].map((i) => (
+                {/* {[0, 1].map((i) => ( */}
                   <motion.div
-                    key={i}
+                    // key={i}
                     className={styles.cardGridItems}
                     variants={cardItem}
                   >
@@ -75,17 +75,17 @@ export default function ThisJourney() {
                     </div>
                     <div className={styles.details}>
                       <h3>
-                        {i === 0 ? 'Join Telegram Group' : 'View Discussion Forum'}
+                        Join Telegram Group
                       </h3>
                       <p>
-                        {i === 0
-                          ? 'Connect with 15,000+ active traders for daily insights and live discussions'
-                          : 'Access our detailed forum for in-depth trading discussions and analysis'}
+                       
+                          Connect with 15,000+ active traders for daily insights and live discussions
+                          {/* : 'Access our detailed forum for in-depth trading discussions and analysis'} */}
                       </p>
-                      <Button text={i === 0 ? 'Join Community' : 'Visit Forum'} />
+                      <Button onClick={() => window.open('https://t.me/algomaticbot', '_blank')} text={'Join Community'} />
                     </div>
                   </motion.div>
-                ))}
+                {/* ))} */}
               </div>
             </motion.div>
           </div>

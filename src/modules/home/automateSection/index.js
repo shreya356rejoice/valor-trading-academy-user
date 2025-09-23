@@ -7,6 +7,11 @@ import StudentSay from '../studentSay'
 import { motion } from 'framer-motion'
 import { getBots } from '@/app/api/dashboard'
 import { useRouter } from 'next/navigation'
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ArrowIcon from '@/components/icons/arrowIcon'
+import Sliderarrow from '@/components/icons/sliderarrow'
 
 const FlashIcon = '/assets/icons/flash.svg'
 
@@ -18,6 +23,27 @@ const cardVariants = {
     transition: { delay: i * 0.2, duration: 0.5 },
   }),
 }
+
+function SampleNextArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      className={styles.nextArrow}
+      onClick={onClick}
+    ><Sliderarrow /></div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      className={styles.prevArrow}
+      onClick={onClick}
+    ><Sliderarrow /></div>
+  );
+}
+
 
 export default function AutomateSection() {
   const [algobotData, setAlgobotData] = useState([]);
@@ -36,6 +62,28 @@ export default function AutomateSection() {
     };
     fetchAlgobotData();
   }, []);
+
+  const Planssettings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: false,
+    arrows: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+    ]
+  };
+
 
   return (
     <>
@@ -74,9 +122,10 @@ export default function AutomateSection() {
                       <h3>{algobot?.title}</h3>
                       <span className={styles.singleLineText}>{algobot?.shortDescription}</span>
                     </div>
+
                   </div>
 
-                  <div className={styles.textContent}>
+                  {/* <div className={styles.textContent}>
                     {algobot?.strategyPlan?.map((plan, i, array) => (
                       <React.Fragment key={i}>
                         <div className={styles.planItem}>
@@ -86,7 +135,18 @@ export default function AutomateSection() {
                         {i < array.length - 1 && <div className={styles.verticalDivider}></div>}
                       </React.Fragment>
                     ))}
-                  </div>
+                  </div> */}
+
+                  <Slider {...Planssettings} className={styles.planslider}>
+                    {algobot?.strategyPlan?.map((plan, i) => (
+                      <div key={i} className={styles.planItemmain}>
+                        <div className={styles.planItem}>
+                          <p>{plan?.planType}</p>
+                          <span>${plan?.initialPrice}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </Slider>
 
                   <div className={styles.freetrial}>
                     <p className={styles.truncateText}>{algobot?.description.replace(/<[^>]*>?/gm, '')}</p>
