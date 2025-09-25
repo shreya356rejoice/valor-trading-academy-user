@@ -3,7 +3,8 @@
 @use '../../../scss/typography/typography.scss' as *;
 
 .howitWorks {
-  padding: 20px 0 120px 0;
+  // padding: 20px 0 120px 0;
+  padding: 20px 0;
 
   @include respond-to("sm") {
     padding: 0 0 80px 0;
