@@ -54,6 +54,14 @@
     line-height: 27px;
 }
 
+@mixin font18bold {
+    font-size: 18px;
+    font-style: normal;
+    font-family: var(--font-lexend);
+    font-weight: 700;
+    line-height: 27px;
+}
+
 @mixin font13medium {
     font-size: 13px;
     font-style: normal;

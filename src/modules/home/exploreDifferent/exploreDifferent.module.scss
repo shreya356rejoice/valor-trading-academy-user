@@ -163,6 +163,14 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 23px;
 
+        @media (max-width:1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include respond-to("sm") {
+            grid-template-columns: 1fr;
+        }
+
         .card {
             width: 100% !important;
             display: grid;

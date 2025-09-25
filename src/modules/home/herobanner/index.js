@@ -60,6 +60,22 @@ export default function Herobanner() {
         }
     }
 
+    const handleAlgobots = () => {
+        if (user) {
+            router.push('/algobot')
+        } else {
+            router.push('/login')
+        }
+    }
+
+    const handleTradingTools = () => {
+        if (user) {
+            router.push('/algobot?category=trading-tools')
+        } else {
+            router.push('/login')
+        }
+    }
+
     return (
         <div className={styles.herobanner}>
             <div className='container'>
@@ -96,7 +112,9 @@ export default function Herobanner() {
                         </motion.div>
                         <motion.div className={styles.buttonAlignment} variants={itemVariants}>
                             <Button text='Explore Courses' fill onClick={handleNavigate} />
-                            <Button text='Join Free Community' onClick={() => window.open('https://t.me/algomaticbot', '_blank')} />
+                            {/* <Button text='Join Free Community' onClick={() => window.open('https://t.me/algomaticbot', '_blank')} /> */}
+                            <Button text='Algobots' onClick={handleAlgobots} />
+                            <Button text='Tranding Tools' onClick={handleTradingTools} />
                         </motion.div>
                     </motion.div>
                     <motion.div className={styles.griditems} variants={imageVariants}>

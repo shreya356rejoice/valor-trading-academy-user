@@ -2,56 +2,20 @@
 @use '../../../scss/breakpoints/breakpoints.scss' as *;
 @use '../../../scss/typography/typography.scss' as *;
 
-.automateSectionmain {
-    position: relative;
+.tradingtools {
+    padding: 110px 0 0 0;
 
-    @include respond-to("sm") {
-        padding: 80px 0 180px 0;
-    }
+    .tradingflex {
+        display: flex;
+        align-items: center;  
+        gap: 24px;
 
-    &::before {
-        z-index: 2;
-        width: 96%;
-        top: -20px;
-    }
+        .leftitems {
+            max-width: 424px;
 
-    &::after {
-        z-index: 1;
-        width: 92%;
-        top: -35px;
-    }
-
-    &::after,
-    &::before {
-        content: "";
-        pointer-events: none;
-        background: #6766b196;
-        border-radius: 30px;
-        height: 80px;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .automateSection {
-        position: relative;
-        padding: 110px 0 211px 0;
-        background: var(--d-9-d-9-d-9, linear-gradient(180deg, #3D348B 0%, #7678ED 100%));
-        border-radius: 56px 56px 0 0;
-        z-index: 99;
-
-
-        .title {
-            padding: 0 0 50px 0;
-
-            @include respond-to("sm") {
-                padding: 0 0 40px 0;
-            }
-
-            h2 {
+            h1 {
                 @include heading2;
                 color: var(--text-white);
-                text-align: center;
                 margin: 0 0 8px 0;
 
                 @include respond-to("sm") {
@@ -62,40 +26,74 @@
             p {
                 @include font18;
                 color: var(--text-white);
-                text-align: center;
 
                 @include respond-to("sm") {
                     @include font16;
                 }
             }
+
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+        .rightitems {
+            min-width: 0;
+            width: 100%;
 
-            // @include respond-to("md") {
-            //     grid-template-columns: repeat(1, 1fr);
-            // }
+            .nextArrowmain,
+            .prevArrowmain {
+                position: absolute;
+                top: -40px;
+                z-index: 9;
+                padding: 5px 20px;
+                border-radius: 50px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid var(--primary);
+                transition: .4s ease-in-out;
 
-            @media (max-width: 1024px) {
-                grid-template-columns: repeat(2, 1fr);
+                &:hover {
+                    background: var(--linear-gradient);
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    transition: .4s ease-in-out;
+
+                    path {
+                        fill: #000;
+                        transition: .4s ease-in-out;
+                    }
+                }
             }
 
-            @media (max-width: 768px) {
-                grid-template-columns: 1fr;
+            .nextArrowmain {
+                right: 0;
             }
 
-            @include respond-to("sm") {
-                gap: 20px;
+            .prevArrowmain {
+                right: 70px;
+
+                svg {
+                    rotate: 180deg;
+                }
             }
 
-            .griditems {
+            .items {
                 padding: 18px;
                 background-color: var(--bg-white);
                 border-radius: 18px;
                 min-width: 0;
+                width: calc(100% - 24px);
+                margin-right: 0 24px;
 
                 @include respond-to("sm") {
                     padding: 16px;
@@ -227,41 +225,77 @@
                     }
                 }
 
-                // .cardHeaderAlignment {
-                //     display: grid;
-                //     grid-template-columns: 44px 1fr;
-                //     gap: 14px;
-                //     align-items: center;
-                //     padding: 0 0 25px 0;
+                .planItemmain {
+                    display: flex;
+                    justify-content: space-between;
 
-                //     @include respond-to("sm") {
-                //         grid-template-columns: 34px 1fr;
-                //     }
+                    .planItem {
+                        border-radius: 10px;
+                        background-color: #fff;
+                        border: 1px solid #e0e7ff;
+                        padding: 6px 12px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        margin-right: 10px;
+                        width: calc(100% - 10px);
 
-                //     img {
-                //         display: block;
-                //     }
+                        @include respond-to("sm") {
+                            margin: 0 5px;
+                        }
 
-                //     p {
-                //         @include heading20;
-                //         margin: 0 0 2px 0;
-                //         color: var(--black-100);
+                        .flex {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
 
-                //         @include respond-to("sm") {
-                //             @include font16bold;
-                //         }
-                //     }
+                            .plantype {
+                                @include font18;
+                                color: #0f0f1a;
 
-                //     span {
-                //         background: var(--linear-gradient);
-                //         @include text-type;
-                //         @include font16medium;
+                                @include respond-to("sm") {
+                                    @include font14normal;
+                                }
+                            }
 
-                //         @include respond-to("sm") {
-                //             font-size: 13px;
-                //         }
-                //     }
-                // }
+                            .initialPrice {
+                                display: block;
+                                @include font18;
+                                color: #3571e9;
+
+                                @include respond-to("sm") {
+                                    font-size: 13px;
+                                }
+                            }
+
+                            .mrp {
+                                @include font14normal;
+                                color: #616161;
+                                text-transform: uppercase;
+                                font-style: italic;
+                            }
+
+                            .mrpprice {
+                                @include font14normal;
+                                color: #616161;
+                                text-transform: uppercase;
+                                font-style: italic;
+                            }
+
+                            .discount {
+                                @include font14normal;
+                                color: #616161;
+                                text-transform: uppercase;
+                            }
+
+                            .discountedprice {
+                                @include font14normal;
+                                color: #cc0c39;
+                            }
+                        }
+
+                    }
+                }
 
                 .cardflx {
                     display: flex;
@@ -306,114 +340,4 @@
             }
         }
     }
-
-    .whiteblur {
-        height: 145px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 100%);
-        filter: blur(40px);
-        margin-top: -120px;
-    }
-
-    .truncateText {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 0;
-    }
-
-    .singleLineText {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%;
-    }
-
-    .textContent {
-        display: flex;
-        gap: 16px; // Adjust spacing between items
-        align-items: start;
-    }
-
-    .planItemmain {
-        display: flex;
-        justify-content: space-between;
-
-        .planItem {
-            border-radius: 10px;
-            background-color: #fff;
-            border: 1px solid #e0e7ff;
-            padding: 6px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-right: 10px;
-            width: calc(100% - 10px);
-
-            @include respond-to("sm") {
-                margin: 0 5px;
-            }
-
-            .flex {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                .plantype {
-                    @include font18;
-                    color: #0f0f1a;
-
-                    @include respond-to("sm") {
-                        @include font14normal;
-                    }
-                }
-
-                .initialPrice {
-                    display: block;
-                    @include font18;
-                    color: #3571e9;
-
-                    @include respond-to("sm") {
-                        font-size: 13px;
-                    }
-                }
-
-                .mrp {
-                    @include font14normal;
-                    color: #616161;
-                    text-transform: uppercase;
-                    font-style: italic;
-                }
-
-                .mrpprice {
-                    @include font14normal;
-                    color: #616161;
-                    text-transform: uppercase;
-                    font-style: italic;
-                }
-
-                .discount {
-                    @include font14normal;
-                    color: #616161;
-                    text-transform: uppercase;
-                }
-
-                .discountedprice {
-                    @include font14normal;
-                    color: #cc0c39;
-                }
-            }
-
-        }
-    }
-}
-
-
-.verticalDivider {
-    width: 1px;
-    height: 40px; // Adjust height as needed
-    background-color: #e0e0e0; // Your preferred line color
 }

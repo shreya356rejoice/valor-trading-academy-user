@@ -32,6 +32,13 @@
         @include respond-to("sm") {
             gap: 40px;
         }
+
+
+        .griditems{
+            display: flex;
+            align-items: center;
+        }
+
         .text {
             h2 {
                 @include heading2;
@@ -85,7 +92,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    height: 140px;
+                    height: 180px;
                 }
 
                 .details {

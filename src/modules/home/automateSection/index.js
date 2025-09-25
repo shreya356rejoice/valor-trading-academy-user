@@ -12,6 +12,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowIcon from '@/components/icons/arrowIcon'
 import Sliderarrow from '@/components/icons/sliderarrow'
+import Image from 'next/image'
+import Tradingtools from '../tradingtools'
 
 const FlashIcon = '/assets/icons/flash.svg'
 
@@ -67,7 +69,7 @@ export default function AutomateSection() {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
     centerMode: false,
     arrows: true,
@@ -75,9 +77,9 @@ export default function AutomateSection() {
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 576,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1
         }
       },
@@ -87,45 +89,75 @@ export default function AutomateSection() {
 
   return (
     <>
-      <div className={styles.automateSection}>
-        <div className='container'>
-          {/* Title Animation */}
-          <motion.div
-            className={styles.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2>Automate Your Trades with Powerful Bots</h2>
-            <p>
-              Leverage tested strategies for intraday, swing, and crypto trading.
-            </p>
-          </motion.div>
+      <div className={styles.automateSectionmain}>
+        <div className={styles.automateSection}>
+          <div className='container'>
+            {/* Title Animation */}
+            <motion.div
+              className={styles.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2>Automate Your Trades with Powerful Bots</h2>
+              <p>
+                Leverage tested strategies for intraday, swing, and crypto trading.
+              </p>
+            </motion.div>
 
-          {/* Grid Animation */}
-          <div className={styles.grid}>
-            {algobotData.map((algobot, i) => {
-              return (
-                <motion.div
-                  key={i}
-                  className={styles.griditems}
-                  custom={i}
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <div className={styles.cardHeaderAlignment}>
-                    <img src={FlashIcon} alt='FlashIcon' />
+            {/* Grid Animation */}
+            <div className={styles.grid}>
+              {algobotData.map((algobot, i) => {
+                return (
+                  <motion.div
+                    key={i}
+                    className={styles.griditems}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
+                    <div className={styles.cardflx}>
+                      {console.log(algobot,"====algobot")
+                      }
+                      <div className={styles.cardHeaderAlignment}>
+                        <img src={algobot?.imageUrl} alt="Cardimage" />
+                        <div>
+                          <h3>{algobot?.title}</h3>
+                          <p>{algobot?.shortDescription}</p>
+                        </div>
+                        {/* <img src={FlashIcon} alt='FlashIcon' />
                     <div>
                       <h3>{algobot?.title}</h3>
                       <span className={styles.singleLineText}>{algobot?.shortDescription}</span>
+                    </div> */}
+
+                      </div>
+                      <Slider {...Planssettings} className={styles.planslider}>
+                        {algobot?.strategyPlan?.map((plan, i) => (
+                          <div key={i} className={styles.planItemmain}>
+                            <div className={styles.planItem}>
+                              <div className={styles.flex}>
+                                <p className={styles.plantype}>{plan?.planType}</p>
+                                <span className={styles.initialprice}>${plan?.initialPrice}</span>
+                              </div>
+                              <div className={styles.flex}>
+                                <p className={styles.mrp}>{plan?.planType}</p>
+                                <del className={styles.mrpprice}>${plan?.initialPrice}</del>
+                              </div>
+                              <div className={styles.flex}>
+                                <p className={styles.discount}>{plan?.planType}</p>
+                                <span className={styles.discountedprice}>${plan?.initialPrice}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </Slider>
                     </div>
 
-                  </div>
-
-                  {/* <div className={styles.textContent}>
+                    {/* <div className={styles.textContent}>
                     {algobot?.strategyPlan?.map((plan, i, array) => (
                       <React.Fragment key={i}>
                         <div className={styles.planItem}>
@@ -137,7 +169,7 @@ export default function AutomateSection() {
                     ))}
                   </div> */}
 
-                  <Slider {...Planssettings} className={styles.planslider}>
+                    {/* <Slider {...Planssettings} className={styles.planslider}>
                     {algobot?.strategyPlan?.map((plan, i) => (
                       <div key={i} className={styles.planItemmain}>
                         <div className={styles.planItem}>
@@ -146,19 +178,21 @@ export default function AutomateSection() {
                         </div>
                       </div>
                     ))}
-                  </Slider>
+                  </Slider> */}
 
-                  <div className={styles.freetrial}>
+                    {/* <div className={styles.freetrial}>
                     <p className={styles.truncateText}>{algobot?.description.replace(/<[^>]*>?/gm, '')}</p>
-                  </div>
+                  </div> */}
 
-                  <div className={styles.twoColGrid}>
-                    {/* <Button text="Connect & Start" /> */}
+                    {/* <div className={styles.twoColGrid}>
                     <Button text="Buy Now" fill onClick={() => router.push(`/algobot-in-details?algobotId=${algobot?._id}`)} />
-                  </div>
-                </motion.div>
-              )
-            })}
+                  </div> */}
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            <Tradingtools />
           </div>
         </div>
       </div>

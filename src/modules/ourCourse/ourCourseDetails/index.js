@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { getCourses, getDashboardCourses } from '@/app/api/dashboard';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import CalanderIcon from '@/components/icons/calanderIcon';
 
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
@@ -139,9 +140,19 @@ export default function OurCourseDetails() {
                                                 }
                                             </p>
                                             <div className={styles.twoContentAlignment}>
-                                                <h4>
+                                                {course?.courseType === "recorded" ? (<h4>
                                                     ${course?.price}
-                                                </h4>
+                                                </h4>) : (
+                                                    <div className={styles.iconText}>
+                                                        <CalanderIcon />
+                                                        <span>{course?.createdAt ? new Date(course.createdAt).toLocaleDateString('en-US', {
+                                                            year: 'numeric',
+                                                            month: '2-digit',
+                                                            day: '2-digit',
+                                                            timeZone: 'UTC'
+                                                        }).replace(/(\d+)\/(\d+)\/(\d+)/, '$2/$1/$3') : 'N/A'}</span>
+                                                    </div>
+                                                )}
                                                 <div className={styles.iconText}>
                                                     <img src={BathIcon} alt='BathIcon' />
                                                     <span>{course?.instructor}</span>

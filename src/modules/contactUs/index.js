@@ -152,7 +152,7 @@ export default function ContactUs() {
                         <p>
                             Available 24/7 for instant support
                         </p>
-                        <a href="callto:+91 98765 43210" aria-label="+91 98765 43210">+91 98765 43210</a>
+                        <a href="callto:+971 54 888 4386" aria-label="+971 54 888 4386">+971 54 888 4386</a>
                     </div>
                 </div>
                 <div className={styles.griditems}>
@@ -166,7 +166,7 @@ export default function ContactUs() {
                         <p>
                             For detailed inquiries
                         </p>
-                        <a href="mailto:support@PipsVedatrading.com" aria-label="support@PipsVedatrading.com">support@PipsVedatrading.com</a>
+                        <a href="mailto:edufinscare@gmail.com" aria-label="edufinscare@gmail.com">edufinscare@gmail.com</a>
                     </div>
                 </div>
                 <div className={styles.griditems}>
@@ -180,7 +180,7 @@ export default function ContactUs() {
                         <p>
                             Call us during business hours
                         </p>
-                        <a href="callto:+91 98765 43210" aria-label="+91 98765 43210">+91 98765 43210</a>
+                        <a href="callto:+971 54 888 4386" aria-label="+971 54 888 4386">+971 54 888 4386</a>
                     </div>
                 </div>
                 <div className={styles.griditems}>
@@ -194,7 +194,7 @@ export default function ContactUs() {
                         <p>
                             For offline programs
                         </p>
-                        <a>Mumbai, Maharashtra</a>
+                        <a>30 N Gould St Ste R Sheridan, WY 82801</a>
                     </div>
                 </div>
             </div>

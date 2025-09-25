@@ -161,7 +161,7 @@ export default function ContactUs() {
                                         aria-label="Chat with us on WhatsApp"
                                         style={{display: 'block', marginTop: '8px'}}
                                     >
-                                        +97 15488 84386
+                                        +971 54 888 4386
                                     </a>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@ export default function ContactUs() {
                                     <p>
                                         For detailed inquiries
                                     </p>
-                                    <a href="mailto:algomaticbot@gmail.com" aria-label="algomaticbot@gmail.com">algomaticbot@gmail.com</a>
+                                    <a href="mailto:edufinscare@gmail.com" aria-label="edufinscare@gmail.com">edufinscare@gmail.com</a>
                                 </div>
                             </div>
                             <div className={styles.griditems}>
@@ -190,7 +190,7 @@ export default function ContactUs() {
                                     <p>
                                         Call us during business hours
                                     </p>
-                                    <a href="callto:+97 15488 84386" aria-label="+97 15488 84386">+97 15488 84386</a>
+                                    <a href="callto:+971 54 888 4386" aria-label="+971 54 888 4386">+971 54 888 4386</a>
                                 </div>
                             </div>
                             <div className={styles.griditems}>

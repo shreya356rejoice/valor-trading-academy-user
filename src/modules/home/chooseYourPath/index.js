@@ -7,19 +7,16 @@ import ProfileIcon from "@/components/icons/profileIcon";
 import ClockIcon from "@/components/icons/clockIcon";
 import Button from "@/components/button";
 import { useRouter } from "next/navigation";
-import { getCourseByType } from "@/app/api/dashboard";
+import { getCourseByType, getCourses, getDashboardCourses } from "@/app/api/dashboard";
 import { getCookie } from "../../../../cookie";
+import CalanderIcon from "@/components/icons/calanderIcon";
 const CardImage = "/assets/images/card3.png";
 const TopLayer = "/assets/images/top-layer.svg";
 export default function ChooseYourPath() {
-    const [courses, setCourses] = useState({
-        recorded: [],
-        live: [],
-        physical: [],
-    });
+    const [courses, setCourses] = useState([]);
     const [activeType, setActiveType] = useState("recorded");
     const router = useRouter();
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState(null);
     
         useEffect(() => {
             const user = getCookie("user");
@@ -29,29 +26,69 @@ export default function ChooseYourPath() {
     
         const handleNavigate = () => {
             if (user) {
-                router.push('/courses')
+                console.log(activeType,"activeType");
+                if(activeType === "live"){
+                    router.push('/courses?category=live')
+                }else if(activeType === "physical"){
+                    router.push('/courses?category=physical')
+                }else{
+                    router.push('/courses')
+                }
             } else {
                 router.push('/login')
             }
         }
 
     useEffect(() => {
-        const fetchCourses = async () => {
+        console.log("hello");
+        
+        const fetchCourses = async (page = 1) => {
+
             try {
-                const response = await getCourseByType();
-                if (response && response.payload && response.payload.courses) {
-                    setCourses({
-                        recorded: response.payload.courses.recorded.slice(0, 5) || [],
-                        live: response.payload.courses.live.slice(0, 5) || [],
-                        physical: response.payload.courses.physical.slice(0, 5) || [],
-                    });
+                console.log("hye");
+                console.log(user,"=====user");
+                
+                if (user) {
+                    console.log("hello");
+
+                    const params = {
+                        page,
+                        limit: 3,
+                        courseType: activeType || "recorded",
+                      };
+                    
+                    // If user is not logged in, use the existing implementation
+                    const response = await getCourses(params);
+                    console.log(response,"response");
+                    
+                    if (response && response.payload && response.payload.data) {
+                        setCourses(response.payload.data);
+                    }
+                    
+                } else {
+                    console.log("else");
+
+                    const params = {
+                        page,
+                        limit: 3,
+                        courseType: activeType || "recorded",
+                      };
+                    
+                    // If user is logged in, use getCourseByType from dashboard API
+                    const response = await getDashboardCourses(params);
+                    console.log(response,"=====response");
+                    
+                    if (response && response.payload && response.payload.data) {
+                        setCourses(response.payload.data);
+                    }
+                    
                 }
             } catch (error) {
                 console.error("Error fetching courses:", error);
             }
         };
         fetchCourses();
-    }, []);
+    }, [user,activeType]);
 
     const courseTypes = [
         { id: "recorded", label: "Recorded courses", course: "pre-recorded" },
@@ -61,6 +98,8 @@ export default function ChooseYourPath() {
 
     const currentCourses = courses[activeType] || [];
 
+    console.log(courses,"@@@@@@@courses");
+    
     return (
         <>
             <div className={styles.chooseYourPath}>
@@ -93,7 +132,8 @@ export default function ChooseYourPath() {
                             className={styles.grid}
                             key={activeType}
                         >
-                            {currentCourses.map(
+                            {console.log(courses,"^^^^^^courses")}
+                            {courses?.map(
                                 (course, index) => {
                                     return (
                                         <motion.div className={styles.griditems} key={index} variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
@@ -102,28 +142,54 @@ export default function ChooseYourPath() {
                                             </div>
                                             <div className={styles.details}>
                                                 <h3>{course?.CourseName}</h3>
-                                                <div className={styles.allIconTextAlignment}>
-                                                    <div className={styles.iconText}>
+                                                <p>{course?.description}</p>
+                                                {activeType === "recorded" ? (<><div className={styles.allIconTextAlignment}>
+                                                    {/* <div className={styles.iconText}>
                                                         <StarIcon />
                                                         <span>4.8</span>
+                                                    </div> */}
+                                                    <div className={styles.iconText}>
+                                                       $
+                                                        <span>{course?.price}</span>
                                                     </div>
                                                     <div className={styles.iconText}>
                                                         <ProfileIcon />
-                                                        <span>1234</span>
+                                                        <span>{course?.subscribed}</span>
                                                     </div>
                                                     <div className={styles.iconText}>
                                                         <ClockIcon />
                                                         <span>{course?.hours} hours</span>
                                                     </div>
                                                 </div>
-                                                <div className={styles.textButtonAlignment}>
+                                                {/* <div className={styles.textButtonAlignment}>
                                                     <h4>${course?.price}</h4>
                                                     <button aria-label="Beginner Level">
                                                         <span>Beginner Level</span>
                                                     </button>
+                                                </div> */}
+                                                </>) : (
+                                                    <>
+                                                    <div className={styles.allIconTextAlignment}>
+                                                    <div className={styles.iconText}>
+                                                        <ProfileIcon />
+                                                        {console.log(user,")))))))))))))user")
+                                                        }
+                                                        <span>{user ? course?.registrationCount : course?.registration}</span>
+                                                    </div>
+                                                    <div className={styles.iconText}>
+                                                        <CalanderIcon />
+                                                        <span>{course?.courseStart ? new Date(course.courseStart).toLocaleDateString('en-GB') : ''}</span>
+                                                    </div>
+                                                    <div className={styles.iconText}>
+                                                        <ClockIcon />
+                                                        <span>{course?.startTime} to {course?.endTime}</span>
+                                                    </div>
                                                 </div>
+                                                    </>
+                                                )}
+                                                
                                                 <div className={styles.btnwidth}>
-                                                    <Button text="Enroll Now" onClick={handleNavigate} />
+                                                    <Button fill={activeType === "recorded" ? course?.payment?.length > 0 : course?.registrationCount > 0} text={`${activeType === "recorded" ? course?.payment?.length > 0 ? "Enrolled" : "Enroll Now" : course?.registrationCount > 0 ? "Registered" : "Register"}`} onClick={handleNavigate} />
                                                 </div>
                                             </div>
                                         </motion.div>)
