@@ -17,6 +17,7 @@
   --bg-white-light: rgba(255, 255, 255, 0.6);
   --text-white: #fff;
   --linear-gradient: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+  --linear-gradient-hover: linear-gradient(0deg, #3d348b 0%, #7678ed 100%);
   --grey-600: #6b7385;
   --bg-light: #eeebff;
 }
