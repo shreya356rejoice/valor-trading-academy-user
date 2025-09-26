@@ -97,6 +97,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
+      max-width: 1212px;
+      margin: 0 auto;
 
       // @include respond-to("md") {
       //     grid-template-columns: repeat(1, 1fr);
@@ -115,10 +117,24 @@
       }
 
       .griditems {
-        padding: 18px;
-        background-color: var(--bg-white);
         border-radius: 18px;
+        border: 1px solid #e0e7ff;
+        background: var(--bg-white);
+        padding: 18px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+        height: 100%;
         min-width: 0;
+
+        &:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
 
         @include respond-to("sm") {
           padding: 16px;
@@ -178,118 +194,6 @@
           }
         }
 
-        .twoColGrid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-
-          @include respond-to("sm") {
-            grid-template-columns: 1fr;
-          }
-
-          button {
-            padding: 12px;
-            width: 100%;
-          }
-        }
-
-        .freetrial {
-          padding: 0 0 25px 0;
-
-          @include respond-to("sm") {
-            padding: 0 0 16px 0;
-          }
-
-          button {
-            border-radius: 40px;
-            background: linear-gradient(
-              180deg,
-              rgba(61, 52, 139, 0.08) 0%,
-              rgba(118, 120, 237, 0.08) 100%
-            );
-            padding: 8px 14px;
-            border: none;
-
-            span {
-              background: var(--linear-gradient);
-              @include text-type;
-              @include font16medium;
-            }
-          }
-
-          p {
-            margin: 15px 0 0 0;
-            @include font16medium;
-            color: var(--black-100);
-          }
-        }
-
-        .textContent {
-          display: flex;
-          gap: 43px;
-          padding: 0 0 25px 0;
-
-          @include respond-to("sm") {
-            gap: 20px;
-            padding: 0 0 16px 0;
-          }
-
-          p {
-            @include font16;
-            color: rgba(42, 48, 60, 0.7);
-
-            @include respond-to("sm") {
-              @include font14normal;
-            }
-          }
-
-          span {
-            display: block;
-            @include font16bold;
-            color: var(--black-100);
-
-            @include respond-to("sm") {
-              font-size: 13px;
-            }
-          }
-        }
-
-        // .cardHeaderAlignment {
-        //     display: grid;
-        //     grid-template-columns: 44px 1fr;
-        //     gap: 14px;
-        //     align-items: center;
-        //     padding: 0 0 25px 0;
-
-        //     @include respond-to("sm") {
-        //         grid-template-columns: 34px 1fr;
-        //     }
-
-        //     img {
-        //         display: block;
-        //     }
-
-        //     p {
-        //         @include heading20;
-        //         margin: 0 0 2px 0;
-        //         color: var(--black-100);
-
-        //         @include respond-to("sm") {
-        //             @include font16bold;
-        //         }
-        //     }
-
-        //     span {
-        //         background: var(--linear-gradient);
-        //         @include text-type;
-        //         @include font16medium;
-
-        //         @include respond-to("sm") {
-        //             font-size: 13px;
-        //         }
-        //     }
-        // }
-
         .cardflx {
           display: flex;
           flex-direction: column;
@@ -311,7 +215,7 @@
             h3 {
               color: #0f0f1a;
               @include heading20;
-              font-weight: 500;
+              font-weight: 400;
               margin-bottom: 10px;
               display: -webkit-box;
               -webkit-line-clamp: 1;
@@ -327,6 +231,92 @@
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
               overflow: hidden;
+            }
+          }
+
+          .planItemmain {
+            display: flex;
+            justify-content: space-between;
+
+            .planItem {
+              border-radius: 10px;
+              background-color: #fff;
+              border: 1px solid #e0e7ff;
+              padding: 6px 12px;
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              margin-right: 10px;
+              width: calc(100% - 10px);
+
+              @include respond-to("sm") {
+                margin: 0 5px;
+              }
+
+              .flex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .plantype,
+                .initialprice {
+                  @include font18;
+                  font-weight: 500;
+                  line-height: 20px;
+
+                  @include respond-to("sm") {
+                    @include font14normal;
+                  }
+                }
+
+                .plantype {
+                  color: #0f0f1a;
+                }
+
+                .initialprice {
+                  color: #3571e9;
+                }
+
+                .initialPrice {
+                  display: block;
+                  @include font18;
+                  line-height: 20px;
+                  color: #3571e9;
+
+                  @include respond-to("sm") {
+                    font-size: 13px;
+                  }
+                }
+
+                .mrp {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
+                }
+
+                .mrpprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
+                }
+
+                .discount {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  // text-transform: uppercase;
+                }
+
+                .discountedprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #cc0c39;
+                }
+              }
             }
           }
         }
@@ -356,77 +346,6 @@
     display: flex;
     gap: 16px; // Adjust spacing between items
     align-items: start;
-  }
-
-  .planItemmain {
-    display: flex;
-    justify-content: space-between;
-
-    .planItem {
-      border-radius: 10px;
-      background-color: #fff;
-      border: 1px solid #e0e7ff;
-      padding: 6px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-right: 10px;
-      width: calc(100% - 10px);
-
-      @include respond-to("sm") {
-        margin: 0 5px;
-      }
-
-      .flex {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .plantype {
-          @include font18;
-          color: #0f0f1a;
-
-          @include respond-to("sm") {
-            @include font14normal;
-          }
-        }
-
-        .initialPrice {
-          display: block;
-          @include font18;
-          color: #3571e9;
-
-          @include respond-to("sm") {
-            font-size: 13px;
-          }
-        }
-
-        .mrp {
-          @include font14normal;
-          color: #616161;
-          text-transform: uppercase;
-          font-style: italic;
-        }
-
-        .mrpprice {
-          @include font14normal;
-          color: #616161;
-          text-transform: uppercase;
-          font-style: italic;
-        }
-
-                .discount {
-                    @include font14normal;
-                    color: #616161;
-                    // text-transform: uppercase;
-                }
-
-        .discountedprice {
-          @include font14normal;
-          color: #cc0c39;
-        }
-      }
-    }
   }
 }
 

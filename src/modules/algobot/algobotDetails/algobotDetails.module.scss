@@ -1,391 +1,408 @@
-@use '../../../scss/main.scss' as *;
-@use '../../../scss/breakpoints/breakpoints.scss' as *;
-@use '../../../scss/typography/typography.scss' as *;
+@use "../../../scss/main.scss" as *;
+@use "../../../scss/breakpoints/breakpoints.scss" as *;
+@use "../../../scss/typography/typography.scss" as *;
 
 .recentcourse {
+  padding: 20px 0 0 0;
+
+  @include respond-to("sm") {
     padding: 20px 0 0 0;
+  }
+
+  .title {
+    padding: 0 0 25px 0;
 
     @include respond-to("sm") {
-        padding: 20px 0 0 0;
+      padding: 0 0 20px 0;
     }
 
-    .title {
-        padding: 0 0 25px 0;
+    h3 {
+      @include font18;
+      color: var(--black-200);
+      font-weight: 500;
+    }
+  }
 
-        @include respond-to("sm") {
-            padding: 0 0 20px 0;
-        }
+  .tabCenteralignment {
+    display: flex;
+    align-items: center;
+    padding: 0 0 20px 0;
 
-        h3 {
-            @include font18;
-            color: var(--black-200);
-            font-weight: 500;
-        }
+    @include respond-to("sm") {
+      padding: 0 0 30px 0;
     }
 
-    .tabCenteralignment {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      border: 1px solid var(--border-color);
+      border-radius: 99px;
+      padding: 6px;
+
+      @include respond-to("sm") {
         display: flex;
         align-items: center;
-        padding: 0 0 20px 0;
+        width: 100%;
+        overflow: auto;
+        scrollbar-width: none;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      button {
+        padding: 14px 20px;
+        border: none;
+        border-radius: 99px;
+        transition: 0.3s ease-in-out;
+        color: var(--black-100);
+        @include font16medium;
+        background-color: transparent;
+        cursor: pointer;
 
         @include respond-to("sm") {
-            padding: 0 0 30px 0;
+          padding: 10px 16px;
+          @include font14normal;
+          white-space: nowrap;
         }
 
-        ::-webkit-scrollbar {
-            display: none;
+        &.active {
+          color: var(--text-white);
+          background: var(--linear-gradient);
+
+          &:hover {
+            color: var(--text-white);
+          }
         }
 
-        .tab {
-            border: 1px solid var(--border-color);
-            border-radius: 99px;
-            padding: 6px;
+        &:hover {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 0 0 40px 0;
+
+    @include respond-to("lg") {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include respond-to("md") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to("sm") {
+      grid-template-columns: repeat(1, 1fr);
+      padding: 0 0 20px 0;
+    }
+
+    :global(.slick-slider) {
+      min-width: 0;
+    }
+
+    .griditems {
+      border-radius: 18px;
+      border: 1px solid #e0e7ff;
+      background: var(--bg-white);
+      padding: 18px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      height: 100%;
+      min-width: 0;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      }
+
+      @include respond-to("sm") {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      :global(.slick-track) {
+        margin: 0;
+      }
+
+      .nextArrow,
+      .prevArrow {
+        position: absolute;
+        top: -40px;
+        z-index: 9;
+        padding: 5px 20px;
+        border-radius: 50px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: 1px solid var(--primary);
+        transition: 0.4s ease-in-out;
+
+        &:hover {
+          background: var(--linear-gradient);
+
+          svg {
+            path {
+              fill: #fff;
+            }
+          }
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+          transition: 0.4s ease-in-out;
+
+          path {
+            fill: #000;
+            transition: 0.4s ease-in-out;
+          }
+        }
+      }
+
+      .nextArrow {
+        right: 0;
+      }
+
+      .prevArrow {
+        right: 70px;
+
+        svg {
+          rotate: 180deg;
+        }
+      }
+
+      .cardflx {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        gap: 40px;
+
+        .cardHeaderAlignment {
+          img {
+            width: 100%;
+            height: 180px;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f2f2f2;
+            margin-bottom: 10px;
+          }
+
+          h3 {
+            color: #0f0f1a;
+            @include heading20;
+            font-weight: 400;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          p {
+            @include font18;
+            font-weight: 400;
+            color: #616161;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+        }
+
+        .planItemmain {
+          display: flex;
+          justify-content: space-between;
+
+          .planItem {
+            border-radius: 10px;
+            background-color: #fff;
+            border: 1px solid #e0e7ff;
+            padding: 6px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-right: 10px;
+            width: calc(100% - 10px);
 
             @include respond-to("sm") {
-                display: flex;
-                align-items: center;
-                width: 100%;
-                overflow: auto;
-                scrollbar-width: none;
+              margin: 0 5px;
             }
 
-            &::-webkit-scrollbar {
-                display: none;
-            }
+            .flex {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
 
-            button {
-                padding: 14px 20px;
-                border: none;
-                border-radius: 99px;
-                transition: .3s ease-in-out;
-                color: var(--black-100);
-                @include font16medium;
-                background-color: transparent;
-                cursor: pointer;
+              .plantype,
+              .initialprice {
+                @include font18;
+                font-weight: 500;
+                line-height: 20px;
 
                 @include respond-to("sm") {
-                    padding: 10px 16px;
-                    @include font14normal;
-                    white-space: nowrap;
+                  @include font14normal;
                 }
+              }
 
-                &.active {
-                    color: var(--text-white);
-                    background: var(--linear-gradient);
+              .plantype {
+                color: #0f0f1a;
+              }
 
-                    &:hover {
-                        color: var(--text-white);
-                    }
+              .initialprice {
+                color: #3571e9;
+              }
+
+              .initialPrice {
+                display: block;
+                @include font18;
+                line-height: 20px;
+                color: #3571e9;
+
+                @include respond-to("sm") {
+                  font-size: 13px;
                 }
+              }
 
-                &:hover {
-                    color: var(--primary);
-                }
+              .mrp {
+                @include font14normal;
+                line-height: 14px;
+                color: #616161;
+                text-transform: uppercase;
+                font-style: italic;
+              }
+
+              .mrpprice {
+                @include font14normal;
+                line-height: 14px;
+                color: #616161;
+                text-transform: uppercase;
+                font-style: italic;
+              }
+
+              .discount {
+                @include font14normal;
+                line-height: 14px;
+                color: #616161;
+                // text-transform: uppercase;
+              }
+
+              .discountedprice {
+                @include font14normal;
+                line-height: 14px;
+                color: #cc0c39;
+              }
             }
+          }
         }
+
+        .planbuttons {
+          margin-top: 15px;
+        }
+      }
     }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        padding: 0 0 40px 0;
-
-        @include respond-to("lg") {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        @include respond-to("md") {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @include respond-to("sm") {
-            grid-template-columns: repeat(1, 1fr);
-            padding: 0 0 20px 0;
-        }
-
-        :global(.slick-slider) {
-            min-width: 0;
-        }
-
-        .griditems {
-            padding: 18px;
-            background-color: var(--bg-white);
-            border-radius: 18px;
-            min-width: 0;
-
-            @include respond-to("sm") {
-                padding: 16px;
-                border-radius: 12px;
-            }
-
-            :global(.slick-track) {
-                margin: 0;
-            }
-
-            .nextArrow,
-            .prevArrow {
-                position: absolute;
-                top: -40px;
-                z-index: 9;
-                padding: 5px 20px;
-                border-radius: 50px;
-                background-color: #fff;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-                border: 1px solid var(--primary);
-                transition: 0.4s ease-in-out;
-
-                &:hover {
-                    background: var(--linear-gradient);
-
-                    svg {
-                        path {
-                            fill: #fff;
-                        }
-                    }
-                }
-
-                svg {
-                    width: 20px;
-                    height: 20px;
-                    transition: 0.4s ease-in-out;
-
-                    path {
-                        fill: #000;
-                        transition: 0.4s ease-in-out;
-                    }
-                }
-            }
-
-            .nextArrow {
-                right: 0;
-            }
-
-            .prevArrow {
-                right: 70px;
-
-                svg {
-                    rotate: 180deg;
-                }
-            }
-
-            .cardflx {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                height: 100%;
-                gap: 45px;
-                min-width: 0;
-
-                .cardHeaderAlignment {
-                    img {
-                        width: 100%;
-                        height: 180px;
-                        border-radius: 14px;
-                        position: relative;
-                        overflow: hidden;
-                        background-color: #f2f2f2;
-                        margin-bottom: 10px;
-                    }
-
-                    h3 {
-                        color: #0f0f1a;
-                        @include heading20;
-                        font-weight: 500;
-                        margin-bottom: 10px;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                    }
-
-                    p {
-                        @include font16;
-                        font-weight: 400;
-                        color: #616161;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 3;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                        min-height: 78px;
-                    }
-                }
-
-
-                .planItemmain {
-                    display: flex;
-                    justify-content: space-between;
-
-                    .planItem {
-                        border-radius: 10px;
-                        background-color: #fff;
-                        border: 1px solid #e0e7ff;
-                        padding: 6px 12px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 5px;
-                        margin: 0 5px;
-                        width: calc(100% - 10px);
-
-                        @include respond-to("sm") {
-                            margin: 0 5px;
-                        }
-
-                        .flex {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-
-                            .plantype {
-                                @include font18;
-                                color: #0f0f1a;
-
-                                @include respond-to("sm") {
-                                    @include font14normal;
-                                }
-                            }
-
-                            .initialPrice {
-                                display: block;
-                                @include font18;
-                                color: #3571e9;
-
-                                @include respond-to("sm") {
-                                    font-size: 13px;
-                                }
-                            }
-
-                            .mrp {
-                                @include font14normal;
-                                color: #616161;
-                                text-transform: uppercase;
-                                font-style: italic;
-                            }
-
-                            .mrpprice {
-                                @include font14normal;
-                                color: #616161;
-                                text-transform: uppercase;
-                                font-style: italic;
-                            }
-
-                            .discount {
-                                @include font14normal;
-                                color: #616161;
-                                // text-transform: uppercase;
-                            }
-
-                            .discountedprice {
-                                @include font14normal;
-                                color: #cc0c39;
-                            }
-                        }
-                    }
-                }
-
-                .planbuttons {
-                    margin-top: 15px;
-                }
-            }
-        }
-    }
+  }
 }
 
 .emptyState {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 20px;
-    text-align: center;
-    min-height: 300px;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+  text-align: center;
+  min-height: 300px;
 }
 
 .emptyContent {
-    max-width: 500px;
-    margin: 0 auto;
+  max-width: 500px;
+  margin: 0 auto;
 
-    h3 {
-        font-size: 24px;
-        color: #111827;
-        margin: 20px 0 12px;
-        font-weight: 600;
-    }
+  h3 {
+    font-size: 24px;
+    color: #111827;
+    margin: 20px 0 12px;
+    font-weight: 600;
+  }
 
-    p {
-        color: #6B7280;
-        font-size: 16px;
-        line-height: 1.5;
-        margin-bottom: 20px;
-    }
+  p {
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
 }
 
 .emptyIllustration {
-    margin: 0 auto 5px;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #F9FAFB;
-    border-radius: 50%;
-    padding: 20px;
+  margin: 0 auto 5px;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+  border-radius: 50%;
+  padding: 20px;
 }
 
 .pricingSection {
-    display: flex;
-    gap: 1rem;
-    margin: 8px 0 1rem 0;
+  display: flex;
+  gap: 1rem;
+  margin: 8px 0 1rem 0;
 }
 
 .priceCard {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    flex: 1;
-    border: 1px solid #e9ecef;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  flex: 1;
+  border: 1px solid #e9ecef;
 }
 
 .priceHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .price {
-    font-size: 1.25rem;
-    font-weight: 700;
-    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-}
-
-.discount {
-    background: #e9ecef;
-    color: #495057;
-    font-size: 18px;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
-    font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
 
 .priceSubtitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #6c757d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #6c757d;
 }
 
 .originalPrice {
-    text-decoration: line-through;
-    color: #adb5bd;
-    font-size: 0.75rem;
+  text-decoration: line-through;
+  color: #adb5bd;
+  font-size: 0.75rem;
 }
