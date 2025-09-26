@@ -1,0 +1,218 @@
+@use "../../scss/main.scss" as *;
+@use "../../scss/breakpoints/breakpoints.scss" as *;
+@use "../../scss/typography/typography.scss" as *;
+
+.card {
+  border-radius: 18px;
+  border: 1px solid #e0e7ff;
+  background: var(--bg-white);
+  padding: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  height: 100%;
+  min-width: 0;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  @include respond-to("sm") {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  :global(.slick-track) {
+    margin: 0;
+  }
+
+  .nextArrow,
+  .prevArrow {
+    position: absolute;
+    top: -40px;
+    z-index: 9;
+    padding: 5px 20px;
+    border-radius: 50px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--primary);
+    transition: 0.4s ease-in-out;
+
+    &:hover {
+      background: var(--linear-gradient);
+
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      transition: 0.4s ease-in-out;
+
+      path {
+        fill: #000;
+        transition: 0.4s ease-in-out;
+      }
+    }
+  }
+
+  .nextArrow {
+    right: 0;
+  }
+
+  .prevArrow {
+    right: 70px;
+
+    svg {
+      rotate: 180deg;
+    }
+  }
+
+  .cardflx {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 40px;
+
+    .cardHeaderAlignment {
+      img {
+        width: 100%;
+        height: 180px;
+        border-radius: 14px;
+        position: relative;
+        overflow: hidden;
+        background-color: #f2f2f2;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        color: #0f0f1a;
+        @include heading20;
+        font-weight: 400;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      p {
+        @include font18;
+        font-weight: 400;
+        color: #616161;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .carddetails {
+      .planItemmain {
+        display: flex;
+        justify-content: space-between;
+
+        .planItem {
+          border-radius: 10px;
+          background-color: #fff;
+          border: 1px solid #e0e7ff;
+          padding: 6px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          margin-right: 10px;
+          width: calc(100% - 10px);
+
+          @include respond-to("sm") {
+            margin: 0 5px;
+          }
+
+          .flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .plantype,
+            .initialprice {
+              @include font18;
+              font-weight: 500;
+              line-height: 20px;
+
+              @include respond-to("sm") {
+                @include font14normal;
+              }
+            }
+
+            .plantype {
+              color: #0f0f1a;
+            }
+
+            .initialprice {
+              color: #3571e9;
+            }
+
+            .initialPrice {
+              display: block;
+              @include font18;
+              line-height: 20px;
+              color: #3571e9;
+
+              @include respond-to("sm") {
+                font-size: 13px;
+              }
+            }
+
+            .mrp {
+              @include font14normal;
+              line-height: 14px;
+              color: #616161;
+              text-transform: uppercase;
+              font-style: italic;
+            }
+
+            .mrpprice {
+              @include font14normal;
+              line-height: 14px;
+              color: #616161;
+              text-transform: uppercase;
+              font-style: italic;
+            }
+
+            .discount {
+              @include font14normal;
+              line-height: 14px;
+              color: #616161;
+              // text-transform: uppercase;
+            }
+
+            .discountedprice {
+              @include font14normal;
+              line-height: 14px;
+              color: #cc0c39;
+            }
+          }
+        }
+      }
+
+      .cardbuttons {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  }
+}

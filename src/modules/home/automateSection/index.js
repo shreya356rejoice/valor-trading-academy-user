@@ -14,6 +14,7 @@ import ArrowIcon from "@/components/icons/arrowIcon";
 import Sliderarrow from "@/components/icons/sliderarrow";
 import Image from "next/image";
 import Tradingtools from "../tradingtools";
+import Commoncard from "@/components/commoncard";
 
 const FlashIcon = "/assets/icons/flash.svg";
 
@@ -54,6 +55,8 @@ export default function AutomateSection() {
         const response = await getBots();
         // Flatten the strategies array from all categories
         const allStrategies = response.payload.data;
+        console.log(allStrategies, "allStrategies");
+
         console.log(allStrategies, "allStrategies");
 
         setAlgobotData(allStrategies); // Get first 3 strategies
@@ -230,6 +233,27 @@ export default function AutomateSection() {
                 </div>
 
                 <Tradingtools />
+                {/* <Commoncard
+                  imageUrl="/path/to/image.jpg"
+                  title="Card Title"
+                  shortDescription="This is a short description of the card content"
+                  plans={[
+                    {
+                      planType: "Basic",
+                      price: 29,
+                      initialPrice: 49,
+                      discount: 40,
+                    },
+                    {
+                      planType: "Premium",
+                      price: 59,
+                      initialPrice: 99,
+                      discount: 40,
+                    },
+                  ]}
+                >
+                  <Button text="Buy Now" />
+                </Commoncard> */}
               </div>
             </div>
           </div>

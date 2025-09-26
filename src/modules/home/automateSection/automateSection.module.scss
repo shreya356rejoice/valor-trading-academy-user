@@ -130,6 +130,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
+      max-width: 1212px;
+      margin: 0 auto;
 
       // @include respond-to("md") {
       //     grid-template-columns: repeat(1, 1fr);
@@ -148,10 +150,24 @@
       }
 
       .griditems {
-        padding: 18px;
-        background-color: var(--bg-white);
         border-radius: 18px;
+        border: 1px solid #e0e7ff;
+        background: var(--bg-white);
+        padding: 18px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+        height: 100%;
         min-width: 0;
+
+        &:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
 
         @include respond-to("sm") {
           padding: 16px;
@@ -342,7 +358,7 @@
             h3 {
               color: #0f0f1a;
               @include heading20;
-              font-weight: 500;
+              font-weight: 400;
               margin-bottom: 10px;
               display: -webkit-box;
               -webkit-line-clamp: 1;
@@ -401,62 +417,75 @@
     align-items: start;
   }
 
-  .planItemmain {
-    display: flex;
-    justify-content: space-between;
+          .planItemmain {
+            display: flex;
+            justify-content: space-between;
 
-    .planItem {
-      border-radius: 10px;
-      background-color: #fff;
-      border: 1px solid #e0e7ff;
-      padding: 6px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-right: 10px;
-      width: calc(100% - 10px);
+            .planItem {
+              border-radius: 10px;
+              background-color: #fff;
+              border: 1px solid #e0e7ff;
+              padding: 6px 12px;
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              margin-right: 10px;
+              width: calc(100% - 10px);
 
-      @include respond-to("sm") {
-        margin: 0 5px;
-      }
+              @include respond-to("sm") {
+                margin: 0 5px;
+              }
 
-      .flex {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+              .flex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
 
-        .plantype {
-          @include font18;
-          color: #0f0f1a;
+                .plantype,
+                .initialprice {
+                  @include font18;
+                  font-weight: 500;
+                  line-height: 20px;
 
-          @include respond-to("sm") {
-            @include font14normal;
-          }
-        }
+                  @include respond-to("sm") {
+                    @include font14normal;
+                  }
+                }
 
-        .initialPrice {
-          display: block;
-          @include font18;
-          color: #3571e9;
+                .plantype {
+                  color: #0f0f1a;
+                }
 
-          @include respond-to("sm") {
-            font-size: 13px;
-          }
-        }
+                .initialprice {
+                  color: #3571e9;
+                }
 
-        .mrp {
-          @include font14normal;
-          color: #616161;
-          text-transform: uppercase;
-          font-style: italic;
-        }
+                .initialPrice {
+                  display: block;
+                  @include font18;
+                  line-height: 20px;
+                  color: #3571e9;
 
-        .mrpprice {
-          @include font14normal;
-          color: #616161;
-          text-transform: uppercase;
-          font-style: italic;
-        }
+                  @include respond-to("sm") {
+                    font-size: 13px;
+                  }
+                }
+
+                .mrp {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
+                }
+
+                .mrpprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
+                }
 
         .discount {
           @include font14normal;
@@ -464,12 +493,41 @@
           // text-transform: uppercase;
         }
 
-        .discountedprice {
-          @include font14normal;
-          color: #cc0c39;
+                .discountedprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #cc0c39;
+                }
+              }
+            }
+          }
         }
       }
     }
+  }
+
+  .truncateText {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  .singleLineText {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .textContent {
+    display: flex;
+    gap: 16px; // Adjust spacing between items
+    align-items: start;
   }
 }
 
