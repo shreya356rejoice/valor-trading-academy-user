@@ -46,7 +46,7 @@ export default function ChooseYourPath() {
                     }
                 }
             } else {
-                router.push(`/our-course-details?id=${course?.id}`)
+                router.push(`/our-course-details?id=${course?._id}`)
             }
         }
 
@@ -186,9 +186,6 @@ export default function ChooseYourPath() {
                                                 </div>
                                                     </>
                                                 )}
-
-                                                {console.log(course?.isPayment,"--------course")}
-                                                {console.log(activeType,"==activeType")}
                                                 
                                                 <div className={styles.btnwidth}>
                                                     <Button fill={activeType === "recorded" ? course?.isPayment : course?.registrationCount > 0} text={`${activeType === "recorded" ? course?.isPayment ? "Enrolled" : "Enroll Now" : course?.registrationCount > 0 ? "Registered" : "Register"}`} onClick={() => handleNavigate(course)} />
