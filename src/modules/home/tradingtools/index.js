@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getBots } from "@/app/api/dashboard";
 import { useRouter } from "next/navigation";
+import Button from "@/components/button";
 
 const FlashIcon = "/assets/icons/flash.svg";
 
@@ -74,6 +75,12 @@ export default function Tradingtools() {
     fetchAlgobotData();
   }, []);
 
+  const handleNavigate = (algobot) => {
+    console.log(algobot,"===========algobot");
+    
+    router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+  };
+
   const Planscardssettings = {
     dots: false,
     infinite: false,
@@ -108,7 +115,6 @@ export default function Tradingtools() {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    centerMode: false,
     arrows: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -129,7 +135,7 @@ export default function Tradingtools() {
         <div className={styles.title}>
           <h3>Trading Tools</h3>
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
+          Smart tools designed to analyze markets, optimize strategies, and enhance your trading decisions.
           </p>
         </div>
         <div className={styles.tradingslider}>
@@ -154,6 +160,7 @@ export default function Tradingtools() {
                             <p>{algobot?.shortDescription}</p>
                           </div>
                         </div>
+                        <div>
                         <Slider
                           {...Planssettings}
                           className={styles.planslider}
@@ -187,6 +194,16 @@ export default function Tradingtools() {
                             </div>
                           ))}
                         </Slider>
+
+                        <div className={styles.buttons}>
+                                <Button
+                                  text="Buy Now"
+                                  light
+                                  onClick={() => handleNavigate(algobot)}
+                                />
+                              </div>
+
+                        </div>
                       </div>
                     </div>
                   </div>

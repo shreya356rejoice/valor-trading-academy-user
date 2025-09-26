@@ -138,6 +138,9 @@ export default function MyTelegramDetails() {
                 <a aria-label="My Courses" href="/my-courses">My Courses</a>
             </div>
 
+            {console.log(channel,"<<<<<channel")
+            }
+
             <div className={styles.algobotBanner}>
                 <div>
                     <h1>

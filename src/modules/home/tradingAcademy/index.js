@@ -69,7 +69,7 @@ export default function TradingAcademy() {
             variants={textVariants}
           >
             <h2>
-              Why Valor <span>Trading Academy?</span>
+              Why EduFins <span>Trading Academy?</span>
             </h2>
             <p>
               Our academy bridges the gap between textbook theory and market

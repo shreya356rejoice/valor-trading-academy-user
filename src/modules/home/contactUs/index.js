@@ -139,7 +139,7 @@ export default function ContactUs() {
                             Have Questions? <span>Let's Talk.</span>
                         </h2>
                         <p>
-                            Your monetisation journey on TagMango starts here!
+                        Your path to financial growth starts here with EduFins.
                         </p>
                     </div>
                     <div className={styles.contactuslayout}>

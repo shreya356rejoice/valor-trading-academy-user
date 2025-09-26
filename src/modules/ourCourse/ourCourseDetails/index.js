@@ -7,13 +7,23 @@ import { getCourses, getDashboardCourses } from '@/app/api/dashboard';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import CalanderIcon from '@/components/icons/calanderIcon';
+import { getCookie } from '../../../../cookie';
 
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
 const ITEMS_PER_PAGE = 4;
 export default function OurCourseDetails() {
      const [selectedTab, setSelectedTab] = useState("recorded");
+     const [user,setUser] = useState(null);
     const pathname = usePathname();
+
+    useEffect(() => {
+        const user = getCookie("user");
+        if (user) {
+          const userName = user && JSON.parse(user)?.name;
+          setUser(userName);
+        }
+      }, [])
 
     useEffect(() => {
         // Set active tab based on URL path
@@ -69,6 +79,36 @@ export default function OurCourseDetails() {
         useEffect(() => {
             fetchCourses();
         }, [selectedTab]);
+
+        const handleEnroll = (course) => {
+            console.log(course,"course");
+            console.log(user,"user");
+            
+            
+            if(user){
+                if(selectedTab === "recorded"){
+                    if(course?.subscribed > 0){
+                        router.push(`/my-course-details?courseId=${course?._id}`)
+                    }else{
+                        router.push(`/course-details?courseId=${course?._id}`)
+                    }
+                }else if(selectedTab === "live"){
+                    if(course?.registration > 0){
+                        router.push(`/my-course-details?courseId=${course?._id}`)
+                    }else{
+                        router.push(`/course-details?courseId=${course?._id}`)
+                    }
+                }else{
+                    if(course?.isPayment){
+                        router.push(`/my-course-details?courseId=${course?._id}`)
+                    }else{
+                        router.push(`/course-details?courseId=${course?._id}`)
+                    }
+                }
+            }else{
+                router.push(`/our-course-details?id=${course?._id}`);
+            }
+        }
 
     const CourseCardSkeleton = () => (
         <div className={styles.griditems}>
@@ -158,11 +198,26 @@ export default function OurCourseDetails() {
                                                     <span>{course?.instructor}</span>
                                                 </div>
                                             </div>
-                                            <Button 
+                                            {console.log(course,"====course")
+                                            }
+                                            {selectedTab === "recorded" ? (
+                                                <Button 
+                                                text={ user ? course?.subscribed > 0 ? "Enrolled" : "Enroll Now" : "Enroll Now"}
+                                                onClick={() => handleEnroll(course)}
+                                                fill={user && course?.subscribed > 0} 
+                                            />
+                                            ) : (
+                                                <Button 
+                                                    text={ user ? course?.registration > 0 ? "Registered" : "Register" : "Register"}
+                                                    onClick={() => handleEnroll(course)}
+                                                    fill={user && course?.registration > 0}
+                                                />
+                                            )}
+                                            {/* <Button 
                                                 text="Enroll Now" 
                                                 onClick={() => router.push(`/our-course-details?id=${course._id}`)}
                                                 fill 
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 )

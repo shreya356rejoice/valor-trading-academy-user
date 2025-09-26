@@ -120,6 +120,60 @@ export default function MyCourseDetails() {
     );
 
     const renderCourseCard = (item) => {
+        // For LIVE and PHYSICAL tabs, we use the item directly since we're already mapping over registeredCourses
+        if (selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') {
+            const register = item; // item is already the registered course
+            return (
+                <div className={styles.griditems} key={register?._id} onClick={() => {
+                    router.push(`/my-course-details?courseId=${register?.courseId?._id}&category=${selectedTab}`);
+                }}>
+                    <div>
+                        <div className={styles.image}>
+                            <img
+                                src={register?.courseId?.courseVideo}
+                                alt={register?.courseId?.CourseName}
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = '/assets/images/placeholder.jpg';
+                                }}
+                            />
+                        </div>
+                        <div className={styles.details}>
+                            <h3>{register?.courseId?.CourseName}</h3>
+                            <p dangerouslySetInnerHTML={{ __html: register?.courseId?.description?.substring(0, 150) + '...' }} />
+                            <div className={styles.infoCard}>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Instructor:</span>
+                                    <span className={styles.infoValue}>{register?.courseId?.instructor || 'N/A'}</span>
+                                </div>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Date:</span>
+                                    <span className={styles.infoValue}>
+                                        {register?.courseId?.createdAt ? new Date(register.courseId.createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) : 'N/A'}
+                                    </span>
+                                </div>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Time:</span>
+                                    <span className={styles.infoValue}>
+                                        {register?.courseId?.startTime} to {register?.courseId?.endTime}
+                                    </span>
+                                </div>
+                                {selectedTab === 'PHYSICAL' && (
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.infoLabel}>Location:</span>
+                                        <span className={styles.infoValue}>
+                                            {register?.courseId?.location || 'N/A'}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // For other tabs (RECORDED, BOTS, TELEGRAM)
         const isCourse = !!item.courseId;
         const isBot = !!item.botId;
         const isTelegram = !!item.telegramId;
@@ -135,15 +189,6 @@ export default function MyCourseDetails() {
         const imageUrl = isCourse ? item.courseId?.courseVideo :
             isBot ? item.botId?.strategyId?.imageUrl :
                 isTelegram ? '/assets/images/telegram-placeholder.jpg' : '';
-
-        const price = parseFloat(item.price || 0).toFixed(2);
-        const initialPrice = isBot ? item.botId?.initialPrice :
-            isTelegram ? item.telegramId?.initialPrice :
-                item.courseId?.price;
-        const discount = isBot ? item.botId?.discount :
-            isTelegram ? item.telegramId?.discount :
-                0;
-
 
         const courseId = isCourse ? item?.courseId?._id : null;
         const botId = item?.botId?.strategyId?._id ? item?.botId?.strategyId?._id : null;
@@ -161,141 +206,77 @@ export default function MyCourseDetails() {
         const location = isCourse ? item.courseId?.location : '';
         const planType = item.planType || 'Standard';
 
-        const handleCardClick = (register) => {
+        const handleCardClick = () => {
             if (selectedTab === 'TELEGRAM') {
                 router.push(`/my-telegram-details/${telegramId}`);
             } else if (selectedTab === 'BOTS') {
                 router.push(`/my-algobot-details?algobotId=${botId}`);
             } else if (selectedTab === 'RECORDED') {
                 router.push(`/my-course-details?courseId=${courseId}&category=${selectedTab}`);
-            } else if (['LIVE', 'PHYSICAL'].includes(selectedTab)) {
-                router.push(`/my-course-details?courseId=${register?.courseId?._id}&category=${selectedTab}`);
             }
         };
 
         return (
-            <>
-                {(selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') ? (<>
-                    {registeredCourses.map((register) => {
-                        return (
-                            <div className={styles.griditems} key={register?._id} onClick={() => handleCardClick(register)}>
-                                <div>
-                                    <div className={styles.image}>
-                                        <img
-                                            src={register?.courseId?.courseVideo}
-                                            alt={title}
-                                            onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = '/assets/images/placeholder.jpg';
-                                            }}
-                                        />
-                                    </div>
-                                    <div className={styles.details}>
-                                        <h3>{register?.courseId?.CourseName}</h3>
-                                        <p dangerouslySetInnerHTML={{ __html: register?.courseId?.description?.substring(0, 150) + '...' }} />
-                                        <div className={styles.infoCard}>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Instructor:</span>
-                                                <span className={styles.infoValue}>{register?.courseId?.instructor || 'N/A'}</span>
-                                            </div>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Date:</span>
-                                                <span className={styles.infoValue}>
-                                                    {register?.courseId?.createdAt ? new Date(register.courseId.createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) : 'N/A'}
-                                                </span>
-                                            </div>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Time:</span>
-                                                <span className={styles.infoValue}>
-                                                    {register?.courseId?.startTime} to {register?.courseId?.endTime}
-                                                </span>
-                                            </div>
-                                            {selectedTab === 'PHYSICAL' && (<div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Location:</span>
-                                                <span className={styles.infoValue}>
-                                                    {register?.courseId?.location}
-                                                </span>
-                                            </div>)
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+            <div className={styles.griditems} key={item._id} onClick={handleCardClick}>
+                {selectedTab !== 'TELEGRAM' && imageUrl && (
+                    <div className={styles.image}>
+                        <img
+                            src={imageUrl}
+                            alt={title}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = '/assets/images/placeholder.jpg';
+                            }}
+                        />
+                    </div>
+                )}
+
+                <div className={styles.details}>
+                    <h3>{title}</h3>
+                    <p dangerouslySetInnerHTML={{ __html: description?.substring(0, 150) + '...' }} />
+
+                    <div className={styles.infoCard}>
+                        {(selectedTab === 'RECORDED' || selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') && (
+                            <div className={styles.infoRow}>
+                                <span className={styles.infoLabel}>Instructor:</span>
+                                <span className={styles.infoValue}>{instructorName || 'N/A'}</span>
                             </div>
-                        )
-                    })}
-                </>) :
-                    (<>
-                        <div className={styles.griditems} key={item._id} onClick={handleCardClick}>
-                            {selectedTab !== 'TELEGRAM' && (imageUrl && (
-                                <div className={styles.image}>
-                                    <img
-                                        src={imageUrl}
-                                        alt={title}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = '/assets/images/placeholder.jpg';
-                                        }}
-                                    />
+                        )}
+
+                        {selectedTab === 'LIVE' && (
+                            <div className={styles.infoRow}>
+                                <span className={styles.infoLabel}>Duration:</span>
+                                <span className={styles.infoValue}>{hours || '0'} hours</span>
+                            </div>
+                        )}
+
+                        {selectedTab === 'PHYSICAL' && (
+                            <>
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Location:</span>
+                                    <span className={styles.infoValue}>{location || '-'}</span>
                                 </div>
-                            ))}
+                                <div className={styles.infoRow}>
+                                    <span className={styles.infoLabel}>Schedule:</span>
+                                    <span className={styles.infoValue}>{scheduleOn || 'To be announced'}</span>
+                                </div>
+                            </>
+                        )}
 
-                            <div className={styles.details}>
-                                <h3>{title}</h3>
-                                <p dangerouslySetInnerHTML={{ __html: description?.substring(0, 150) + '...' }} />
+                        {(selectedTab === 'BOTS' || selectedTab === 'TELEGRAM') && (
+                            <div className={styles.infoRow}>
+                                <span className={styles.infoLabel}>Plan:</span>
+                                <span className={styles.infoValue}>{planType}</span>
+                            </div>
+                        )}
 
-                                <div className={styles.infoCard}>
-                                    {(selectedTab === 'RECORDED' || selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') && (
-                                        <>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Instructor:</span>
-                                                <span className={styles.infoValue}>{instructorName || 'N/A'}</span>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {selectedTab === 'LIVE' && (
-                                        <>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Duration:</span>
-                                                <span className={styles.infoValue}>{hours || '0'} hours</span>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {selectedTab === 'PHYSICAL' && (
-                                        <>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Location:</span>
-                                                <span className={styles.infoValue}>{location || '-'}</span>
-                                            </div>
-                                            <div className={styles.infoRow}>
-                                                <span className={styles.infoLabel}>Schedule:</span>
-                                                <span className={styles.infoValue}>{scheduleOn || 'To be announced'}</span>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {(selectedTab === 'BOTS' || selectedTab === 'TELEGRAM') && (
-                                        <div className={styles.infoRow}>
-                                            <span className={styles.infoLabel}>Plan:</span>
-                                            <span className={styles.infoValue}>{planType}</span>
-                                        </div>
-                                    )}
-
-                                    <div className={styles.infoRow}>
-                                        <span className={styles.infoLabel}>Purchased On:</span>
-                                        <span className={styles.infoValue}>{new Date(item.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                    {/*                         
                         <div className={styles.infoRow}>
-                            <span className={styles.infoLabel}>Price Paid:</span>
-                            <span className={styles.price}>${price}</span>
-                        </div> */}
-                                </div>
-                            </div>
-                        </div ></>)
-                }
-            </>
+                            <span className={styles.infoLabel}>Purchased On:</span>
+                            <span className={styles.infoValue}>{new Date(item.createdAt).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     };
 

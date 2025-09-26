@@ -319,13 +319,14 @@ export default function OurCourseInformation() {
                             <img src={course?.courseVideo} alt="live webinar thumbnail" />
                         </div></>)}
                 </div>
-                {course?.courseType === "recorded" && <RecetCourse />}
+                
                 <RegistrationDialog
                     isOpen={isRegistrationOpen}
                     onClose={handleRegistrationComplete}
                     onSubmit={handleRegistrationSubmit}
                 />
             </div>
+            {course?.courseType === "recorded" && <RecetCourse />}
         </div>
     );
 }

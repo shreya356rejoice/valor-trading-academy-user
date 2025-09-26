@@ -184,7 +184,7 @@ export const getSessionData = async (id) => {
 
 export const getTelegramChannels = async (id, searchQuery) => {
   try {
-    const res = await api.get(`/telegram/getAllTelegram${id ? `?telegramId=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
+    const res = await api.get(`/telegram/getAllTelegram${id ? `?id=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
     const data = await res.data;
     return data;
   } catch (error) {
@@ -195,7 +195,7 @@ export const getTelegramChannels = async (id, searchQuery) => {
 
 export const getDashboardTelegramChannels = async (id, searchQuery) => {
   try {
-    const res = await api.get(`/telegram/getAllTelegramDashboard${id ? `?telegramId=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
+    const res = await api.get(`/telegram/getAllTelegramDashboard${id ? `?id=${id}` : searchQuery ? `?search=${searchQuery}` : ""}`);
     const data = await res.data;
     return data;
   } catch (error) {

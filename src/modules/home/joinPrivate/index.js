@@ -7,6 +7,7 @@ import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useRouter } from 'next/navigation'
 import { getDashboardTelegramChannels, getTelegramChannels } from '@/app/api/dashboard'
+import { getCookie } from '../../../../cookie'
 
 const BottomLayer = '/assets/images/bottom-layer.svg'
 const ProfileImage = '/assets/images/profile-sm.png'
@@ -34,6 +35,14 @@ const titleVariants = {
 export default function JoinPrivate() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
     const animationControls = useAnimation()
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userCookie = getCookie("user");
+        setUser(userCookie ? JSON.parse(userCookie) : null);
+    }, []);
+
+      
 
     React.useEffect(() => {
         if (inView) {
@@ -45,16 +54,40 @@ export default function JoinPrivate() {
     const router = useRouter();
 
     useEffect(() => {
-        const fetchTelegramChannels = async () => {
+        if (user === undefined) return; // Skip initial undefined state
+    
+        const fetchData = async () => {
             try {
-                    const response = await getDashboardTelegramChannels();
+                const response = user 
+                    ? await getTelegramChannels()
+                    : await getDashboardTelegramChannels();
+                    console.log(response,"===response");
+                    
+                if (response?.payload?.data) {
                     setTelegramChannels(response.payload.data);
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-        fetchTelegramChannels();
-    }, []);
+    
+        fetchData();
+    }, [user]);
+
+    const handleNavigate = (channel) => {
+        if (!user) {
+            router.push(`/join-telegram-channel?telegramId=${channel?._id}`);
+            return;
+        }
+    
+        const hasPaidPlan = channel.telegramPlan?.some(plan => plan?.payment?.length > 0);        
+        
+        if (hasPaidPlan) {
+            router.push(`/my-telegram-details/${channel?._id}`);
+        } else {
+            router.push(`/telegram-details/${channel?._id}`);
+        }
+    }
 
     return (
         <>
@@ -105,7 +138,21 @@ export default function JoinPrivate() {
                                         ))}
                                     </div>
                                     <div className={styles.cardFooteralignment}>
-                                        <Button text='Join Now' fill onClick={() => router.push(`/join-telegram-channel?telegramId=${channel._id}`)} />
+                                        {user ? (channel.telegramPlan?.some(plan => plan?.payment?.length > 0) ? (
+                                            <Button
+                                                text="Joined"
+                                                fill
+                                                onClick={() => handleNavigate(channel)}
+                                            />
+                                        ) : (
+                                            <Button
+                                                text="Join Now"
+                                                onClick={() => handleNavigate(channel)}
+                                            />
+                                        )) : (<Button
+                                            text="Join Now"
+                                            onClick={() => handleNavigate(channel)}
+                                        />)}
                                     </div>
                                 </motion.div>
                             )

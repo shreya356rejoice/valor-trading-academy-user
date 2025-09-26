@@ -80,6 +80,13 @@
         @include respond-to("sm") {
           @include heading32;
         }
+
+        // span {
+        //   background: var(--linear-gradient);
+        //   -webkit-text-fill-color: rgba(0, 0, 0, 0);
+        //   -webkit-background-clip: text;
+        //   background-clip: text;
+        // }
       }
 
       p {
@@ -89,6 +96,32 @@
 
         @include respond-to("sm") {
           @include font16;
+        }
+      }
+    }
+
+    .categorytitle {
+      margin-bottom: 18px;
+
+      h2 {
+        @include font33;
+        font-weight: 500;
+        color: var(--text-white);
+        text-transform: uppercase;
+
+        @media (max-width:1024px) {
+          font-size: 308px;
+          line-height: 30px;
+        }
+
+        @media (max-width:768px) {
+          font-size: 28px;
+          line-height: 30px;
+        }
+
+        @media (max-width:576px) {
+          font-size: 24px;
+          line-height: 26px;
         }
       }
     }
@@ -202,11 +235,9 @@
 
           button {
             border-radius: 40px;
-            background: linear-gradient(
-              180deg,
-              rgba(61, 52, 139, 0.08) 0%,
-              rgba(118, 120, 237, 0.08) 100%
-            );
+            background: linear-gradient(180deg,
+                rgba(61, 52, 139, 0.08) 0%,
+                rgba(118, 120, 237, 0.08) 100%);
             padding: 8px 14px;
             border: none;
 
@@ -329,8 +360,20 @@
               overflow: hidden;
             }
           }
+
+          .buttons {
+            margin-top: 15px;
+          }
         }
       }
+    }
+
+    .seeMorebutton {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
     }
   }
 
@@ -415,11 +458,11 @@
           font-style: italic;
         }
 
-                .discount {
-                    @include font14normal;
-                    color: #616161;
-                    // text-transform: uppercase;
-                }
+        .discount {
+          @include font14normal;
+          color: #616161;
+          // text-transform: uppercase;
+        }
 
         .discountedprice {
           @include font14normal;

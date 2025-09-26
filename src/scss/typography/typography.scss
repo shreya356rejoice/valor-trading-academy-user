@@ -141,3 +141,10 @@
     font-weight: 600;
     line-height: normal;
 }
+
+@mixin font33 {
+    font-family: var(--font-funneldisplay);
+    font-size: 33px;
+    font-weight: 700;
+    line-height: 40px;
+}

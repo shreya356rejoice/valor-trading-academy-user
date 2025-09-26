@@ -113,7 +113,7 @@ export default function ExploreDifferent() {
                             transition={{ duration: 0.5, delay: 0.2 }}
                             viewport={{ once: true }}
                         >
-                            Choose from a wide range of focused financial categories
+                            Flexible learning formats designed for every trader’s journey.
                         </motion.p>
                     </div>
                 </div>
