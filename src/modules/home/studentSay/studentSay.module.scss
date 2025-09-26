@@ -186,8 +186,9 @@
                 }
 
                 .profileAlignment {
-                    display: grid;
-                    grid-template-columns: 50px 1fr;
+                    display: flex;
+                    align-items: center;
+                    // grid-template-columns: 50px 1fr;
                     gap: 12px;
                     padding: 18px 0 0 0;
 

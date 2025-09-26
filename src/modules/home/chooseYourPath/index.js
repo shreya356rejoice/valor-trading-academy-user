@@ -24,33 +24,36 @@ export default function ChooseYourPath() {
             setUser(userName);
         }, []);
     
-        const handleNavigate = () => {
+        const handleNavigate = (course) => {
             if (user) {
-                console.log(activeType,"activeType");
-                if(activeType === "live"){
-                    router.push('/courses?category=live')
-                }else if(activeType === "physical"){
-                    router.push('/courses?category=physical')
-                }else{
-                    router.push('/courses')
+                if (activeType === "live") {
+                    if (course?.registrationCount > 0) {
+                        router.push(`/my-course-details?courseId=${course?._id}&category=live`)
+                    } else {
+                        router.push(`/course-details?courseId=${course?._id}&category=live`)
+                    }
+                } else if (activeType === "physical") {
+                    if (course?.registrationCount > 0) {
+                        router.push(`/my-course-details?courseId=${course?._id}&category=physical`)
+                    } else {
+                        router.push(`/course-details?courseId=${course?._id}&category=physical`)
+                    }
+                } else {
+                    if (course?.isPayment) {
+                        router.push(`/my-course-details?courseId=${course?._id}`)
+                    } else {
+                        router.push(`/course-details?courseId=${course?._id}`)
+                    }
                 }
             } else {
-                router.push('/login')
+                router.push(`/our-course-details?id=${course?.id}`)
             }
         }
 
     useEffect(() => {
-        console.log("hello");
-        
         const fetchCourses = async (page = 1) => {
-
-            try {
-                console.log("hye");
-                console.log(user,"=====user");
-                
+            try {  
                 if (user) {
-                    console.log("hello");
-
                     const params = {
                         page,
                         limit: 3,
@@ -59,15 +62,11 @@ export default function ChooseYourPath() {
                     
                     // If user is not logged in, use the existing implementation
                     const response = await getCourses(params);
-                    console.log(response,"response");
                     
                     if (response && response.payload && response.payload.data) {
                         setCourses(response.payload.data);
                     }
-                    
                 } else {
-                    console.log("else");
-
                     const params = {
                         page,
                         limit: 3,
@@ -76,19 +75,17 @@ export default function ChooseYourPath() {
                     
                     // If user is logged in, use getCourseByType from dashboard API
                     const response = await getDashboardCourses(params);
-                    console.log(response,"=====response");
                     
                     if (response && response.payload && response.payload.data) {
                         setCourses(response.payload.data);
                     }
-                    
                 }
             } catch (error) {
                 console.error("Error fetching courses:", error);
             }
         };
         fetchCourses();
-    }, [user,activeType]);
+    }, [user , activeType, router]);
 
     const courseTypes = [
         { id: "recorded", label: "Recorded courses", course: "pre-recorded" },
@@ -97,8 +94,6 @@ export default function ChooseYourPath() {
     ];
 
     const currentCourses = courses[activeType] || [];
-
-    console.log(courses,"@@@@@@@courses");
     
     return (
         <>
@@ -132,7 +127,6 @@ export default function ChooseYourPath() {
                             className={styles.grid}
                             key={activeType}
                         >
-                            {console.log(courses,"^^^^^^courses")}
                             {courses?.map(
                                 (course, index) => {
                                     return (
@@ -141,15 +135,22 @@ export default function ChooseYourPath() {
                                                 <img src={course?.courseVideo} alt="CardImage" />
                                             </div>
                                             <div className={styles.details}>
-                                                <h3>{course?.CourseName}</h3>
-                                                <p>{course?.description}</p>
+
+                                            <div className={styles.text}>
+                                                <div>
+                                                    <h3>{course?.CourseName}</h3>
+                                                    <p>
+                                                    {course?.description}
+                                                    </p>
+                                                </div>
+                                            </div>
                                                 {activeType === "recorded" ? (<><div className={styles.allIconTextAlignment}>
                                                     {/* <div className={styles.iconText}>
                                                         <StarIcon />
                                                         <span>4.8</span>
                                                     </div> */}
                                                     <div className={styles.iconText}>
-                                                       $
+                                                        <p>$</p>
                                                         <span>{course?.price}</span>
                                                     </div>
                                                     <div className={styles.iconText}>
@@ -172,8 +173,6 @@ export default function ChooseYourPath() {
                                                     <div className={styles.allIconTextAlignment}>
                                                     <div className={styles.iconText}>
                                                         <ProfileIcon />
-                                                        {console.log(user,")))))))))))))user")
-                                                        }
                                                         <span>{user ? course?.registrationCount : course?.registration}</span>
                                                     </div>
                                                     <div className={styles.iconText}>
@@ -187,9 +186,12 @@ export default function ChooseYourPath() {
                                                 </div>
                                                     </>
                                                 )}
+
+                                                {console.log(course?.isPayment,"--------course")}
+                                                {console.log(activeType,"==activeType")}
                                                 
                                                 <div className={styles.btnwidth}>
-                                                    <Button fill={activeType === "recorded" ? course?.payment?.length > 0 : course?.registrationCount > 0} text={`${activeType === "recorded" ? course?.payment?.length > 0 ? "Enrolled" : "Enroll Now" : course?.registrationCount > 0 ? "Registered" : "Register"}`} onClick={handleNavigate} />
+                                                    <Button fill={activeType === "recorded" ? course?.isPayment : course?.registrationCount > 0} text={`${activeType === "recorded" ? course?.isPayment ? "Enrolled" : "Enroll Now" : course?.registrationCount > 0 ? "Registered" : "Register"}`} onClick={() => handleNavigate(course)} />
                                                 </div>
                                             </div>
                                         </motion.div>)

@@ -117,7 +117,7 @@ export const getTrendingOrPopularCourses = async ({ type, searchQuery = "" }) =>
 
 export const getBots = async () => {
   try {
-    const res = await api.get(`/strategies?page=1&limit=3`);
+    const res = await api.get(`/strategies?page=1&limit=5`);
     const data = await res.data;
     return data;
   } catch (error) {

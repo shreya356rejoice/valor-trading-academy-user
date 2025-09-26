@@ -415,11 +415,11 @@
           font-style: italic;
         }
 
-        .discount {
-          @include font14normal;
-          color: #616161;
-          text-transform: uppercase;
-        }
+                .discount {
+                    @include font14normal;
+                    color: #616161;
+                    // text-transform: uppercase;
+                }
 
         .discountedprice {
           @include font14normal;

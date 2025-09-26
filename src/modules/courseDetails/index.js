@@ -251,7 +251,7 @@ export default function CourseDetails() {
           <div className={styles.rightContentAlignment}>
             {category ? (
               // Case 1: Category is present (e.g. traders-meet, live-webinars)
-              !courses?.registration ? (
+              // !courses?.registration ? (
                 <Button
                   text={isProcessing ? 'Registering...' : 'Register'}
                   fill
@@ -259,11 +259,11 @@ export default function CourseDetails() {
                   disabled={isProcessing}
                   className={isProcessing ? styles.processingButton : ''}
                 />
-              ) : (<Button
-                text={'Registered'}
-                fill
-                disabled
-              />)
+              // ) : (<Button
+              //   text={'Registered'}
+              //   fill
+              //   disabled
+              // />)
             ) : (chapters?.isPayment === true ? '' : (
               <Button
                 text={isProcessing ? 'Enrolling...' : 'Enroll Now'}

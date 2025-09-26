@@ -28,20 +28,18 @@ import Sliderarrow from '@/components/icons/sliderarrow';
 function SampleNextArrow(props) {
     const { onClick } = props;
     return (
-        <div
-            className={styles.nextArrow}
-            onClick={onClick}
-        ><Sliderarrow /></div>
+        <div className={styles.nextArrow} onClick={onClick}>
+            <Sliderarrow />
+        </div>
     );
 }
 
 function SamplePrevArrow(props) {
     const { onClick } = props;
     return (
-        <div
-            className={styles.prevArrow}
-            onClick={onClick}
-        ><Sliderarrow /></div>
+        <div className={styles.prevArrow} onClick={onClick}>
+            <Sliderarrow />
+        </div>
     );
 }
 
@@ -299,6 +297,27 @@ export default function AlgobotInDetails() {
         );
     }
 
+    const Planssettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        centerMode: false,
+        arrows: true,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+        responsive: [
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
     return (
         <>
             <CommonBanner title='Forex Trading for Beginners' description='A simple guide to understanding and starting currency trading in the global forex market.' />
@@ -461,80 +480,44 @@ export default function AlgobotInDetails() {
                                     .filter(strategy => strategy._id !== id) // Filter out current bot
                                     .map((strategy, i) => (
                                         <div className={styles.griditems} key={i}>
-                                            <div className={styles.image}>
-                                                <img src={strategy?.imageUrl} alt={strategy?.title} />
-                                            </div>
-                                            <div className={styles.details}>
-                                                <div>
-                                                    <h3>{strategy?.title}</h3>
-                                                    <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                            <div className={styles.cardflx}>
+                                                <div className={styles.cardHeaderAlignment}>
+                                                    <img src={strategy?.imageUrl} alt={strategy?.title} />
+                                                    <div>
+                                                        <h3>{strategy?.title}</h3>
+                                                        <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                                    </div>
                                                 </div>
-                                                {/* <div className={styles.pricingSection}>
-                                                    {strategy.strategyPlan?.map((plan, planIndex) => (
-                                                        <div key={planIndex} className={styles.priceCard}>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>{plan.planType}</span>
-                                                                <span className={styles.price}>${plan.price}</span>
-                                                            </div>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>M.R.P:</span>
-                                                                <span>${plan.price}</span>
-                                                            </div>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>Discount:</span>
-                                                                <span>{plan.discount}%</span>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div> */}
-                                                <div>
-                                                    <div className={styles.pricingSection}>
-                                                        <Slider
-                                                            dots={false}
-                                                            infinite={false}
-                                                            speed={300}
-                                                            slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
-                                                            slidesToScroll={1}
-                                                            arrows={true}
-                                                            className={styles.priceSlider}
-                                                            nextArrow={<SampleNextArrow />}
-                                                            prevArrow={<SamplePrevArrow />}
-                                                            responsive={[
-                                                                {
-                                                                    breakpoint: 768,
-                                                                    settings: {
-                                                                        slidesToShow: 1.5,
-                                                                        slidesToScroll: 1,
-                                                                        infinite: false,
-                                                                        dots: true
-                                                                    }
-                                                                }
-                                                            ]}
-                                                        >
-                                                            {strategy.strategyPlan?.map((plan, planIndex) => (
-                                                                <div key={planIndex} className={styles.slideItem}>
-                                                                    <div className={styles.priceCard}>
-                                                                        <div className={styles.priceSubtitle}>
-                                                                            <span>{plan.planType}</span>
-                                                                            <span className={styles.price}>${plan.price}</span>
-                                                                        </div>
-                                                                        <div className={styles.priceSubtitle}>
-                                                                            <span>M.R.P:</span>
-                                                                            <span>${plan.price}</span>
-                                                                        </div>
-                                                                        <div className={styles.priceSubtitle}>
-                                                                            <span>Discount:</span>
-                                                                            <span>{plan.discount}%</span>
-                                                                        </div>
+                                                <div className={styles.details}>
+                                                    <Slider
+                                                        {...Planssettings}
+                                                        className={styles.planslider}
+                                                    >
+                                                        {strategy.strategyPlan?.map((plan, planIndex) => (
+                                                            <div key={planIndex} className={styles.planItemmain}>
+                                                                <div className={styles.planItem}>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.plantype}>{plan.planType}</p>
+                                                                        <span className={styles.initialprice}>${plan.price}</span>
+                                                                    </div>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.mrp}>M.R.P:</p>
+                                                                        <del className={styles.mrpprice}>${plan.price}</del>
+                                                                    </div>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.discount}>Discount:</p>
+                                                                        <span className={styles.discountedprice}>{plan.discount}%</span>
                                                                     </div>
                                                                 </div>
-                                                            ))}
-                                                        </Slider>
+                                                            </div>
+                                                        ))}
+                                                    </Slider>
+                                                    <div className={styles.cardbuttons}>
+                                                        <Button
+                                                            text="Buy Now"
+                                                            onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                                        />
                                                     </div>
-                                                    <Button
-                                                        text="Buy Now"
-                                                        onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
-                                                    />
                                                 </div>
                                             </div>
                                         </div>

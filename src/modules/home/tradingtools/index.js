@@ -134,7 +134,7 @@ export default function Tradingtools() {
         </div>
         <div className={styles.tradingslider}>
           <Slider {...Planscardssettings}>
-            {algobotData.map((algobot, i) => {
+            {algobotData.filter(algobot => algobot?.categoryId?.title === "Trading Tools").map((algobot, i) => {
               return (
                 <motion.div
                   key={i}
@@ -148,7 +148,7 @@ export default function Tradingtools() {
                     <div className={styles.items}>
                       <div className={styles.cardflx}>
                         <div className={styles.cardHeaderAlignment}>
-                          <img src={FlashIcon} alt="Cardimage" />
+                          <img src={algobot?.imageUrl} alt="Cardimage" />
                           <div>
                             <h3>{algobot?.title}</h3>
                             <p>{algobot?.shortDescription}</p>
@@ -170,76 +170,17 @@ export default function Tradingtools() {
                                   </span>
                                 </div>
                                 <div className={styles.flex}>
-                                  <p className={styles.mrp}>{plan?.planType}</p>
+                                  <p className={styles.mrp}>M.R.P.:</p>
                                   <del className={styles.mrpprice}>
-                                    ${plan?.initialPrice}
+                                    ${plan?.price}
                                   </del>
                                 </div>
                                 <div className={styles.flex}>
                                   <p className={styles.discount}>
-                                    {plan?.planType}
+                                    Discount:
                                   </p>
                                   <span className={styles.discountedprice}>
-                                    ${plan?.initialPrice}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </Slider>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-            {algobotData.map((algobot, i) => {
-              return (
-                <motion.div
-                  key={i}
-                  custom={i}
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <div className={styles.itemsmain}>
-                    <div className={styles.items}>
-                      <div className={styles.cardflx}>
-                        <div className={styles.cardHeaderAlignment}>
-                          <img src={FlashIcon} alt="Cardimage" />
-                          <div>
-                            <h3>{algobot?.title}</h3>
-                            <p>{algobot?.shortDescription}</p>
-                          </div>
-                        </div>
-                        <Slider
-                          {...Planssettings}
-                          className={styles.planslider}
-                        >
-                          {algobot?.strategyPlan?.map((plan, i) => (
-                            <div key={i} className={styles.planItemmain}>
-                              <div className={styles.planItem}>
-                                <div className={styles.flex}>
-                                  <p className={styles.plantype}>
-                                    {plan?.planType}
-                                  </p>
-                                  <span className={styles.initialprice}>
-                                    ${plan?.initialPrice}
-                                  </span>
-                                </div>
-                                <div className={styles.flex}>
-                                  <p className={styles.mrp}>{plan?.planType}</p>
-                                  <del className={styles.mrpprice}>
-                                    ${plan?.initialPrice}
-                                  </del>
-                                </div>
-                                <div className={styles.flex}>
-                                  <p className={styles.discount}>
-                                    {plan?.planType}
-                                  </p>
-                                  <span className={styles.discountedprice}>
-                                    ${plan?.initialPrice}
+                                    -{plan?.discount}%
                                   </span>
                                 </div>
                               </div>

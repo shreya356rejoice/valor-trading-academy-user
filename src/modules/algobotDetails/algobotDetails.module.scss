@@ -511,19 +511,19 @@
             gap: 40px;
             padding: 0 0 30px 0;
 
-            .griditems {
-                // &:first-child {
-                //   float: left;
-                //   width: 50%;
-                //   margin: 0 40px 30px 0;
+            // .griditems {
+            // &:first-child {
+            //   float: left;
+            //   width: 50%;
+            //   margin: 0 40px 30px 0;
 
-                //   @media (max-width:768px) {
-                //     float: none;
-                //     width: 100%;
-                //     margin: 0 0 40px 0;
-                //   }
-                // }
-            }
+            //   @media (max-width:768px) {
+            //     float: none;
+            //     width: 100%;
+            //     margin: 0 0 40px 0;
+            //   }
+            // }
+            // }
 
             .box {
                 height: 440px;
@@ -1006,10 +1006,8 @@
     h3 {
         @include heading20;
         color: black;
-        margin: 0 0 20px 0;
+        margin: 0 0 10px 0;
         text-align: left !important;
-        border-bottom: 1px solid var(--border-color5);
-        padding-bottom: 10px;
     }
 }
 
@@ -1049,7 +1047,7 @@
             opacity: 0.6;
             pointer-events: none;
             position: relative;
-            
+
             &::after {
                 content: 'Purchased';
                 position: absolute;
@@ -1073,7 +1071,7 @@
             gap: 5px;
             margin-bottom: 10px;
 
-            .planTypeflx{
+            .planTypeflx {
                 display: flex;
                 align-items: start;
                 gap: 5px;
@@ -1192,85 +1190,265 @@
         }
 
         .griditems {
+            padding: 18px;
             background-color: var(--bg-white);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: (0 3px 24px rgba(118, 120, 237, 0.22));
+            border-radius: 18px;
+            min-width: 0;
 
             @include respond-to("sm") {
-                padding: 14px;
+                padding: 16px;
+                border-radius: 12px;
             }
 
-            .image {
-                img {
-                    width: 100%;
-                    height: 180px;
-                    display: block;
-                    object-fit: cover;
-                    border-radius: 12px;
+            :global(.slick-track) {
+                margin: 0;
+            }
+
+            .nextArrow,
+            .prevArrow {
+                position: absolute;
+                top: -40px;
+                z-index: 9;
+                padding: 5px 20px;
+                border-radius: 50px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid var(--primary);
+                transition: 0.4s ease-in-out;
+
+                &:hover {
+                    background: var(--linear-gradient);
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    transition: 0.4s ease-in-out;
+
+                    path {
+                        fill: #000;
+                        transition: 0.4s ease-in-out;
+                    }
                 }
             }
 
-            .details {
-                padding: 16px 0 0 0;
+            .nextArrow {
+                right: 0;
+            }
 
-                h3 {
-                    @include font18;
-                    font-weight: 500;
-                    color: var(--black-100);
-                    margin: 0 0 8px 0;
+            .prevArrow {
+                right: 70px;
+
+                svg {
+                    rotate: 180deg;
                 }
+            }
 
-                p {
-                    @include font14normal;
-                    color: var(--black-500);
-                    margin: 0 0 15px 0;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    line-height: 1.5;
+            .twoColGrid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+
+                @include respond-to("sm") {
+                    grid-template-columns: 1fr;
                 }
 
                 button {
-                    padding: 12px 26px;
+                    padding: 12px;
+                    width: 100%;
+                }
+            }
 
-                    @include respond-to("sm") {
-                        padding: 10px 24px;
+            .freetrial {
+                padding: 0 0 25px 0;
+
+                @include respond-to("sm") {
+                    padding: 0 0 16px 0;
+                }
+
+                button {
+                    border-radius: 40px;
+                    background: linear-gradient(180deg,
+                            rgba(61, 52, 139, 0.08) 0%,
+                            rgba(118, 120, 237, 0.08) 100%);
+                    padding: 8px 14px;
+                    border: none;
+
+                    span {
+                        background: var(--linear-gradient);
+                        @include text-type;
+                        @include font16medium;
                     }
                 }
 
-                .iconalignment {
-                    display: flex;
-                    align-items: center;
-                    gap: 35px;
-                    padding: 0 0 25px 0;
+                p {
+                    margin: 15px 0 0 0;
+                    @include font16medium;
+                    color: var(--black-100);
+                }
+            }
+
+            .textContent {
+                display: flex;
+                gap: 43px;
+                padding: 0 0 25px 0;
+
+                @include respond-to("sm") {
+                    gap: 20px;
+                    padding: 0 0 16px 0;
+                }
+
+                p {
+                    @include font16;
+                    color: rgba(42, 48, 60, 0.7);
 
                     @include respond-to("sm") {
-                        padding: 0 0 14px 0;
+                        @include font14normal;
+                    }
+                }
+
+                span {
+                    display: block;
+                    @include font16bold;
+                    color: var(--black-100);
+
+                    @include respond-to("sm") {
+                        font-size: 13px;
+                    }
+                }
+            }
+
+            .cardflx {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+                gap: 40px;
+
+                .cardHeaderAlignment {
+                    img {
+                        width: 100%;
+                        height: 180px;
+                        border-radius: 14px;
+                        position: relative;
+                        overflow: hidden;
+                        background-color: #f2f2f2;
+                        margin-bottom: 10px;
                     }
 
-                    h4 {
-                        background: var(--linear-gradient);
+                    h3 {
+                        color: #0f0f1a;
                         @include heading20;
-                        @include text-type;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
                     }
 
-                    .iconText {
+                    p {
+                        @include font16;
+                        font-weight: 400;
+                        color: #616161;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        min-height: 75px;
+                    }
+                }
+
+                .cardbuttons {
+                    margin-top: 15px;
+                }
+            }
+
+            .planItemmain {
+                display: flex;
+                justify-content: space-between;
+
+                .planItem {
+                    border-radius: 10px;
+                    background-color: #fff;
+                    border: 1px solid #e0e7ff;
+                    // background-color: #eeebff;
+                    // background-color: #a9a0ee;
+                    // border: 1px solid #9389e9;
+                    padding: 6px 12px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    margin-right: 10px;
+                    width: calc(100% - 10px);
+
+                    @include respond-to("sm") {
+                        margin: 0 5px;
+                    }
+
+                    .flex {
                         display: flex;
                         align-items: center;
-                        gap: 4px;
+                        justify-content: space-between;
 
+                        .plantype,
                         span {
+                            @include font18;
+                            color: #0f0f1a;
+
+                            @include respond-to("sm") {
+                                @include font14normal;
+                            }
+                        }
+
+                        .initialPrice {
                             display: block;
-                            @include font16;
-                            color: var(--black-500);
+                            @include font18;
+                            color: #3571e9;
+
+                            @include respond-to("sm") {
+                                font-size: 13px;
+                            }
+                        }
+
+                        .mrp {
+                            @include font14normal;
+                            color: #616161;
+                            text-transform: uppercase;
+                            font-style: italic;
+                        }
+
+                        .mrpprice {
+                            @include font14normal;
+                            color: #616161;
+                            text-transform: uppercase;
+                            font-style: italic;
+                        }
+
+                        .discount {
+                            @include font14normal;
+                            color: #616161;
+                            // text-transform: uppercase;
+                        }
+
+                        .discountedprice {
+                            @include font14normal;
+                            color: #cc0c39;
                         }
                     }
                 }
             }
         }
+
     }
 }
 

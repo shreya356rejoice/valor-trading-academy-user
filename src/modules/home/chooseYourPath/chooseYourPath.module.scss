@@ -97,6 +97,37 @@
             }
         }
 
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 20px;
+
+            h3 {
+                @include heading20;
+                margin: 0 0 7px 0;
+                color: var(--black-100);
+            }
+
+            p {
+                @include font16;
+                color: var(--grey-600);
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin: 0 0 12px 0;
+                min-height: 4.5em; /* 3 lines of text with line-height 1.5 */
+                line-height: 1.5;
+                max-height: 4.5em;
+                
+                @include respond-to("sm") {
+                    margin: 0 0 12px 0;
+                }
+            }
+        }
+
         .tabCenteralignment {
             display: flex;
             align-items: center;
@@ -226,12 +257,17 @@
                         display: flex;
                         align-items: center;
                         gap: 20px;
-                        padding: 0 0 16px 0;
+                        padding: 0 0 20px 0;
 
                         .iconText {
                             display: flex;
                             align-items: center;
                             gap: 4px;
+
+                            p{
+                                background: var(--linear-gradient);
+                                @include text-type;
+                            }
 
                             span {
                                 display: block;

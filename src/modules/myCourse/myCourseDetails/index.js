@@ -176,10 +176,10 @@ export default function MyCourseDetails() {
         return (
             <>
                 {(selectedTab === 'LIVE' || selectedTab === 'PHYSICAL') ? (<>
-                    <div className={styles.griditems}>
-                        {registeredCourses.map((register) => {
-                            return (
-                                <div key={register?._id} onClick={() => handleCardClick(register)}>
+                    {registeredCourses.map((register) => {
+                        return (
+                            <div className={styles.griditems} key={register?._id} onClick={() => handleCardClick(register)}>
+                                <div>
                                     <div className={styles.image}>
                                         <img
                                             src={register?.courseId?.courseVideo}
@@ -220,9 +220,9 @@ export default function MyCourseDetails() {
                                         </div>
                                     </div>
                                 </div>
-                            )
-                        })}
-                    </div>
+                            </div>
+                        )
+                    })}
                 </>) :
                     (<>
                         <div className={styles.griditems} key={item._id} onClick={handleCardClick}>

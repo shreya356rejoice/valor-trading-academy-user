@@ -203,21 +203,24 @@ export default function AlgobotDetails() {
                     strategies.map((strategy, i) => (
                         <>
                             <div className={styles.griditems} key={i}>
-                                <div className={styles.image}>
-                                    <img src={strategy?.imageUrl} alt={strategy?.title} />
-                                </div>
-                                <div className={styles.details}>
-                                    <h3>{strategy?.title}</h3>
-                                    <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                    <div className={styles.pricingSection}>
+                                <div className={styles.cardflx}>
+                                    <div className={styles.cardHeaderAlignment}>
+                                        <img src={strategy?.imageUrl} alt={strategy?.title} />
+                                        <div>
+                                            <h3>{strategy?.title}</h3>
+                                            <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                        </div>
+                                    </div>
+                                    <div className={styles.details}>
                                         <Slider
                                             dots={false}
                                             infinite={false}
                                             speed={300}
-                                            slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
+                                            // slidesToShow={strategy.strategyPlan?.length > 2 ? 2 : strategy.strategyPlan?.length}
+                                            slidesToShow={2}
                                             slidesToScroll={1}
                                             arrows={true}
-                                            className={styles.priceSlider}
+                                            className={styles.planslider}
                                             nextArrow={<SampleNextArrow />}
                                             prevArrow={<SamplePrevArrow />}
                                             responsive={[
@@ -248,67 +251,74 @@ export default function AlgobotDetails() {
                                                     return getMonths(a.planType) - getMonths(b.planType);
                                                 })
                                                 .map((plan, planIndex) => (
-                                                    <div key={planIndex} className={styles.priceCard}>
-                                                        <div className={styles.priceSubtitle}>
-                                                            <span>{plan.planType}</span>
-                                                            <span className={styles.price}>${plan.price}</span>
-                                                        </div>
-                                                        <div className={styles.priceSubtitle}>
-                                                            <span>M.R.P:</span>
-                                                            <span>${plan.price}</span>
-                                                        </div>
-                                                        <div className={styles.priceSubtitle}>
-                                                            <span>Discount:</span>
-                                                            <span>{plan.discount}%</span>
+                                                    <div key={i} className={styles.planItemmain}>
+                                                        <div className={styles.planItem}>
+                                                            <div className={styles.flex}>
+                                                                <p className={styles.plantype}>{plan.planType}</p>
+                                                                <span className={styles.initialprice}>${plan.price}</span>
+                                                            </div>
+                                                            <div className={styles.flex}>
+                                                                <p className={styles.mrp}>
+                                                                    M.R.P:</p>
+                                                                <del className={styles.mrpprice}>${plan.price}</del>
+                                                            </div>
+                                                            <div className={styles.flex}>
+                                                                <p className={styles.discount}>Discount:</p>
+                                                                <span className={styles.discountedprice}>-{plan.discount}%</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ))
                                             }
                                         </Slider>
-                                    </div>
 
-                                    {/* <div className={styles.iconalignment}>
+                                        {/* <div className={styles.iconalignment}>
                                     <h4>${strategy?.strategyPlan?.[0]?.price || '0'}</h4>
                                     <div className={styles.iconText}>
                                         <img src={BathIcon} alt="BathIcon" />
                                         <span>View Details</span>
                                     </div>
                                 </div> */}
-
-                                    {strategy.strategyPlan?.some(plan => plan?.isPayment) ? (
-                                        <Button
-                                            text="Purchased"
-                                            fill
-                                            onClick={() => {
-                                                const categoryParam = searchParams.get('category');
-                                                router.push(`/my-algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
-                                            }}
-                                            style={{ opacity: 0.7, cursor: 'not-allowed' }}
-                                        />
-                                    ) : (
-                                        <Button
-                                            text="Buy Now"
-                                            onClick={() => {
-                                                const categoryParam = searchParams.get('category');
-                                                router.push(`/algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
-                                            }}
-                                        />
-                                    )}
-                                </div>
+                                        <div className={styles.planbuttons}>
+                                            {strategy.strategyPlan?.some(plan => plan?.isPayment) ? (
+                                                <Button
+                                                    text="Purchased"
+                                                    fill
+                                                    onClick={() => {
+                                                        const categoryParam = searchParams.get('category');
+                                                        router.push(`/my-algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
+                                                    }}
+                                                    style={{ opacity: 0.7, cursor: 'not-allowed' }}
+                                                />
+                                            ) : (
+                                                <Button
+                                                    text="Buy Now"
+                                                    onClick={() => {
+                                                        const categoryParam = searchParams.get('category');
+                                                        router.push(`/algobot-details?algobotId=${strategy?._id}${categoryParam ? `&category=${categoryParam}` : ''}`);
+                                                    }}
+                                                />
+                                            )}
+                                        </div >
+                                    </div >
+                                </div >
                             </div>
                         </>
                     ))
-                )}
-            </div>
-            {!isLoading && strategies.length > 0 && (
-                <Pagination
-                    currentPage={pagination.currentPage}
-                    totalItems={pagination.totalItems}
-                    itemsPerPage={pagination.itemsPerPage}
-                    onPageChange={handlePageChange}
-                />
-            )}
-        </div>
+                )
+                }
+            </div >
+            {
+                !isLoading && strategies.length > 0 && (
+                    <Pagination
+                        currentPage={pagination.currentPage}
+                        totalItems={pagination.totalItems}
+                        itemsPerPage={pagination.itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
+                )
+            }
+        </div >
 
     )
 }

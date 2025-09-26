@@ -180,7 +180,7 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                         />
                                     )
                                 ) : (selectedTab === "live" || selectedTab === "physical") ? (
-                                    course?.registration?.isActive ? (
+                                    course?.registrationCount > 0 ? (
                                         <Button
                                             text="Registered"
                                             fill
@@ -194,7 +194,7 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                             onClick={() =>
                                                 router.push(`/course-details?courseId=${course?._id}&category=${selectedTab}`)
                                             }
-                                        />
+                                        />  
                                     )
                                 ) : null}
 

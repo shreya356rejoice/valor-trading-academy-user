@@ -21,6 +21,8 @@ import { marked } from "marked";
 import Dropdownarrow from '../../../public/assets/icons/dropdownarrow';
 import { motion } from 'framer-motion';
 import AlgobotSubscription from './AlgobotSubscription';
+import Slider from 'react-slick';
+import Sliderarrow from '@/components/icons/sliderarrow';
 
 const BathIcon = '/assets/icons/bath.svg';
 const NoCoursesIcon = '/assets/icons/no-courses.svg';
@@ -28,6 +30,25 @@ const LockIcon = '/assets/icons/lock.svg';
 const MinusIcon = "/assets/icons/minus.svg";
 const PlusIcon = "/assets/icons/plus.svg";
 const FlashIcon = '/assets/icons/flash.svg'
+
+
+function SampleNextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div className={styles.nextArrow} onClick={onClick}>
+            <Sliderarrow />
+        </div>
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div className={styles.prevArrow} onClick={onClick}>
+            <Sliderarrow />
+        </div>
+    );
+}
 
 const cardVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -40,7 +61,7 @@ const cardVariants = {
 
 const BotPlansSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25  }} />
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20, marginLeft: 25 }} />
         <div className={styles.plansGrid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div key={i} className={styles.planCard}>
@@ -61,7 +82,7 @@ const BotPlansSkeleton = () => (
 
 const SimilarBotsSkeleton = () => (
     <div className={styles.plansContainer}>
-        <Skeleton height={30} width="20%" style={{ marginBottom: 20,marginLeft: 25  }} />
+        <Skeleton height={30} width="20%" style={{ marginBottom: 20, marginLeft: 25 }} />
         <div className={styles.grid} style={{ marginLeft: 25 }}>
             {[1, 2, 3].map((_, i) => (
                 <div className={styles.griditems} key={i}>
@@ -82,7 +103,7 @@ const AlgoBotDetailsSkeleton = () => (
     <div className={styles.algobotDetailsAlignment}>
         <div className={styles.pageHeaderAlignment}>
             <div className={styles.text}>
-                <Skeleton height={40} width="60%" style={{ marginBottom: 20 ,marginLeft: 25 }} />
+                <Skeleton height={40} width="60%" style={{ marginBottom: 20, marginLeft: 25 }} />
             </div>
         </div>
         <div className={styles.algobanner}>
@@ -91,15 +112,15 @@ const AlgoBotDetailsSkeleton = () => (
                     <Skeleton height={400} className={styles.algobotImage} style={{ marginLeft: 25 }} />
                 </div>
                 <div className={styles.griditems}>
-                    <Skeleton count={8} style={{ marginBottom: 10 , marginRight: 25 }} />
+                    <Skeleton count={8} style={{ marginBottom: 10, marginRight: 25 }} />
                     <Skeleton width="70%" />
                 </div>
             </div>
         </div>
         <div className={styles.tutorial}>
-            <Skeleton height={30} width="20%" style={{ marginBottom: 20 , marginLeft: 25 }} />
+            <Skeleton height={30} width="20%" style={{ marginBottom: 20, marginLeft: 25 }} />
             <div className={styles.textdropdown}>
-                <Skeleton width={200} height={20} style={{ marginBottom: 10 , marginLeft: 25 }} />
+                <Skeleton width={200} height={20} style={{ marginBottom: 10, marginLeft: 25 }} />
                 <Skeleton width={200} height={40} />
             </div>
         </div>
@@ -367,13 +388,34 @@ export default function AlgoBotDetails() {
         return <div className={styles.errorMessage}>Error loading AlgoBot details. Please try again later.</div>;
     }
 
+    const Planssettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        centerMode: false,
+        arrows: true,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+        responsive: [
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
     return (
         <>
             <div className={styles.courseDetails}>
                 <div className={styles.breadcumbAlignment}>
                     <a aria-label="Home" href="/dashboard">Home</a>
                     <RightArrow />
-                    <a 
+                    <a
                         aria-label={searchParams.get('category') === 'trading-tools' ? 'Trading Tools' : 'AlgoBots'}
                         href={searchParams.get('category') === 'trading-tools' ? '/algobot?category=trading-tools' : '/algobot'}
                     >
@@ -479,73 +521,73 @@ export default function AlgoBotDetails() {
                             <h3>Bot Plans</h3>
                             <div className={styles.plansGrid}>
                                 {plans
-                                .slice()
-                                .sort((a, b) => {
-                                    const getMonths = (planType) => {
-                                        if (typeof planType !== 'string') return 0;
-                                        const planStr = planType.toLowerCase();
-                                        if (planStr.includes('month')) {
-                                            return parseInt(planStr);
-                                        }
-                                        if (planStr.includes('year')) {
-                                            return parseInt(planStr) * 12;
-                                        }
-                                        return 0;
-                                    };
-                                    return getMonths(a.planType) - getMonths(b.planType);
-                                }).map((plan, index) => (
-                                    <div key={plan._id || index} className={styles.planCard}>
-                                        <div className={styles.planType}>
-                                            <div className={styles.planTypeflx}>
-                                                <h3>{plan.planType}</h3>
-                                                <div className={styles.priceContainer}>
-                                                    <span className={styles.originalPrice}>
-                                                        ${(plan.price * (planQuantities[plan._id] || 1)).toFixed(2)}
-                                                    </span>
+                                    .slice()
+                                    .sort((a, b) => {
+                                        const getMonths = (planType) => {
+                                            if (typeof planType !== 'string') return 0;
+                                            const planStr = planType.toLowerCase();
+                                            if (planStr.includes('month')) {
+                                                return parseInt(planStr);
+                                            }
+                                            if (planStr.includes('year')) {
+                                                return parseInt(planStr) * 12;
+                                            }
+                                            return 0;
+                                        };
+                                        return getMonths(a.planType) - getMonths(b.planType);
+                                    }).map((plan, index) => (
+                                        <div key={plan._id || index} className={styles.planCard}>
+                                            <div className={styles.planType}>
+                                                <div className={styles.planTypeflx}>
+                                                    <h3>{plan.planType}</h3>
+                                                    <div className={styles.priceContainer}>
+                                                        <span className={styles.originalPrice}>
+                                                            ${(plan.price * (planQuantities[plan._id] || 1)).toFixed(2)}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className={styles.plandetails}>
+                                                <div className={styles.plandetailsflx}>
+                                                    <p>M.R.P :</p>
+                                                    <span>${plan.initialPrice.toFixed(2)}</span>
+                                                </div>
+                                                <div className={styles.plandetailsflx}>
+                                                    <p>Discount :</p>
+                                                    <span className={styles.discount}>-{plan.discount}%</span>
+                                                </div>
+                                            </div>
+                                            <div className={styles.counterAlignment}>
+                                                <div
+                                                    className={`${styles.icons} ${(planQuantities[plan._id] || 1) <= 1
+                                                        ? styles.disabled
+                                                        : ""
+                                                        }`}
+                                                    onClick={() => handleDecrement(plan._id)}
+                                                >
+                                                    <img src={MinusIcon} alt="Decrease quantity" />
+                                                </div>
+                                                <div className={styles.textDesign}>
+                                                    <span>{planQuantities[plan._id] || 1}</span>
+                                                </div>
+                                                <div
+                                                    className={styles.icons}
+                                                    onClick={() => handleIncrement(plan._id)}
+                                                >
+                                                    <img src={PlusIcon} alt="Increase quantity" />
+                                                </div>
+                                            </div>
+                                            <Button
+                                                text='Buy Now'
+                                                fill='fill'
+                                                onClick={() => {
+                                                    setSelectedPlan(plan);
+                                                    setShowSubscriptionModal(true);
+                                                }}
+                                                disabled={false}
+                                            />
                                         </div>
-                                        <div className={styles.plandetails}>
-                                            <div className={styles.plandetailsflx}>
-                                                <p>M.R.P :</p>
-                                                <span>${plan.initialPrice.toFixed(2)}</span>
-                                            </div>
-                                            <div className={styles.plandetailsflx}>
-                                                <p>Discount :</p>
-                                                <span className={styles.discount}>-{plan.discount}%</span>
-                                            </div>
-                                        </div>
-                                        <div className={styles.counterAlignment}>
-                                            <div
-                                                className={`${styles.icons} ${(planQuantities[plan._id] || 1) <= 1
-                                                    ? styles.disabled
-                                                    : ""
-                                                    }`}
-                                                onClick={() => handleDecrement(plan._id)}
-                                            >
-                                                <img src={MinusIcon} alt="Decrease quantity" />
-                                            </div>
-                                            <div className={styles.textDesign}>
-                                                <span>{planQuantities[plan._id] || 1}</span>
-                                            </div>
-                                            <div
-                                                className={styles.icons}
-                                                onClick={() => handleIncrement(plan._id)}
-                                            >
-                                                <img src={PlusIcon} alt="Increase quantity" />
-                                            </div>
-                                        </div>
-                                        <Button
-                                            text='Buy Now'
-                                            fill='fill'
-                                            onClick={() => {
-                                                setSelectedPlan(plan);
-                                                setShowSubscriptionModal(true);
-                                            }}
-                                            disabled={false}
-                                        />
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         </div>
                     )}
@@ -560,34 +602,45 @@ export default function AlgoBotDetails() {
                                     .filter(strategy => strategy._id !== id) // Filter out current bot
                                     .map((strategy, i) => (
                                         <div className={styles.griditems} key={i}>
-                                            <div className={styles.image}>
-                                                <img src={strategy?.imageUrl} alt={strategy?.title} />
-                                            </div>
-                                            <div className={styles.details}>
-                                                <h3>{strategy?.title}</h3>
-                                                <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
-                                                <div className={styles.pricingSection}>
-                                                    {strategy.strategyPlan?.map((plan, planIndex) => (
-                                                        <div key={planIndex} className={styles.priceCard}>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>{plan.planType}</span>
-                                                                <span className={styles.price}>${plan.price}</span>
-                                                            </div>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>M.R.P:</span>
-                                                                <span>${plan.price}</span>
-                                                            </div>
-                                                            <div className={styles.priceSubtitle}>
-                                                                <span>Discount:</span>
-                                                                <span>{plan.discount}%</span>
-                                                            </div>
-                                                        </div>
-                                                    ))}
+                                            <div className={styles.cardflx}>
+                                                <div className={styles.cardHeaderAlignment}>
+                                                    <img src={strategy?.imageUrl} alt={strategy?.title} />
+                                                    <div>
+                                                        <h3>{strategy?.title}</h3>
+                                                        <p dangerouslySetInnerHTML={{ __html: strategy?.shortDescription }} />
+                                                    </div>
                                                 </div>
-                                                <Button
-                                                    text="Buy Now"
-                                                    onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
-                                                />
+                                                <div className={styles.details}>
+                                                    <Slider
+                                                        {...Planssettings}
+                                                        className={styles.planslider}
+                                                    >
+                                                        {strategy.strategyPlan?.map((plan, planIndex) => (
+                                                            <div key={planIndex} className={styles.planItemmain}>
+                                                                <div className={styles.planItem}>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.plantype}>{plan.planType}</p>
+                                                                        <span className={styles.initialprice}>${plan.price}</span>
+                                                                    </div>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.mrp}>M.R.P:</p>
+                                                                        <del className={styles.mrpprice}>${plan.price}</del>
+                                                                    </div>
+                                                                    <div className={styles.flex}>
+                                                                        <p className={styles.discount}>Discount:</p>
+                                                                        <span className={styles.discountedprice}>{plan.discount}%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </Slider>
+                                                    <div className={styles.cardbuttons}>
+                                                        <Button
+                                                            text="Buy Now"
+                                                            onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                                        />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
@@ -595,7 +648,7 @@ export default function AlgoBotDetails() {
                         </div>
                     )}
                 </div>
-            </div>
+            </div >
 
             {showSubscriptionModal && selectedPlan && (
                 <AlgobotSubscription
@@ -611,7 +664,8 @@ export default function AlgoBotDetails() {
                         setSelectedPlanQuantity(1);
                     }}
                 />
-            )}
+            )
+            }
         </>
     )
 }

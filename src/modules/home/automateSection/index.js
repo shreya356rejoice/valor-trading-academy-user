@@ -54,6 +54,8 @@ export default function AutomateSection() {
         const response = await getBots();
         // Flatten the strategies array from all categories
         const allStrategies = response.payload.data;
+        console.log(allStrategies,"allStrategies");
+        
         setAlgobotData(allStrategies); // Get first 3 strategies
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -105,28 +107,30 @@ export default function AutomateSection() {
                   </p>
                 </motion.div>
 
-                {/* Grid Animation */}
-                <div className={styles.grid}>
-                  {algobotData.map((algobot, i) => {
-                    return (
-                      <motion.div
-                        key={i}
-                        className={styles.griditems}
-                        custom={i}
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                      >
-                        <div className={styles.cardflx}>
-                          {console.log(algobot, "====algobot")}
-                          <div className={styles.cardHeaderAlignment}>
-                            <img src={algobot?.imageUrl} alt="Cardimage" />
-                            <div>
-                              <h3>{algobot?.title}</h3>
-                              <p>{algobot?.shortDescription}</p>
-                            </div>
-                            {/* <img src={FlashIcon} alt='FlashIcon' />
+            {/* Grid Animation */}
+            <div className={styles.grid}>
+              {algobotData.filter(algobot => algobot?.categoryId?.title !== "Trading Tools")
+  .map((algobot, i) => {
+                return (
+                  <motion.div
+                    key={i}
+                    className={styles.griditems}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
+                    <div className={styles.cardflx}>
+                      {console.log(algobot,"====algobot")
+                      }
+                      <div className={styles.cardHeaderAlignment}>
+                        <img src={algobot?.imageUrl} alt="Cardimage" />
+                        <div>
+                          <h3>{algobot?.title}</h3>
+                          <p>{algobot?.shortDescription}</p>
+                        </div>
+                        {/* <img src={FlashIcon} alt='FlashIcon' />
                     <div>
                       <h3>{algobot?.title}</h3>
                       <span className={styles.singleLineText}>{algobot?.shortDescription}</span>
@@ -144,12 +148,12 @@ export default function AutomateSection() {
                                       {plan?.planType}
                                     </p>
                                     <span className={styles.initialprice}>
-                                      ${plan?.initialPrice}
+                                      ${plan?.price}
                                     </span>
                                   </div>
                                   <div className={styles.flex}>
                                     <p className={styles.mrp}>
-                                      {plan?.planType}
+                                      M.R.P.:
                                     </p>
                                     <del className={styles.mrpprice}>
                                       ${plan?.initialPrice}
@@ -157,10 +161,10 @@ export default function AutomateSection() {
                                   </div>
                                   <div className={styles.flex}>
                                     <p className={styles.discount}>
-                                      {plan?.planType}
+                                      Discount:
                                     </p>
                                     <span className={styles.discountedprice}>
-                                      ${plan?.initialPrice}
+                                      -{plan?.discount}%
                                     </span>
                                   </div>
                                 </div>
