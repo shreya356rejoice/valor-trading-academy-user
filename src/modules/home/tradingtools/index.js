@@ -76,8 +76,8 @@ export default function Tradingtools() {
   }, []);
 
   const handleNavigate = (algobot) => {
-    console.log(algobot,"===========algobot");
-    
+    console.log(algobot, "===========algobot");
+
     router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
   };
 
@@ -135,81 +135,85 @@ export default function Tradingtools() {
         <div className={styles.title}>
           <h3>Trading Tools</h3>
           <p>
-          Smart tools designed to analyze markets, optimize strategies, and enhance your trading decisions.
+            Smart tools designed to analyze markets, optimize strategies, and
+            enhance your trading decisions.
           </p>
         </div>
         <div className={styles.tradingslider}>
           <Slider {...Planscardssettings}>
-            {algobotData.filter(algobot => algobot?.categoryId?.title === "Trading Tools").map((algobot, i) => {
-              return (
-                <motion.div
-                  key={i}
-                  custom={i}
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <div className={styles.itemsmain}>
-                    <div className={styles.items}>
-                      <div className={styles.cardflx}>
-                        <div className={styles.cardHeaderAlignment}>
-                          <img src={algobot?.imageUrl} alt="Cardimage" />
-                          <div>
-                            <h3>{algobot?.title}</h3>
-                            <p>{algobot?.shortDescription}</p>
-                          </div>
-                        </div>
-                        <div>
-                        <Slider
-                          {...Planssettings}
-                          className={styles.planslider}
-                        >
-                          {algobot?.strategyPlan?.map((plan, i) => (
-                            <div key={i} className={styles.planItemmain}>
-                              <div className={styles.planItem}>
-                                <div className={styles.flex}>
-                                  <p className={styles.plantype}>
-                                    {plan?.planType}
-                                  </p>
-                                  <span className={styles.initialprice}>
-                                    ${plan?.initialPrice}
-                                  </span>
-                                </div>
-                                <div className={styles.flex}>
-                                  <p className={styles.mrp}>M.R.P.:</p>
-                                  <del className={styles.mrpprice}>
-                                    ${plan?.price}
-                                  </del>
-                                </div>
-                                <div className={styles.flex}>
-                                  <p className={styles.discount}>
-                                    Discount:
-                                  </p>
-                                  <span className={styles.discountedprice}>
-                                    -{plan?.discount}%
-                                  </span>
-                                </div>
-                              </div>
+            {algobotData
+              .filter(
+                (algobot) => algobot?.categoryId?.title === "Trading Tools"
+              )
+              .map((algobot, i) => {
+                return (
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
+                    <div className={styles.itemsmain}>
+                      <div className={styles.items}>
+                        <div className={styles.cardflx}>
+                          <div className={styles.cardHeaderAlignment}>
+                            <img src={algobot?.imageUrl} alt="Cardimage" />
+                            <div>
+                              <h3>{algobot?.title}</h3>
+                              <p>{algobot?.shortDescription}</p>
                             </div>
-                          ))}
-                        </Slider>
+                          </div>
+                          <div className={styles.carddetails}>
+                            <Slider
+                              {...Planssettings}
+                              className={styles.planslider}
+                            >
+                              {algobot?.strategyPlan?.map((plan, i) => (
+                                <div key={i} className={styles.planItemmain}>
+                                  <div className={styles.planItem}>
+                                    <div className={styles.flex}>
+                                      <p className={styles.plantype}>
+                                        {plan?.planType}
+                                      </p>
+                                      <span className={styles.initialprice}>
+                                        ${plan?.initialPrice}
+                                      </span>
+                                    </div>
+                                    <div className={styles.flex}>
+                                      <p className={styles.mrp}>M.R.P.:</p>
+                                      <del className={styles.mrpprice}>
+                                        ${plan?.price}
+                                      </del>
+                                    </div>
+                                    <div className={styles.flex}>
+                                      <p className={styles.discount}>
+                                        Discount:
+                                      </p>
+                                      <span className={styles.discountedprice}>
+                                        -{plan?.discount}%
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </Slider>
 
-                        <div className={styles.buttons}>
-                                <Button
-                                  text="Buy Now"
-                                  light
-                                  onClick={() => handleNavigate(algobot)}
-                                />
-                              </div>
-
+                            <div className={styles.buttons}>
+                              <Button
+                                text="Buy Now"
+                                light
+                                onClick={() => handleNavigate(algobot)}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
           </Slider>
         </div>
       </div>

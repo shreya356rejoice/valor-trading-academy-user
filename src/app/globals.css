@@ -65,6 +65,12 @@ input[type="number"] {
   margin: 0 auto;
 }
 
+.container-md {
+  max-width: calc(1212px + 40px);
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
 .container-lg {
   max-width: calc(1580px + 40px);
   padding: 0 20px;

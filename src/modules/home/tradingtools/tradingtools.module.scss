@@ -90,34 +90,34 @@
     .itemsmain {
       position: relative;
       min-width: 0;
-        width: calc(100% - 24px);
-        margin-right: 24px;
-    //   width: calc(100% - 48px);
-    //   margin-right: 48px;
+      width: calc(100% - 24px);
+      margin-right: 24px;
+      //   width: calc(100% - 48px);
+      //   margin-right: 48px;
 
-    //   &::before,
-    //   &::after {
-    //     position: absolute;
-    //     background-color: rgba(255, 255, 255, 0.2);
-    //     content: "";
-    //     border-radius: 18px;
-    //   }
+      //   &::before,
+      //   &::after {
+      //     position: absolute;
+      //     background-color: rgba(255, 255, 255, 0.2);
+      //     content: "";
+      //     border-radius: 18px;
+      //   }
 
-    //   &::before {
-    //     width: calc(100% + 10px);
-    //     height: calc(100% + 10px);
-    //     z-index: 2;
-    //     top: -5px;
-    //     left: 5px;
-    //   }
+      //   &::before {
+      //     width: calc(100% + 10px);
+      //     height: calc(100% + 10px);
+      //     z-index: 2;
+      //     top: -5px;
+      //     left: 5px;
+      //   }
 
-    //   &::after {
-    //     width: calc(100% + 20px);
-    //     height: calc(100% + 20px);
-    //     z-index: 1;
-    //     top: -10px;
-    //     left: 0;
-    //   }
+      //   &::after {
+      //     width: calc(100% + 20px);
+      //     height: calc(100% + 20px);
+      //     z-index: 1;
+      //     top: -10px;
+      //     left: 0;
+      //   }
 
       .items {
         padding: 18px;
@@ -270,76 +270,89 @@
           }
         }
 
-        .planItemmain {
-          display: flex;
-          justify-content: space-between;
-
-          .planItem {
-            border-radius: 10px;
-            background-color: #fff;
-            border: 1px solid #e0e7ff;
-            // background-color: #eeebff;
-            // background-color: #a9a0ee;
-            // border: 1px solid #9389e9;
-            padding: 6px 12px;
+        .carddetails {
+          .planItemmain {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-right: 10px;
-            width: calc(100% - 10px);
+            justify-content: space-between;
 
-            @include respond-to("sm") {
-              margin: 0 5px;
-            }
-
-            .flex {
+            .planItem {
+              border-radius: 10px;
+              background-color: #fff;
+              border: 1px solid #e0e7ff;
+              padding: 6px 12px;
               display: flex;
-              align-items: center;
-              justify-content: space-between;
+              flex-direction: column;
+              gap: 5px;
+              margin-right: 10px;
+              width: calc(100% - 10px);
 
-              .plantype,
-              span {
-                @include font18;
-                color: #0f0f1a;
+              @include respond-to("sm") {
+                margin: 0 5px;
+              }
 
-                @include respond-to("sm") {
+              .flex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .plantype,
+                .initialprice {
+                  @include font18;
+                  font-weight: 500;
+                  line-height: 20px;
+
+                  @include respond-to("sm") {
+                    @include font14normal;
+                  }
+                }
+
+                .plantype {
+                  color: #0f0f1a;
+                }
+
+                .initialprice {
+                  color: #3571e9;
+                }
+
+                .initialPrice {
+                  display: block;
+                  @include font18;
+                  line-height: 20px;
+                  color: #3571e9;
+
+                  @include respond-to("sm") {
+                    font-size: 13px;
+                  }
+                }
+
+                .mrp {
                   @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
                 }
-              }
 
-              .initialPrice {
-                display: block;
-                @include font18;
-                color: #3571e9;
-
-                @include respond-to("sm") {
-                  font-size: 13px;
+                .mrpprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  text-transform: uppercase;
+                  font-style: italic;
                 }
-              }
 
-              .mrp {
-                @include font14normal;
-                color: #616161;
-                text-transform: uppercase;
-                font-style: italic;
-              }
+                .discount {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #616161;
+                  // text-transform: uppercase;
+                }
 
-              .mrpprice {
-                @include font14normal;
-                color: #616161;
-                text-transform: uppercase;
-                font-style: italic;
-              }
-
-              .discount {
-                @include font14normal;
-                color: #616161;
-                // text-transform: uppercase;
-              }
-
-              .discountedprice {
-                @include font14normal;
-                color: #cc0c39;
+                .discountedprice {
+                  @include font14normal;
+                  line-height: 14px;
+                  color: #cc0c39;
+                }
               }
             }
           }
@@ -379,7 +392,7 @@
               @include font16;
               min-height: 52px;
               font-weight: 400;
-            //   color: #616161;
+              //   color: #616161;
               color: #282828;
               //   color: var(--text-white);
               display: -webkit-box;
@@ -394,9 +407,6 @@
   }
 }
 
-
-.buttons{
+.buttons {
   margin-top: 15px;
 }
-
-
