@@ -47,7 +47,7 @@ export default function GetCertified() {
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
         >
-          <h2>Get Certified by Valor Trading Academy</h2>
+          <h2>Get Certified by EduFins Trading Academy</h2>
           <p>
             Showcase formal credibility with industry-recognized certifications
           </p>

@@ -76,8 +76,8 @@ export default function Tradingtools() {
   }, []);
 
   const handleNavigate = (algobot) => {
-    console.log(algobot, "===========algobot");
-
+    console.log(algobot,"===========algobot");
+    
     router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
   };
 

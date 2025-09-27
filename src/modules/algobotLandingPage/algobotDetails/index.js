@@ -6,11 +6,12 @@ import Pagination from '@/components/pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { getAlgobotCategories, getDashboardAlgobot } from '@/app/api/algobot';
+import { getAlgobot, getAlgobotCategories, getDashboardAlgobot } from '@/app/api/algobot';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Sliderarrow from '@/components/icons/sliderarrow';
+import { getCookie } from '../../../../cookie';
 
 const ITEMS_PER_PAGE = 4;
 
@@ -50,6 +51,15 @@ export default function AlgobotDetails() {
     });
 
     const router = useRouter();
+    const [user, setUser] = useState(null);
+    
+      useEffect(() => {
+          const user = getCookie("user");
+          if (user) {
+            const userName = user && JSON.parse(user)?.name;
+            setUser(userName);
+          }
+        }, [])
 
     const fetchCategories = async () => {
         try {
@@ -80,14 +90,22 @@ export default function AlgobotDetails() {
     const fetchStrategies = async (page = 1) => {
         try {
             setIsLoading(true);
-            const data = await getDashboardAlgobot(selectedCategory, '', page, ITEMS_PER_PAGE);
-            if (data?.success) {
-                setStrategies(data?.payload?.result || []);
-                setPagination(prev => ({
-                    ...prev,
-                    currentPage: page,
-                    totalItems: data?.payload?.count || 0,
-                }));
+            if (user) {
+                // Use the selected category ID from the categories list
+                const selectedCategoryData = categories.find(cat => cat._id === selectedCategory);
+                const categoryId = selectedCategoryData?._id || '';
+                const algobotData = await getAlgobot(categoryId, "", 1, 3);                
+                setStrategies(algobotData?.payload?.result || []);
+            } else {
+                const data = await getDashboardAlgobot(selectedCategory, '', page, ITEMS_PER_PAGE);
+                if (data?.success) {
+                    setStrategies(data?.payload?.result || []);
+                    setPagination(prev => ({
+                        ...prev,
+                        currentPage: page,
+                        totalItems: data?.payload?.count || 0,
+                    }));
+                }
             }
         } catch (error) {
             console.error('Error fetching strategies:', error);
@@ -99,7 +117,19 @@ export default function AlgobotDetails() {
 
     useEffect(() => {
         fetchCategories();
-    }, []);
+    }, [user]);
+
+    const handleNavigate = (algobot) => {
+        const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
+        
+        if (isPurchased) {
+          router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
+        } else if (user) {
+          router.push(`/algobot-details?algobotId=${algobot?._id}`);
+        } else {
+          router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+        }
+      };
 
     useEffect(() => {
         if (categories.length > 0 && selectedCategory) {
@@ -235,8 +265,9 @@ export default function AlgobotDetails() {
                                     </Slider>
                                     <div className={styles.cardbuttons}>
                                         <Button
-                                            text="Buy Now"
-                                            onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
+                                            text={user && strategy?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
+                                            onClick={() => handleNavigate(strategy)}
+                                            fill={user && strategy?.strategyPlan?.some(plan => plan.isPayment)}
                                         />
                                     </div>
                                 </div>

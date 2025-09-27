@@ -62,7 +62,7 @@ export default function StudentSay() {
             variants={textVariants}
           >
             <h2>
-              What Our <span>Students</span> Say
+              What Our <span>Traders</span> Say
             </h2>
             <p>Real success stories from our trading community</p>
           </motion.div>

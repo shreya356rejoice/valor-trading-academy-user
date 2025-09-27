@@ -137,7 +137,7 @@ export default function ContactUs() {
                     Have Questions? <span>Let's Talk.</span>
                 </h2>
                 <p>
-                    Your monetisation journey on TagMango starts here!
+                    Get in touch with our team for personalized guidance
                 </p>
             </div>
             <div className={styles.grid}>

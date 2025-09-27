@@ -12,9 +12,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowIcon from "@/components/icons/arrowIcon";
 import Sliderarrow from "@/components/icons/sliderarrow";
-import Image from "next/image";
+import { getCookie } from "../../../../cookie";
 import Tradingtools from "../tradingtools";
-import Commoncard from "@/components/commoncard";
+import { getAlgobot } from "@/app/api/algobot";
 
 const FlashIcon = "/assets/icons/flash.svg";
 
@@ -48,27 +48,44 @@ function SamplePrevArrow(props) {
 export default function AutomateSection() {
   const [algobotData, setAlgobotData] = useState([]);
   const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+      const user = getCookie("user");
+      if (user) {
+        const userName = user && JSON.parse(user)?.name;
+        setUser(userName);
+      }
+    }, [])
 
   useEffect(() => {
     const fetchAlgobotData = async () => {
-      try {
-        const response = await getBots();
-        // Flatten the strategies array from all categories
-        const allStrategies = response.payload.data;
-        console.log(allStrategies, "allStrategies");
-
-        console.log(allStrategies, "allStrategies");
-
-        setAlgobotData(allStrategies); // Get first 3 strategies
+      try {        
+        if(user){          
+            const data = await getAlgobot("68c800f852be940e85ba6770","", 1, 3);
+            setAlgobotData(data?.payload?.result || []);
+        }else{
+          const response = await getBots();
+          const allStrategies = response.payload.data;
+          setAlgobotData(allStrategies);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchAlgobotData();
-  }, []);
+  }, [user]); 
 
   const handleNavigate = (algobot) => {
-    router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+    const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
+    
+    if (isPurchased) {
+      router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
+    } else if (user) {
+      router.push(`/algobot-details?algobotId=${algobot?._id}`);
+    } else {
+      router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+    }
   };
 
   const Planssettings = {
@@ -141,7 +158,6 @@ export default function AutomateSection() {
                             viewport={{ once: true }}
                           >
                             <div className={styles.cardflx}>
-                              {console.log(algobot, "====algobot")}
                               <div className={styles.cardHeaderAlignment}>
                                 <img src={algobot?.imageUrl} alt="Cardimage" />
                                 <div>
@@ -194,12 +210,12 @@ export default function AutomateSection() {
                                   ))}
                                 </Slider>
 
-                                {console.log(algobot, "algobot")}
 
                                 <div className={styles.buttons}>
                                   <Button
-                                    text="Buy Now"
+                                    text={user && algobot?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
                                     onClick={() => handleNavigate(algobot)}
+                                    fill={user && algobot?.strategyPlan?.some(plan => plan.isPayment)}
                                   />
                                 </div>
                               </div>

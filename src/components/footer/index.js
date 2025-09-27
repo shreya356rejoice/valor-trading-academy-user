@@ -9,7 +9,7 @@ import LinkdinIcon from '../icons/linkdinIcon';
 import YoutubeIcon from '../icons/youtubeIcon';
 import { createNewsLetter, getUtilityData } from '@/app/api/dashboard';
 import Link from 'next/link';
-const WhiteLogo = '/assets/logo/whitelogo.svg';
+const WhiteLogo = '/assets/logo/eduFins-whiteLogo.svg';
 
 const TelegramIcon = "/assets/icons/telegram-footer.svg";
 
@@ -152,7 +152,7 @@ export default function Footer() {
             <div className={styles.line}></div>
             <div className={styles.copright}>
                 <p>
-                    © 2025 Valor Trading Academy. All rights reserved.
+                    © 2025 EduFins Trading Academy. All rights reserved.
                 </p>
             </div>
         </div>

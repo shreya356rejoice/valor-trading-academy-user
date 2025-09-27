@@ -12,13 +12,13 @@ export default function TermsConditions() {
                     <div className={styles.allContnetAlignment}>
                         <h2>1. Acceptance of Terms</h2>
                         <p>
-                        By accessing or using the Valor Trading Academy website and services, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our services.
+                        By accessing or using the EduFins Trading Academy website and services, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our services.
                         </p>
                         <br />
                         <br />
                         <h2>2. Use of Services</h2>
                         <p>
-                        You agree to use Valor's services for lawful purposes and in a manner consistent with these terms and conditions and applicable laws and regulations.
+                        You agree to use EduFins's services for lawful purposes and in a manner consistent with these terms and conditions and applicable laws and regulations.
                         </p>
                         <br />
                         <br />
@@ -30,7 +30,7 @@ export default function TermsConditions() {
                         <br />
                         <h2>4. Intellectual Property</h2>
                         <p>
-                        All content and materials on the Valor website, including but not limited to text, graphics, logos, images, and software, are the property of Valor and are protected by copyright and other intellectual property laws.
+                        All content and materials on the EduFins website, including but not limited to text, graphics, logos, images, and software, are the property of EduFins and are protected by copyright and other intellectual property laws.
                         </p>
                         <br />
                         <br />
@@ -45,7 +45,7 @@ export default function TermsConditions() {
                         <br />
                         <h2>6. Limitation of Liability</h2>
                         <p>
-                        Valor and its affiliates, officers, employees, or agents shall not be liable for any direct, indirect, incidental, consequential, or special damages arising out of or in any way connected with the use of our services.
+                        EduFins and its affiliates, officers, employees, or agents shall not be liable for any direct, indirect, incidental, consequential, or special damages arising out of or in any way connected with the use of our services.
                         </p>
                         <br />
                         <br />
@@ -57,13 +57,13 @@ export default function TermsConditions() {
                         <br />
                         <h2>8. Changes to Terms and Conditions</h2>
                         <p>
-                        Valor may update these terms and conditions from time to time. The latest version will be posted on this page with the updated date.
+                        EduFins may update these terms and conditions from time to time. The latest version will be posted on this page with the updated date.
                         </p>
                         <br />
                         <br />
                         <h2>9. Governing Law</h2>
                         <p>
-                        These legal terms shall be governed by and defined following the laws of India. Valor and you irrevocably consent that the courts of India shall have exclusive jurisdiction to resolve any dispute that may arise in connection with these legal terms.
+                        These legal terms shall be governed by and defined following the laws of India. EduFins and you irrevocably consent that the courts of India shall have exclusive jurisdiction to resolve any dispute that may arise in connection with these legal terms.
                         </p>
                         <br />
                         <br />
@@ -74,7 +74,7 @@ export default function TermsConditions() {
                         <br/>
                         <div className={styles.iconText}>
                                 <img src={Arrow} alt='Arrow' />
-                                <h5>Valor Trading Academy</h5>
+                                <h5>EduFins Trading Academy</h5>
                         </div>
                         <ul>
                             <li><p>Email: valortradingacademy@gmail.com</p></li>
@@ -87,7 +87,7 @@ export default function TermsConditions() {
                 </div>
             </div>
             <div className={styles.valorText}>
-                <h3>Valor Academy</h3>
+                <h3>EduFins Academy</h3>
             </div>
         </div>
     )

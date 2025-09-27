@@ -85,8 +85,8 @@ export default function CourseBanner({ searchQuery, setSearchQuery }) {
         <div className={styles.lineRight}></div>
         <div className={styles.grid}>
           <div className={styles.griditems}>
-            <h2>Learn to trade crypto CFDs at Valor Trading Academy.</h2>
-            <p>Valor Trading Academy helps you unlock the world of crypto CFD trading. Learn to trade Bitcoin, Ether, and Ripple CFDs with flexible strategies.</p>
+            <h2>Learn to trade crypto CFDs at EduFins Trading Academy.</h2>
+            <p>EduFins Trading Academy helps you unlock the world of crypto CFD trading. Learn to trade Bitcoin, Ether, and Ripple CFDs with flexible strategies.</p>
             <div className={styles.relativeInput}>
               <input type="text" placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
               <div className={styles.icon}>
