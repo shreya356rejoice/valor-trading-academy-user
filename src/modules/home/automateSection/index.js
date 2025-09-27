@@ -108,7 +108,16 @@ export default function AutomateSection() {
                   transition={{ duration: 0.6 }}
                 >
                   <h2>
-                    Automate Your Trades with <span>Powerful AlgoBots</span>
+                    Automate Your Trades with Powerful{" "}
+                    <p>
+                      AlgoBots
+                      <motion.span
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "100%" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                      ></motion.span>
+                    </p>
                   </h2>
                   <p>
                     Execute forex trades automatically with precision driven
