@@ -240,7 +240,14 @@ export default function MyCourseDetails() {
           </div>
         </div>
         <div>
-          {(category === "LIVE" || category === "live") && (<p>Meeting Link : {courses?.meetingLink}</p>)}
+          {(category === "LIVE" || category === "live") && (<p>Meeting Link : <a
+            href={courses.meetingLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+          >
+            {courses.meetingLink}
+          </a></p>)}
         </div>
       </div>
 

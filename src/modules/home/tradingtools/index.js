@@ -9,6 +9,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { getBots } from "@/app/api/dashboard";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button";
+import { getCookie } from "../../../../cookie";
+import { getAlgobot } from "@/app/api/algobot";
 
 const FlashIcon = "/assets/icons/flash.svg";
 
@@ -61,25 +63,45 @@ export default function Tradingtools() {
   const [algobotData, setAlgobotData] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchAlgobotData = async () => {
-      try {
-        const response = await getBots();
-        // Flatten the strategies array from all categories
-        const allStrategies = response.payload.data;
-        setAlgobotData(allStrategies); // Get first 3 strategies
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const [user, setUser] = useState(null);
+  
+    useEffect(() => {
+        const user = getCookie("user");
+        if (user) {
+          const userName = user && JSON.parse(user)?.name;
+          setUser(userName);
+        }
+      }, [])
+  
+    useEffect(() => {
+      const fetchAlgobotData = async () => {
+        try {        
+          if(user){          
+              const data = await getAlgobot("689dc8759f3ddc14754c7498","", 1, 3);
+              setAlgobotData(data?.payload?.result || []);
+          }else{
+            const response = await getBots();
+            const allStrategies = response.payload.data;
+            setAlgobotData(allStrategies);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchAlgobotData();
+    }, [user]); 
+  
+    const handleNavigate = (algobot) => {
+      const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
+      
+      if (isPurchased) {
+        router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
+      } else if (user) {
+        router.push(`/algobot-details?algobotId=${algobot?._id}`);
+      } else {
+        router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
       }
     };
-    fetchAlgobotData();
-  }, []);
-
-  const handleNavigate = (algobot) => {
-    console.log(algobot,"===========algobot");
-    
-    router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
-  };
 
   const Planscardssettings = {
     dots: false,
@@ -202,9 +224,10 @@ export default function Tradingtools() {
 
                             <div className={styles.buttons}>
                               <Button
-                                text="Buy Now"
-                                light
+                                text={user && algobot?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
                                 onClick={() => handleNavigate(algobot)}
+                                light
+                                fill={user && algobot?.strategyPlan?.some(plan => plan.isPayment)}
                               />
                             </div>
                           </div>
