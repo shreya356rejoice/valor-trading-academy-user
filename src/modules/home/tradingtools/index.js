@@ -207,7 +207,7 @@ export default function Tradingtools() {
                           </div>
                           <div className={styles.carddetails}>
                             <Slider
-                              {...Planssettings}
+                              {...Planscardssettings}
                               className={styles.planslider}
                             >
                               {algobot?.strategyPlan?.map((plan, i) => (
