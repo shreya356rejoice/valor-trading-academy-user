@@ -61,7 +61,6 @@ export default function JoinPrivate() {
                 const response = user 
                     ? await getTelegramChannels()
                     : await getDashboardTelegramChannels();
-                    console.log(response,"===response");
                     
                 if (response?.payload?.data) {
                     setTelegramChannels(response.payload.data);
@@ -140,17 +139,17 @@ export default function JoinPrivate() {
                                     <div className={styles.cardFooteralignment}>
                                         {user ? (channel.telegramPlan?.some(plan => plan?.payment?.length > 0) ? (
                                             <Button
-                                                text="Joined"
+                                                text="Subscribed"
                                                 fill
                                                 onClick={() => handleNavigate(channel)}
                                             />
                                         ) : (
                                             <Button
-                                                text="Join Now"
+                                                text="Subscribe"
                                                 onClick={() => handleNavigate(channel)}
                                             />
                                         )) : (<Button
-                                            text="Join Now"
+                                            text="Subscribe"
                                             onClick={() => handleNavigate(channel)}
                                         />)}
                                     </div>

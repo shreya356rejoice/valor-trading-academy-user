@@ -104,7 +104,7 @@ export default function AboutUsDetails() {
                             transition={{ duration: 0.5 }}
                             viewport={{ once: true }}
                         >
-                            Valor Trading Academy
+                            EduFins Trading Academy
                         </motion.h2>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
