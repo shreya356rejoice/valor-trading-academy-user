@@ -45,46 +45,60 @@ function SamplePrevArrowmain(props) {
 export default function Tradingtools() {
   const [algobotData, setAlgobotData] = useState([]);
   const router = useRouter();
-
+  const [isUserFetching, setIsUserFetching] = useState(true);
   const [user, setUser] = useState(null);
-  
-    useEffect(() => {
-        const user = getCookie("user");
-        if (user) {
-          const userName = user && JSON.parse(user)?.name;
-          setUser(userName);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userCookie = getCookie("user");
+        if (userCookie) {
+          const userData = JSON.parse(userCookie);
+          setUser(userData); // Store the full user object
         }
-      }, [])
-  
-    useEffect(() => {
-      const fetchAlgobotData = async () => {
-        try {        
-          if(user){          
-              const data = await getAlgobot("689dc8759f3ddc14754c7498","", 1, 3);
-              setAlgobotData(data?.payload?.result || []);
-          }else{
-            const response = await getBots();
-            const allStrategies = response.payload.data;
-            setAlgobotData(allStrategies);
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchAlgobotData();
-    }, [user]); 
-  
-    const handleNavigate = (algobot) => {
-      const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
-      
-      if (isPurchased) {
-        router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
-      } else if (user) {
-        router.push(`/algobot-details?algobotId=${algobot?._id}`);
-      } else {
-        router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      } finally {
+        setIsUserFetching(false);
       }
     };
+  
+    fetchUser();
+  }, []);
+  
+  useEffect(() => {
+    const fetchAlgobotData = async () => {
+      if (isUserFetching) return;
+  
+      try {
+        if (user) {
+          const data = await getAlgobot("689dc8759f3ddc14754c7498", "", 1, 3);
+          setAlgobotData(data?.payload?.result || []);
+        } else {
+          const response = await getBots();
+          const allStrategies = response?.payload?.data || [];
+          setAlgobotData(allStrategies);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setAlgobotData([]); // Reset or handle error state
+      }
+    };
+  
+    fetchAlgobotData();
+  }, [user, isUserFetching]); // Add isUserFetching to dependencies
+
+  const handleNavigate = (algobot) => {
+    const isPurchased = user && algobot?.strategyPlan?.some((plan) => plan.isPayment);
+
+    if (isPurchased) {
+      router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
+    } else if (user) {
+      router.push(`/algobot-details?algobotId=${algobot?._id}&category=trading-tools`);
+    } else {
+      router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
+    }
+  };
 
   const Planscardssettings = {
     dots: false,
@@ -124,38 +138,20 @@ export default function Tradingtools() {
           <h3>
             <p>
               Trading Tools
-              <motion.span
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              ></motion.span>
+              <motion.span initial={{ width: 0 }} whileInView={{ width: "100%" }} viewport={{ once: true }} transition={{ duration: 0.5 }}></motion.span>
             </p>
           </h3>
-          <p>
-            Smart tools designed to analyze markets, optimize strategies, and
-            enhance your trading decisions.
-          </p>
+          <p>Smart tools designed to analyze markets, optimize strategies, and enhance your trading decisions.</p>
         </div>
         <div className="container-md">
           <div className={styles.tradingslider}>
             <Slider {...Planscardssettings}>
               {algobotData
-                .filter(
-                  (algobot) => algobot?.categoryId?.title === "Trading Tools"
-                )
-                .map((algobot, i) => {
+                .filter((algobot) => algobot?.categoryInfo?.title === "Trading Tools" || algobot?.categoryId?.title === "Trading Tools")
+                .map((algobot, i) => {                  
                   return (
                     <>
-                      <motion.div
-                        key={i}
-                        custom={i}
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className={styles.itemsmain}
-                      >
+                      <motion.div key={i} custom={i} variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className={styles.itemsmain}>
                         <Commoncard
                           imageUrl={algobot?.imageUrl}
                           title={algobot?.title}
@@ -167,11 +163,8 @@ export default function Tradingtools() {
                             discount: plan?.discount,
                           }))}
                         >
-                          <Button
-                            text="Buy Now"
-                            light
-                            onClick={() => handleNavigate(algobot)}
-                          />
+                          {user ? <Button text={user && algobot?.strategyPlan?.some((plan) => plan.isPayment) ? "Purchased" : "Buy Now"} fill={user && algobot?.strategyPlan?.some((plan) => plan.isPayment)} light={!(user && algobot?.strategyPlan?.some((plan) => plan.isPayment))} onClick={() => handleNavigate(algobot)} /> : 
+                            <Button text="Buy Now" light onClick={() => handleNavigate(algobot)} />}
                         </Commoncard>
                       </motion.div>
                     </>
@@ -179,84 +172,6 @@ export default function Tradingtools() {
                 })}
             </Slider>
           </div>
-        {/* <div className={styles.tradingslider}>
-          <Slider {...Planscardssettings}>
-            {algobotData
-              .filter(
-                (algobot) => algobot?.categoryId?.title === "Trading Tools"
-              )
-              .map((algobot, i) => {
-                return (
-                  <motion.div
-                    key={i}
-                    custom={i}
-                    variants={cardVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    <div className={styles.itemsmain}>
-                      <div className={styles.items}>
-                        <div className={styles.cardflx}>
-                          <div className={styles.cardHeaderAlignment}>
-                            <img src={algobot?.imageUrl} alt="Cardimage" />
-                            <div>
-                              <h3>{algobot?.title}</h3>
-                              <p>{algobot?.shortDescription}</p>
-                            </div>
-                          </div>
-                          <div className={styles.carddetails}>
-                            <Slider
-                              {...Planscardssettings}
-                              className={styles.planslider}
-                            >
-                              {algobot?.strategyPlan?.map((plan, i) => (
-                                <div key={i} className={styles.planItemmain}>
-                                  <div className={styles.planItem}>
-                                    <div className={styles.flex}>
-                                      <p className={styles.plantype}>
-                                        {plan?.planType}
-                                      </p>
-                                      <span className={styles.initialprice}>
-                                        ${plan?.initialPrice}
-                                      </span>
-                                    </div>
-                                    <div className={styles.flex}>
-                                      <p className={styles.mrp}>M.R.P.:</p>
-                                      <del className={styles.mrpprice}>
-                                        ${plan?.price}
-                                      </del>
-                                    </div>
-                                    <div className={styles.flex}>
-                                      <p className={styles.discount}>
-                                        Discount:
-                                      </p>
-                                      <span className={styles.discountedprice}>
-                                        -{plan?.discount}%
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </Slider>
-
-                            <div className={styles.buttons}>
-                              <Button
-                                text={user && algobot?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
-                                onClick={() => handleNavigate(algobot)}
-                                light
-                                fill={user && algobot?.strategyPlan?.some(plan => plan.isPayment)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-          </Slider>
-        </div> */}
         </div>
       </div>
     </>
