@@ -1007,7 +1007,7 @@
 .plansGrid {
   display: grid;
   // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
 
   @media (max-width: 1024px) {
@@ -1029,7 +1029,7 @@
       rgba(185, 102, 231, 0.08) 100%
     );
     border-radius: 12px;
-    padding: 35px 40px;
+    padding: 18px;
     position: relative;
     transition: 0.4s ease-in-out;
     display: flex;
@@ -1038,28 +1038,6 @@
 
     &:hover {
       transform: translateY(-5px);
-    }
-
-    &.disabledCard {
-      opacity: 0.6;
-      pointer-events: none;
-      position: relative;
-
-      &::after {
-        content: "Purchased";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(-15deg);
-        background: var(--primary);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 14px;
-        z-index: 2;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
     }
 
     .planType {
@@ -1081,6 +1059,9 @@
         line-height: 20px;
         color: var(--black-500);
         font-weight: 600;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border: none;
       }
 
       span {
@@ -1095,8 +1076,8 @@
     }
 
     .plandetails {
-      padding: 14px;
-      margin-bottom: 20px;
+      padding: 10px;
+      margin-bottom: 10px;
       background-color: var(--bg-white);
       border-radius: 10px;
 
@@ -1122,8 +1103,44 @@
       }
     }
 
+    .counterAlignment {
+      padding: 0 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .icons {
+        border: 1px solid #6f756d;
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .textDesign {
+        width: 30px;
+        height: 24px;
+        border: 1px solid #dfe0e0;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+
+        span {
+          display: block;
+          @include font16normal;
+          color: var(--black-500);
+        }
+      }
+    }
+
     button {
       width: 100%;
+      padding: 8px 10px;
     }
   }
 }

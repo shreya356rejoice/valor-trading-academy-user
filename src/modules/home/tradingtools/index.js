@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { getBots } from "@/app/api/dashboard";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button";
+import Commoncard from "@/components/commoncard";
 import { getCookie } from "../../../../cookie";
 import { getAlgobot } from "@/app/api/algobot";
 
@@ -36,24 +37,6 @@ function SamplePrevArrowmain(props) {
   const { onClick } = props;
   return (
     <div className={styles.prevArrowmain} onClick={onClick}>
-      <Sliderarrow />
-    </div>
-  );
-}
-
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div className={styles.nextArrow} onClick={onClick}>
-      <Sliderarrow />
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div className={styles.prevArrow} onClick={onClick}>
       <Sliderarrow />
     </div>
   );
@@ -110,9 +93,12 @@ export default function Tradingtools() {
     slidesToShow: 3,
     slidesToScroll: 1,
     centerMode: false,
-    arrows: true,
-    nextArrow: <SampleNextArrowmain />,
-    prevArrow: <SamplePrevArrowmain />,
+    arrows: false,
+    autoplay: true,
+    speed: 3000,
+    autoplaySpeed: 2000,
+    // nextArrow: <SampleNextArrowmain />,
+    // prevArrow: <SamplePrevArrowmain />,
     responsive: [
       {
         breakpoint: 1024,
@@ -131,36 +117,68 @@ export default function Tradingtools() {
     ],
   };
 
-  const Planssettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
   return (
     <>
       <div className={styles.tradingtools}>
         <div className={styles.title}>
-          <h3>Trading Tools</h3>
+          <h3>
+            <p>
+              Trading Tools
+              <motion.span
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              ></motion.span>
+            </p>
+          </h3>
           <p>
             Smart tools designed to analyze markets, optimize strategies, and
             enhance your trading decisions.
           </p>
         </div>
+        <div className="container-md">
+          <div className={styles.tradingslider}>
+            <Slider {...Planscardssettings}>
+              {algobotData
+                .filter(
+                  (algobot) => algobot?.categoryId?.title === "Trading Tools"
+                )
+                .map((algobot, i) => {
+                  return (
+                    <>
+                      <motion.div
+                        key={i}
+                        custom={i}
+                        variants={cardVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        className={styles.itemsmain}
+                      >
+                        <Commoncard
+                          imageUrl={algobot?.imageUrl}
+                          title={algobot?.title}
+                          shortDescription={algobot?.shortDescription}
+                          plans={algobot?.strategyPlan?.map((plan) => ({
+                            planType: plan?.planType,
+                            price: plan?.initialPrice,
+                            initialPrice: plan?.price,
+                            discount: plan?.discount,
+                          }))}
+                        >
+                          <Button
+                            text="Buy Now"
+                            light
+                            onClick={() => handleNavigate(algobot)}
+                          />
+                        </Commoncard>
+                      </motion.div>
+                    </>
+                  );
+                })}
+            </Slider>
+          </div>
         <div className={styles.tradingslider}>
           <Slider {...Planscardssettings}>
             {algobotData

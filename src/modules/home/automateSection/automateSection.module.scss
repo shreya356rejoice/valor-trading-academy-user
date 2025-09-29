@@ -81,11 +81,30 @@
           @include heading32;
         }
 
-        span {
-          background: var(--linear-gradient-light);
-          -webkit-text-fill-color: rgba(0, 0, 0, 0);
-          -webkit-background-clip: text;
-          background-clip: text;
+        p {
+          // background: var(--linear-gradient-light);
+          // -webkit-text-fill-color: rgba(0, 0, 0, 0);
+          // -webkit-background-clip: text;
+          // background-clip: text;
+          position: relative;
+          display: inline;
+          @include heading2;
+          color: var(--text-white);
+
+          @include respond-to("sm") {
+            @include heading32;
+          }
+
+          span {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            content: "";
+            width: 0;
+            height: 2.5px;
+            background-color: var(--bg-white);
+            transition: 0.5s ease-in-out;
+          }
         }
       }
 
@@ -109,12 +128,12 @@
         color: var(--text-white);
         text-transform: uppercase;
 
-        span {
-          background: var(--linear-gradient-light);
-          -webkit-text-fill-color: rgba(0, 0, 0, 0);
-          -webkit-background-clip: text;
-          background-clip: text;
-        }
+        // span {
+        //   background: var(--linear-gradient-light);
+        //   -webkit-text-fill-color: rgba(0, 0, 0, 0);
+        //   -webkit-background-clip: text;
+        //   background-clip: text;
+        // }
 
         @media (max-width: 1024px) {
           font-size: 308px;
