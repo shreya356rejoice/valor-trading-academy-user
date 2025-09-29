@@ -168,7 +168,7 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                             text="Enrolled"
                                             fill
                                             onClick={() =>
-                                                router.push(`/my-course-details?courseId=${course?._id}`)
+                                                router.push(`/my-course-details?courseId=${course?._id}&category=${selectedTab}`)
                                             }
                                         />
                                     ) : (

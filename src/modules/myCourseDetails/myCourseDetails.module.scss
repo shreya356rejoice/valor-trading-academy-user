@@ -228,6 +228,21 @@
     line-height: 1.6;
 }
 
+.freeBadge {
+    display: inline-block;
+    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+    color: white !important;
+    font-size: 14px !important;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
 .buttonGroup {
     display: flex;
     gap: 1rem;

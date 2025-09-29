@@ -13,7 +13,7 @@ import CloseIcon from "../icons/closeIcon";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getCookie, removeCookie } from "../../../cookie";
-const SidebarLogo = "/assets/logo/eduFins-whiteLogo.svg";
+const SidebarLogo = "/assets/logo/eduFins-logo.png";
 const DashboardIcon = "/assets/icons/dashboaard.svg";
 const CourseIcon = "/assets/icons/Course.svg";
 const AlgobotIcon = "/assets/icons/algobot.svg";
