@@ -163,11 +163,11 @@ export default function AlgobotInDetails() {
     }, []);
 
     const handleNavigate = () => {
-        if (user) {
-            router.push('/algobot')
-        } else {
+        // if (user) {
+        //     router.push('/algobot')
+        // } else {
             router.push('/login')
-        }
+        // }
     }
 
     const handleLanguageChange = (index) => {
@@ -515,7 +515,7 @@ export default function AlgobotInDetails() {
                                                     <div className={styles.cardbuttons}>
                                                         <Button
                                                             text="Buy Now"
-                                                            onClick={() => router.push(`/algobot-details?algobotId=${strategy?._id}`)}
+                                                            onClick={() => router.push(`/algobot-in-details?algobotId=${strategy?._id}`)}
                                                         />
                                                     </div>
                                                 </div>
@@ -528,7 +528,7 @@ export default function AlgobotInDetails() {
                 </div>
             </div>
             <div className={styles.valorText}>
-                <h3>Valor Academy</h3>
+                <h3>EduFins Academy</h3>
             </div>
         </>
     )

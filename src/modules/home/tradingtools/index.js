@@ -10,6 +10,8 @@ import { getBots } from "@/app/api/dashboard";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button";
 import Commoncard from "@/components/commoncard";
+import { getCookie } from "../../../../cookie";
+import { getAlgobot } from "@/app/api/algobot";
 
 const FlashIcon = "/assets/icons/flash.svg";
 
@@ -44,25 +46,45 @@ export default function Tradingtools() {
   const [algobotData, setAlgobotData] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchAlgobotData = async () => {
-      try {
-        const response = await getBots();
-        // Flatten the strategies array from all categories
-        const allStrategies = response.payload.data;
-        setAlgobotData(allStrategies); // Get first 3 strategies
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const [user, setUser] = useState(null);
+  
+    useEffect(() => {
+        const user = getCookie("user");
+        if (user) {
+          const userName = user && JSON.parse(user)?.name;
+          setUser(userName);
+        }
+      }, [])
+  
+    useEffect(() => {
+      const fetchAlgobotData = async () => {
+        try {        
+          if(user){          
+              const data = await getAlgobot("689dc8759f3ddc14754c7498","", 1, 3);
+              setAlgobotData(data?.payload?.result || []);
+          }else{
+            const response = await getBots();
+            const allStrategies = response.payload.data;
+            setAlgobotData(allStrategies);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchAlgobotData();
+    }, [user]); 
+  
+    const handleNavigate = (algobot) => {
+      const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
+      
+      if (isPurchased) {
+        router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
+      } else if (user) {
+        router.push(`/algobot-details?algobotId=${algobot?._id}`);
+      } else {
+        router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
       }
     };
-    fetchAlgobotData();
-  }, []);
-
-  const handleNavigate = (algobot) => {
-    console.log(algobot, "===========algobot");
-
-    router.push(`/algobot-in-details?algobotId=${algobot?._id}`);
-  };
 
   const Planscardssettings = {
     dots: false,
@@ -157,6 +179,83 @@ export default function Tradingtools() {
                 })}
             </Slider>
           </div>
+        <div className={styles.tradingslider}>
+          <Slider {...Planscardssettings}>
+            {algobotData
+              .filter(
+                (algobot) => algobot?.categoryId?.title === "Trading Tools"
+              )
+              .map((algobot, i) => {
+                return (
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
+                    <div className={styles.itemsmain}>
+                      <div className={styles.items}>
+                        <div className={styles.cardflx}>
+                          <div className={styles.cardHeaderAlignment}>
+                            <img src={algobot?.imageUrl} alt="Cardimage" />
+                            <div>
+                              <h3>{algobot?.title}</h3>
+                              <p>{algobot?.shortDescription}</p>
+                            </div>
+                          </div>
+                          <div className={styles.carddetails}>
+                            <Slider
+                              {...Planssettings}
+                              className={styles.planslider}
+                            >
+                              {algobot?.strategyPlan?.map((plan, i) => (
+                                <div key={i} className={styles.planItemmain}>
+                                  <div className={styles.planItem}>
+                                    <div className={styles.flex}>
+                                      <p className={styles.plantype}>
+                                        {plan?.planType}
+                                      </p>
+                                      <span className={styles.initialprice}>
+                                        ${plan?.initialPrice}
+                                      </span>
+                                    </div>
+                                    <div className={styles.flex}>
+                                      <p className={styles.mrp}>M.R.P.:</p>
+                                      <del className={styles.mrpprice}>
+                                        ${plan?.price}
+                                      </del>
+                                    </div>
+                                    <div className={styles.flex}>
+                                      <p className={styles.discount}>
+                                        Discount:
+                                      </p>
+                                      <span className={styles.discountedprice}>
+                                        -{plan?.discount}%
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </Slider>
+
+                            <div className={styles.buttons}>
+                              <Button
+                                text={user && algobot?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
+                                onClick={() => handleNavigate(algobot)}
+                                light
+                                fill={user && algobot?.strategyPlan?.some(plan => plan.isPayment)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+          </Slider>
         </div>
       </div>
     </>

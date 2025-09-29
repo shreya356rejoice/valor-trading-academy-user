@@ -287,7 +287,7 @@ export default function ContactUs() {
                 </div>
             </div>
             <div className={styles.valorText}>
-                <h3>Valor Academy</h3>
+                <h3>EduFins Academy</h3>
             </div>
         </>
     )
