@@ -7,7 +7,7 @@
   border-radius: 22px;
   padding: 25px;
 
-  @media (max-width:1024px) {
+  @media (max-width: 1024px) {
     padding: 20px 0;
   }
 
@@ -433,7 +433,7 @@
   // border: 1px solid var(--border-color5);
   // border-radius: 16px;
 
-  @media (max-width:1024px) {
+  @media (max-width: 1024px) {
     padding: 0;
   }
 
@@ -514,7 +514,7 @@
       gap: 40px;
       padding: 0 0 30px 0;
 
-      @media (max-width:1024px) {
+      @media (max-width: 1024px) {
         grid-template-columns: 1fr;
         gap: 30px;
       }
@@ -1157,7 +1157,7 @@
 
     button {
       width: 100%;
-      padding: 13px;
+      padding: 8px 10px;
     }
   }
 }
