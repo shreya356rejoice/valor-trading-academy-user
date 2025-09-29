@@ -179,7 +179,7 @@ export default function Tradingtools() {
                 })}
             </Slider>
           </div>
-        <div className={styles.tradingslider}>
+        {/* <div className={styles.tradingslider}>
           <Slider {...Planscardssettings}>
             {algobotData
               .filter(
@@ -256,7 +256,7 @@ export default function Tradingtools() {
                 );
               })}
           </Slider>
-        </div>
+        </div> */}
         </div>
       </div>
     </>
