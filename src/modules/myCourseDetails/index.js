@@ -158,7 +158,7 @@ export default function MyCourseDetails() {
           {courses?.description}
         </p>
         <div className={styles.allIconTextAlignment}>
-          {category === "RECORDED" || category === "recorded" ? (
+          {category === "RECORDED" || category === "recorded" || !category ? (
             <div className={styles.coursdetailstext}>
               <div className={styles.iconText}>
                 <ClockIcon />
