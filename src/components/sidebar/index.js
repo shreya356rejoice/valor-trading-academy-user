@@ -193,7 +193,7 @@ export default function Sidebar({ setSidebarToogle, sidebarToogle }) {
               <img src={MyCoursesIcon} alt="MyCoursesIcon" />
               <img src={MyCoursesIconActive} alt="MyCoursesIconActive" />
             </div>
-            <span>My Courses</span>
+            <span>My Purchased</span>
           </div>
         </Link>
         <Link href="/payment">

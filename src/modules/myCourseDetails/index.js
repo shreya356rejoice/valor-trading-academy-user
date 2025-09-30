@@ -146,7 +146,7 @@ export default function MyCourseDetails() {
       <div className={styles.breadcumbAlignment}>
         <a aria-label="Home" href="/dashboard">Home</a>
         <RightArrow />
-        <a aria-label="My Course" href="/my-courses">My Course</a>
+        <a aria-label="My Purchased" href="/my-courses">My Purchased</a>
         {/* <RightArrow />
         <a aria-label="Pre-Recorded">Pre-Recorded</a> */}
       </div>
@@ -333,7 +333,11 @@ export default function MyCourseDetails() {
                     <h2>
                       Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
                     </h2>
-                    <p>{(selectedChapter || chapters.data[0])?.description}</p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: (selectedChapter || chapters.data[0])?.description || ''
+                      }}
+                    />
                   </div>
                 </div>
               ) : (<div className={styles.noChapters}>

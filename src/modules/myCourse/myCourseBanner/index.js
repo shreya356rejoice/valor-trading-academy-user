@@ -14,7 +14,7 @@ export default function MyCourseBanner() {
         <div className={styles.algobotBanner}>
             <div>
                 <h1>
-                My <span>Courses</span>
+                My <span>Purchased</span>
                 </h1>
                 <p>
                 View, track, and continue all your purchased courses with ease.

@@ -285,7 +285,7 @@ export default function CommingSoon() {
           </div>
           <div className={styles.slidergroupbottom}>
             <div className={styles.itemstitleslider}>
-              <h2>Registered</h2>
+              <h2>Registered Live Webinars</h2>
             </div>
             {data.registeredLive?.length > 0 ? (
               <Slider {...sliderSettings} className={styles.grid}>
@@ -324,7 +324,7 @@ export default function CommingSoon() {
           </div>
           <div className={styles.slidergroupbottom}>
             <div className={styles.itemstitleslider}>
-              <h2>Registered</h2>
+              <h2>Registered Traders Meet</h2>
             </div>
               {data.registeredPhysical?.length > 0 ? (
             <Slider {...sliderSettings} className={styles.grid}>
