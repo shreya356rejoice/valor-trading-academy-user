@@ -258,6 +258,7 @@ export default function Tradingtools() {
           </Slider>
         </div>
       </div>
+      </div>
     </>
   );
 }
