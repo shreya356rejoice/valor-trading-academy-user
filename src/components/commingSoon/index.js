@@ -1,18 +1,22 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import styles from './commingSoon.module.scss';
-import { getCookie } from '../../../cookie';
+"use client";
+import React, { useEffect, useState } from "react";
+import styles from "./commingSoon.module.scss";
+import { getCookie } from "../../../cookie";
 // import UserIcon from '@/icons/userIcon'
 // import CourseIcon from '@/icons/courseIcon';
 // import Algobot from '@/icons/algobot';
-import { getDashboardData } from '@/app/api/dashboard';
-import CourseIcon from '../../../public/assets/icons/courseIcon';
-import Algobot from '../../../public/assets/icons/algobot';
-import UserIcon from '../../../public/assets/icons/userIcon';
+import { getDashboardData } from "@/app/api/dashboard";
+import CourseIcon from "../../../public/assets/icons/courseIcon";
+import Algobot from "../../../public/assets/icons/algobot";
+import UserIcon from "../../../public/assets/icons/userIcon";
+import Button from "../button";
+import CalanderIcon from "../icons/calanderIcon";
+import Slider from "react-slick";
 // const CommingSoonImage = '/assets/images/coming-soon.png';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function CommingSoon() {
-
   const [user, setUser] = useState(null);
   const [data, setData] = useState([]);
 
@@ -22,7 +26,7 @@ export default function CommingSoon() {
       const userName = user && JSON.parse(user)?.name;
       setUser(userName);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +40,22 @@ export default function CommingSoon() {
     fetchData();
   }, []);
 
+  const Leftitemssetting = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+  };
+
+  const Rightitemssetting = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+  };
+
   return (
     <div className={styles.commingSoon}>
       {/* <div className={styles.centerImage}>
@@ -47,7 +67,8 @@ export default function CommingSoon() {
             <span>Hello {user},</span> welcome!
           </h2>
           <p>
-            Begin your monetization journey with expert-led courses in Forex, AlgoBots, and more.
+            Begin your monetization journey with expert-led courses in Forex,
+            AlgoBots, and more.
           </p>
         </div>
       </div>
@@ -56,7 +77,10 @@ export default function CommingSoon() {
         <div className={styles.dashboardcard}>
           <div className={styles.dashboardcardtitle}>
             <h1>Courses</h1>
-            <span><CourseIcon />{data.courseCount || 0}</span>
+            <span>
+              <CourseIcon />
+              {data.courseCount || 0}
+            </span>
           </div>
           <div className={styles.cardDetails}>
 
@@ -66,7 +90,10 @@ export default function CommingSoon() {
         <div className={styles.dashboardcard}>
           <div className={styles.dashboardcardtitle}>
             <h1>AlgoBots</h1>
-            <span><Algobot />{data.botCount || 0}</span>
+            <span>
+              <Algobot />
+              {data.botCount || 0}
+            </span>
           </div>
           <div className={styles.cardDetails}>
 
@@ -76,7 +103,10 @@ export default function CommingSoon() {
         <div className={styles.dashboardcard}>
           <div className={styles.dashboardcardtitle}>
             <h1>Telegram Channels</h1>
-            <span><UserIcon />{data.telegramCount || 0}</span>
+            <span>
+              <UserIcon />
+              {data.telegramCount || 0}
+            </span>
           </div>
           <div className={styles.cardDetails}>
 
@@ -92,9 +122,272 @@ export default function CommingSoon() {
                         <p>{data.overallTotalPrice || 0}</p>
                     </div>
                 </div> */}
+      </div>
 
+      <div className={styles.dashboarddevidermain}>
+        <div className={styles.itemsleft}>
+          <div className={styles.itemstitle}>
+            <h1>live webinar</h1>
+          </div>
+          <div className={styles.slidergrouptop}>
+            <div className={styles.itemstitleslider}>
+              <h2>Enroll Now</h2>
+            </div>
+            <Slider {...Leftitemssetting} className={styles.grid}>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+          </div>
+          <div className={styles.slidergroupbottom}>
+            <div className={styles.itemstitleslider}>
+              <h2>Registered</h2>
+            </div>
+            <Slider {...Leftitemssetting} className={styles.grid}>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+          </div>
+        </div>
+        <div className={styles.itemsright}>
+          <div className={styles.itemstitle}>
+            <h1>traders meet</h1>
+          </div>
+          <div className={styles.slidergrouptop}>
+            <div className={styles.itemstitleslider}>
+              <h2>Enroll Now</h2>
+            </div>
+            <Slider {...Rightitemssetting} className={styles.grid}>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Enroll Now" />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+          </div>
+          <div className={styles.slidergroupbottom}>
+            <div className={styles.itemstitleslider}>
+              <h2>Registered</h2>
+            </div>
+            <Slider {...Rightitemssetting} className={styles.grid}>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className={styles.griditems}>
+                  <div className={styles.cardImage}>
+                    <img src="fefe" alt="CoursesImage" />
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <h3>CourseName</h3>
+                    <p className={styles.courseDescription}>
+                      No description available
+                    </p>
+                    <Button text="Registered" />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
-

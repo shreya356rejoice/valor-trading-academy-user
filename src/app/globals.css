@@ -84,6 +84,7 @@ input[type="number"] {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
 
 .admin-flex {
