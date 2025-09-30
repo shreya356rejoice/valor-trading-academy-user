@@ -83,7 +83,8 @@ export default function CommingSoon() {
             </span>
           </div>
           <div className={styles.cardDetails}>
-            <p>${data.courseTotalPrice || 0}</p>
+
+            <p>${(data.courseTotalPrice || 0).toFixed(2)}</p>
           </div>
         </div>
         <div className={styles.dashboardcard}>
@@ -95,7 +96,8 @@ export default function CommingSoon() {
             </span>
           </div>
           <div className={styles.cardDetails}>
-            <p>${data.botTotalPrice || 0}</p>
+
+            <p>${(data.botTotalPrice || 0).toFixed(2)}</p>
           </div>
         </div>
         <div className={styles.dashboardcard}>
@@ -107,7 +109,8 @@ export default function CommingSoon() {
             </span>
           </div>
           <div className={styles.cardDetails}>
-            <p>${data.telegramTotalPrice || 0}</p>
+
+            <p>${(data.telegramTotalPrice || 0).toFixed(2)}</p>
           </div>
         </div>
         {/* <div className={styles.dashboardcard}>

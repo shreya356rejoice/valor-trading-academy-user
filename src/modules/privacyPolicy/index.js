@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
 
                     <p>
                         This privacy policy describes our policies and procedures for the collection, use, and disclosure of your information when you use the service and tells you about your privacy rights and how the law protects you. We use your personal data to provide and improve the service. By using the service, you agree to the collection and use of information per this privacy policy.
-                        Welcome to Valor ("we," "us," or "our"). This Privacy Policy outlines how we collect, use, disclose, and protect your personal information when you visit our website or use our services.
+                        Welcome to EduFins ("we," "us," or "our"). This Privacy Policy outlines how we collect, use, disclose, and protect your personal information when you visit our website or use our services.
                     </p>
                     <div className={styles.allContnetAlignment}>
                         <h2>Information We Collect</h2>
@@ -104,7 +104,7 @@ export default function PrivacyPolicy() {
                         <br/>
                         <div className={styles.iconText}>
                                 <img src={Arrow} alt='Arrow' />
-                                <h5>Valor Trading Academy</h5>
+                                <h5>EduFins Trading Academy</h5>
                         </div>
                         <ul>
                             <li><p>Email: valortradingacademy@gmail.com</p></li>
@@ -114,7 +114,7 @@ export default function PrivacyPolicy() {
                 </div>
             </div>
             <div className={styles.valorText}>
-                <h3>Valor Academy</h3>
+                <h3>EduFins Academy</h3>
             </div>
         </div>
     )

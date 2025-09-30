@@ -6,7 +6,7 @@ import TelegramChannelDetails from './telegramChannelDetails';
 export default function JoinTelegram() {
     return (
         <div className={styles.algobotPage}>
-            <CommonBanner title='Valor Forex Telegram Channel' description='Get instant forex signals, expert insights, and daily trading tips — all delivered straight to your Telegram. Perfect for traders on the go.' />
+            <CommonBanner title='EduFins Forex Telegram Channel' description='Get instant forex signals, expert insights, and daily trading tips — all delivered straight to your Telegram. Perfect for traders on the go.' />
             <TelegramChannelDetails />
         </div>
     )
