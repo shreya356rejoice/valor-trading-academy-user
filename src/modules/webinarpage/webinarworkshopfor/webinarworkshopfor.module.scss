@@ -1,0 +1,117 @@
+@use "../../../scss/main.scss" as *;
+@use "../../../scss/breakpoints/breakpoints.scss" as *;
+@use "../../../scss/typography/typography.scss" as *;
+
+.webinarworkshopformain {
+  padding: 104px 0;
+
+  @media (max-width: 1024px) {
+    padding: 90px 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 80px 0;
+  }
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 50px 0;
+
+    @include respond-to("sm") {
+      padding: 0 0 40px 0;
+    }
+
+    h5 {
+      @include heading2;
+      color: var(--black-100);
+      text-align: center;
+      margin: 0 0 8px 0;
+
+      @include respond-to("sm") {
+        @include heading32;
+      }
+
+      span {
+        background: var(--linear-gradient);
+        -webkit-text-fill-color: rgba(0, 0, 0, 0);
+        background-clip: text;
+      }
+    }
+
+    p {
+      @include font18;
+      color: var(--grey-600);
+      text-align: center;
+
+      @include respond-to("sm") {
+        @include font16;
+      }
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+
+    .items {
+      padding: 30px;
+      border-radius: 16px;
+      background-color: var(--bg-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+      position: relative;
+      transition: 0.4s ease-in-out;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      p {
+        @include font18;
+        color: var(--black-100);
+
+        span {
+          font-weight: 600;
+          color: var(--black-200);
+        }
+      }
+    }
+  }
+
+  .registerbtn {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+
+    button {
+      animation: Buttonanimation 1s infinite alternate ease-in-out;
+
+      @keyframes Buttonanimation {
+        0% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(10px);
+        }
+        100% {
+          transform: translateX(-10px);
+        }
+      }
+    }
+  }
+}
