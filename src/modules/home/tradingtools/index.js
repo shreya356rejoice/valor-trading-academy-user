@@ -174,7 +174,7 @@ export default function Tradingtools() {
           </div>
         </div>
       </div>
-      </div>
+      {/* </div> */}
     </>
   );
 }

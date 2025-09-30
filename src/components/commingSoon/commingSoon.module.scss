@@ -16,6 +16,7 @@
     padding: 16px;
     border-radius: 12px;
   }
+
   @include respond-to("sm") {
     height: calc(100dvh - 71px - 28px);
   }
@@ -194,6 +195,7 @@
       //   display: grid;
       //   grid-template-columns: repeat(2, 1fr);
       //   gap: 20px;
+      height: 420px;
 
       .griditems {
         background-color: var(--bg-white);
@@ -263,9 +265,24 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            min-height: 4.5em; /* 1.5em per line * 3 lines */
+            min-height: 4.5em;
+            /* 1.5em per line * 3 lines */
           }
         }
+      }
+    }
+
+    .nodata {
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        @include font16;
+        font-family: var(--font-lexend);
+        color: var(--black-400);
+        opacity: .9;
       }
     }
   }
