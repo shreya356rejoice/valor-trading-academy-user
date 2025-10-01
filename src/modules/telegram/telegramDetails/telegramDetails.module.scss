@@ -270,6 +270,17 @@
     font-weight: 500;
 }
 
+.freeBadge {
+    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
 .priceSubtitle {
     display: flex;
     justify-content: space-between;

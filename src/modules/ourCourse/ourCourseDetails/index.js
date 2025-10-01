@@ -180,9 +180,13 @@ export default function OurCourseDetails() {
                                                 }
                                             </p>
                                             <div className={styles.twoContentAlignment}>
-                                                {course?.courseType === "recorded" ? (<h4>
-                                                    ${course?.price}
-                                                </h4>) : (
+                                                {course?.courseType === "recorded" ? (
+                                                    course?.price > 0 ? (
+                                                        <h4>${course.price}</h4>
+                                                    ) : (
+                                                        <span className={styles.freeBadge}>Free</span>
+                                                    )
+                                                ) : (
                                                     <div className={styles.iconText}>
                                                         <CalanderIcon />
                                                         <span>{course?.createdAt ? new Date(course.createdAt).toLocaleDateString('en-US', {

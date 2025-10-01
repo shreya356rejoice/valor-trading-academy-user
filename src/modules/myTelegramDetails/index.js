@@ -138,9 +138,6 @@ export default function MyTelegramDetails() {
                 <a aria-label="My Courses" href="/my-courses">My Courses</a>
             </div>
 
-            {console.log(channel,"<<<<<channel")
-            }
-
             <div className={styles.algobotBanner}>
                 <div>
                     <h1>
@@ -150,61 +147,68 @@ export default function MyTelegramDetails() {
                         {channel.description}
                     </p>
 
-                    <h4 className={styles.availablePlans}>Available Plans</h4>
+                    {!channel.telegramPlan?.some(plan => plan?.isFree) && (
+                        <h4 className={styles.availablePlans}>Available Plans</h4>
+                    )}
                 </div>
             </div>
 
-            <div className={styles.plansContainer}>
-                <div className={styles.plansGrid}>
-                    {channel.telegramPlan
-                        .slice()
-                        .sort((a, b) => {
-                            const getMonths = (planType) => {
-                                if (typeof planType !== 'string') return 0;
-                                const planStr = planType.toLowerCase();
-                                if (planStr.includes('month')) {
-                                    return parseInt(planStr);
-                                }
-                                if (planStr.includes('year')) {
-                                    return parseInt(planStr) * 12;
-                                }
-                                return 0;
-                            };
-                            return getMonths(a.planType) - getMonths(b.planType);
-                        })
-                        .map((plan) => (
-                            <div key={plan._id} className={styles.planCard}>
-                                <div className={styles.planType}>
-                                    <h3>{plan.planType}</h3>
-                                    {plan.discount > 0 && (
-                                        <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
+            {!channel.telegramPlan?.some(plan => plan?.isFree) && (
+                <div className={styles.plansContainer}>
+                    <div className={styles.plansGrid}>
+                        {channel.telegramPlan
+                            .slice()
+                            .sort((a, b) => {
+                                const getMonths = (planType) => {
+                                    if (typeof planType !== 'string') return 0;
+                                    const planStr = planType.toLowerCase();
+                                    if (planStr.includes('month')) {
+                                        return parseInt(planStr);
+                                    }
+                                    if (planStr.includes('year')) {
+                                        return parseInt(planStr) * 12;
+                                    }
+                                    return 0;
+                                };
+                                return getMonths(a.planType) - getMonths(b.planType);
+                            })
+                            .map((plan) => (
+                                <div key={plan._id} className={styles.planCard}>
+                                    <div className={styles.planType}>
+                                        <h3>{plan.planType}</h3>
+                                        {plan.discount > 0 && (
+                                            <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
+                                        )}
+                                    </div>
+                                    <div className={styles.plandetails}>
+                                        <div className={styles.plandetailsflx}>
+                                            <p>M.R.P :</p>
+                                            <span>${plan.initialPrice.toFixed(2)}</span>
+                                        </div>
+                                        <div className={styles.plandetailsflx}>
+                                            <p>Discount :</p>
+                                            <span className={styles.discount}>-{plan.discount}%</span>
+                                        </div>
+                                    </div>
+                                    {plan?.isPayment ? (
+                                        <Button
+                                            text='Subscribed'
+                                            fill='fill'
+                                            onClick={() => handleSubscribe(plan)}
+                                            disabled={false}
+                                        />
+                                    ) : (
+                                        <Button
+                                            text='Subscribe Now'
+                                            onClick={() => handleSubscribe(plan)}
+                                            disabled={false}
+                                        />
                                     )}
                                 </div>
-                                <div className={styles.plandetails}>
-                                    <div className={styles.plandetailsflx}>
-                                        <p>M.R.P :</p>
-                                        <span>${plan.initialPrice.toFixed(2)}</span>
-                                    </div>
-                                    <div className={styles.plandetailsflx}>
-                                        <p>Discount :</p>
-                                        <span className={styles.discount}>-{plan.discount}%</span>
-                                    </div>
-                                </div>
-                                {plan?.isPayment ? (<Button
-                                    text='Subscribed'
-                                    fill='fill'
-                                    onClick={() => handleSubscribe(plan)}
-                                    disabled={false}
-                                />) : (<Button
-                                    text='Subscribe Now'
-                                    onClick={() => handleSubscribe(plan)}
-                                    disabled={false}
-                                />)}
-
-                            </div>
-                        ))}
+                            ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {showSubscriptionDialog && selectedPlan && (
                 <YourSubscription 
@@ -220,24 +224,32 @@ export default function MyTelegramDetails() {
                     <table>
                         <thead>
                             <tr>
-                                <th>Telegram User ID</th>
+                                {!channel.telegramPlan?.some(plan => plan?.isFree) && (
+                                    <th>Telegram User ID</th>
+                                )}
                                 <th>Plan Type</th>
                                 <th>Purchase Date</th>
-                                <th>End Date</th>
+                                {!channel.telegramPlan?.some(plan => plan?.isFree) && (
+                                    <th>End Date</th>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
                             {channel.telegramPlan?.flatMap(plan => 
                                 plan.payment?.map((payment, index) => (
                                     <tr key={`${plan._id}-${index}`}>
-                                        <td>{payment.telegramAccountNo || '-'}</td>
+                                        {!channel.telegramPlan?.some(p => p?.isFree) && (
+                                            <td>{payment.telegramAccountNo || '-'}</td>
+                                        )}
                                         <td>{plan.planType}</td>
                                         <td>{formatDate(payment.createdAt)}</td>
-                                        <td>{
-                                            payment.createdAt && plan.planType 
-                                                ? calculateEndDate(payment.createdAt, plan.planType) 
-                                                : '-'
-                                        }</td>
+                                        {!channel.telegramPlan?.some(p => p?.isFree) && (
+                                            <td>{
+                                                payment.createdAt && plan.planType 
+                                                    ? calculateEndDate(payment.createdAt, plan.planType) 
+                                                    : '-'
+                                            }</td>
+                                        )}
                                     </tr>
                                 ))
                             ) || (

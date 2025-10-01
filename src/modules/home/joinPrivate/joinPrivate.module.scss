@@ -1,288 +1,263 @@
-@use '../../../scss/main.scss' as *;
-@use '../../../scss/typography/typography.scss' as *;
-@use '../../../scss/breakpoints/breakpoints.scss' as *;
-
+@use "../../../scss/main.scss" as *;
+@use "../../../scss/typography/typography.scss" as *;
+@use "../../../scss/breakpoints/breakpoints.scss" as *;
 .joinPrivate {
-    padding: 200px 0;
-    background: var(--linear-gradient);
-    margin-top: -108px;
-
+  padding: 200px 0;
+  background: var(--linear-gradient);
+  margin-top: -108px;
+  @include respond-to("sm") {
+    padding: 180px 0;
+  }
+  .title {
+    padding: 0 0 50px 0;
     @include respond-to("sm") {
-        padding: 180px 0;
+      padding: 0 0 40px 0;
     }
-
-    .title {
-        padding: 0 0 50px 0;
-
-        @include respond-to("sm") {
-            padding: 0 0 40px 0;
-        }
-
-        h2 {
-            @include heading2;
-            color: var(--text-white);
-            margin: 0 0 8px 0;
-            text-align: center;
-
-            @include respond-to("sm") {
-                @include heading32;
-            }
-        }
-
-        p {
-            @include font18;
-            color: var(--text-white);
-            text-align: center;
-
-            @include respond-to("sm") {
-                @include font16;
-            }
-        }
+    h2 {
+      @include heading2;
+      color: var(--text-white);
+      margin: 0 0 8px 0;
+      text-align: center;
+      @include respond-to("sm") {
+        @include heading32;
+      }
     }
-
-    .grid {
-        display: grid;
-        // grid-template-columns: repeat(3, 1fr);
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 24px;
-        justify-content: center;
-
-        &:has(> :only-child) {
-            grid-template-columns: minmax(300px, 500px);
-            justify-content: center;
+    p {
+      @include font18;
+      color: var(--text-white);
+      text-align: center;
+      @include respond-to("sm") {
+        @include font16;
+      }
+    }
+  }
+  .grid {
+    display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    justify-content: center;
+    &:has(> :only-child) {
+      grid-template-columns: minmax(300px, 500px);
+      justify-content: center;
+    }
+    &:has(> :nth-child(2):last-child) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @include respond-to("md") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include respond-to("sm") {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+    }
+    .griditems {
+      padding: 30px;
+      background-color: var(--bg-white);
+      border-radius: 18px;
+      border: 1px solid var(--bg-white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      @include respond-to("sm") {
+        padding: 16px;
+        border-radius: 12px;
+      }
+      .details {
+        padding: 0 0 12px 0;
+        h3 {
+          @include heading20;
+          color: var(--black-100);
         }
-
-        &:has(> :nth-child(2):last-child) {
-            grid-template-columns: repeat(2, minmax(300px, 1fr));
+      }
+      .imageTextAlignment {
+        display: flex;
+        align-items: center;
+        padding: 0 0 14px 0;
+        gap: 10px;
+        span {
+          display: block;
+          @include font14normal;
+          color: var(--grey-600);
         }
-
-        @media (min-width: 1024px) {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        @include respond-to("md") {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @include respond-to("sm") {
-            grid-template-columns: repeat(1, 1fr);
-            gap: 20px;
-        }
-
-        .griditems {
-            padding: 30px;
-            background-color: var(--bg-white);
-            border-radius: 18px;
+        .image {
+          display: flex;
+          align-items: center;
+          img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: -10px;
+            display: block;
             border: 1px solid var(--bg-white);
-            transition: all 0.3s ease-in-out;
-
-            &:hover {
-                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          .plus {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--black-100);
+            border-radius: 50%;
+            border: 1px solid var(--bg-white);
+            @include heading20;
+            color: var(--text-white);
+            cursor: pointer;
+            line-height: 20px;
+            font-weight: 400;
+            span {
+              display: block;
+              position: relative;
+              top: -1px;
+              left: 0.5px;
             }
-
-            @include respond-to("sm") {
-                padding: 16px;
-                border-radius: 12px;
-            }
-
-            .details {
-                padding: 0 0 12px 0;
-
-                h3 {
-                    @include heading20;
-                    color: var(--black-100);
-                }
-            }
-
-            .imageTextAlignment {
-                display: flex;
-                align-items: center;
-                padding: 0 0 14px 0;
-                gap: 10px;
-
-                span {
-                    display: block;
-                    @include font14normal;
-                    color: var(--grey-600);
-                }
-
-                .image {
-                    display: flex;
-                    align-items: center;
-
-                    img {
-                        width: 34px;
-                        height: 34px;
-                        border-radius: 50%;
-                        object-fit: cover;
-                        margin-right: -10px;
-                        display: block;
-                        border: 1px solid var(--bg-white);
-                    }
-
-                    .plus {
-                        width: 34px;
-                        height: 34px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        background-color: var(--black-100);
-                        border-radius: 50%;
-                        border: 1px solid var(--bg-white);
-                        @include heading20;
-                        color: var(--text-white);
-                        cursor: pointer;
-                        line-height: 20px;
-                        font-weight: 400;
-
-                        span {
-                            display: block;
-                            position: relative;
-                            top: -1px;
-                            left: 0.5px;
-                        }
-                    }
-                }
-
-            }
-
-            .cardFooteralignment {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                button {
-                    padding: 12px 22px;
-                }
-
-                span {
-                    background: var(--linear-gradient);
-                    @include font18;
-                    display: inline;
-                    font-weight: 500;
-                    @include text-type;
-
-                    @include respond-to("sm") {
-                        @include font16;
-                    }
-                }
-            }
-
-            .listContent {
-                padding: 0 0 6px 0;
-
-                ul {
-                    padding: 0 0 0 15px;
-                    margin: 0;
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 4px 40px;
-                    list-style: none;
-
-                    li {
-                        position: relative;
-                        @include font16;
-                        color: var(--black-200);
-
-                        &::before {
-                            content: "";
-                            position: absolute;
-                            top: 50%;
-                            left: -14px;
-                            transform: translateY(-50%);
-                            width: 6px;
-                            background: var(--linear-gradient);
-                            height: 6px;
-                            border-radius: 50%;
-                        }
-                    }
-                }
-            }
-
-            .cardHeaderAlignment {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 0 7px 0;
-
-                button {
-                    border: none;
-                    padding: 8px 24px;
-                    border-radius: 99px;
-                    background: linear-gradient(90deg, rgba(48, 87, 239, 0.08) 4.37%, rgba(185, 102, 231, 0.08) 100%);
-
-                    span {
-                        background: var(--linear-gradient);
-                        @include text-type;
-                        @include font16medium;
-                    }
-                }
-            }
+          }
         }
+      }
+      .cardFooteralignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        button {
+          padding: 12px 22px;
+        }
+        span {
+          background: var(--linear-gradient);
+          @include font18;
+          display: inline;
+          font-weight: 500;
+          @include text-type;
+          @include respond-to("sm") {
+            @include font16;
+          }
+        }
+      }
+      .listContent {
+        padding: 0 0 6px 0;
+        ul {
+          padding: 0 0 0 15px;
+          margin: 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px 40px;
+          list-style: none;
+          li {
+            position: relative;
+            @include font16;
+            color: var(--black-200);
+            &::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: -14px;
+              transform: translateY(-50%);
+              width: 6px;
+              background: var(--linear-gradient);
+              height: 6px;
+              border-radius: 50%;
+            }
+          }
+        }
+        p {
+          @include font16;
+          color: var(--black-200);
+        }
+      }
+      .cardHeaderAlignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0 7px 0;
+        button {
+          border: none;
+          padding: 8px 24px;
+          border-radius: 99px;
+          background: linear-gradient(
+            90deg,
+            rgba(48, 87, 239, 0.08) 4.37%,
+            rgba(185, 102, 231, 0.08) 100%
+          );
+          span {
+            background: var(--linear-gradient);
+            @include text-type;
+            @include font16medium;
+          }
+        }
+      }
     }
+  }
 }
-
 .bottomlayer {
-    margin-top: -108px;
-
-    img {
-        display: block;
-        width: 100%;
-        object-fit: cover;
-        height: 108px;
-
-        @include respond-to("md") {
-            height: 111px;
-        }
+  margin-top: -108px;
+  img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    height: 108px;
+    @include respond-to("md") {
+      height: 111px;
     }
+  }
+}
+.pricingSection {
+  display: flex;
+  gap: 1rem;
+  margin: 8px 0 1rem 0;
+}
+.priceCard {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  flex: 1;
+  border: 1px solid #e9ecef;
+}
+.priceHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+.discount {
+  background: #e9ecef;
+  color: #495057;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.priceSubtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+.originalPrice {
+  text-decoration: line-through;
+  color: #adb5bd;
+  font-size: 0.75rem;
 }
 
-.pricingSection {
-    display: flex;
-    gap: 1rem;
-    margin: 8px 0 1rem 0;
-  }
-  
-  .priceCard {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    flex: 1;
-    border: 1px solid #e9ecef;
-  }
-  
-  .priceHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .price {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #212529;
-  }
-  
-  .discount {
-    background: #e9ecef;
-    color: #495057;
-    font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
+.freeBadge {
+    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+    color: var(--text-white);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
     font-weight: 500;
-  }
-  
-  .priceSubtitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #6c757d;
-  }
-  
-  .originalPrice {
-    text-decoration: line-through;
-    color: #adb5bd;
-    font-size: 0.75rem;
-  }
+}

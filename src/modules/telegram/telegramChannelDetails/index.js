@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './telegramChannelDetails.module.scss';
 import Button from '@/components/button';
-import { getTelegramChannels } from '@/app/api/dashboard';
+import { getPaymentUrl, getTelegramChannels } from '@/app/api/dashboard';
 import { motion } from 'framer-motion';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -30,7 +30,7 @@ export default function TelegramChannelDetails() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
     const params = useParams();
-    const channelId = params?.id;
+    const channelId = params?.id;    
 
     const handleSubscribe = (plan) => {
         setSelectedPlan(plan);
@@ -118,58 +118,91 @@ export default function TelegramChannelDetails() {
                     <p>
                         {channel.description}
                     </p>
-
+                    {/* <p className={styles.availablePlans}>Available Plans</p> */}
+                </div>
+            </div>
+            {console.log(channel.telegramPlan,"=====000000channel")
+            }
+            {channel.telegramPlan.some(plan => plan.isFree) ? (
+                <div className={styles.subscribeButton}>
+                    <Button 
+                        text='Subscribe Now' 
+                        fill='fill' 
+                        onClick={async () => {
+                            try {
+                                const paymentData = {
+                                    telegramPlanId: channel.telegramPlan.find(p => p.isFree)?._id,
+                                    success_url: window.location.href,
+                                    cancel_url: window.location.href
+                                };
+                                const response = await getPaymentUrl(paymentData);
+                                
+                                if(response.success){
+                                    router.push(channel?.link);
+                                }
+                            } catch (error) {
+                                console.error('Error processing payment:', error);                                
+                                if (channel?.link) {
+                                    window.open(channel.link, '_blank');
+                                }
+                            }
+                        }}
+                        disabled={false}
+                    />
+                </div>
+            ) : (
+                <>
                     <p className={styles.availablePlans}>Available Plans</p>
-                </div>
-            </div>
-
-            <div className={styles.plansContainer}>
-
-                <div className={styles.plansGrid}>
-                    {channel.telegramPlan
-                        .slice()
-                        .sort((a, b) => {
-                            const getMonths = (planType) => {
-                                if (typeof planType !== 'string') return 0;
-                                const planStr = planType.toLowerCase();
-                                if (planStr.includes('month')) {
-                                    return parseInt(planStr);
-                                }
-                                if (planStr.includes('year')) {
-                                    return parseInt(planStr) * 12;
-                                }
-                                return 0;
-                            };
-                            return getMonths(a.planType) - getMonths(b.planType);
-                        })
-                        .map((plan) => (
-                        <div key={plan._id} className={styles.planCard}>
-                            <div className={styles.planType}>
-                                <h3>{plan.planType}</h3>
-                                {plan.discount > 0 && (
-                                    <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
-                                )}
-                            </div>
-                            <div className={styles.plandetails}>
-                                <div className={styles.plandetailsflx}>
-                                    <p>M.R.P :</p>
-                                    <span>${plan.initialPrice.toFixed(2)}</span>
-                                </div>
-                                <div className={styles.plandetailsflx}>
-                                    <p>Discount :</p>
-                                    <span className={styles.discount}>-{plan.discount}%</span>
-                                </div>
-                            </div>
-                            <Button 
-                                text='Subscribe Now' 
-                                fill='fill' 
-                                onClick={() => handleSubscribe(plan)} 
-                                disabled={false} 
-                            />
+                    <div className={styles.plansContainer}>
+                        <div className={styles.plansGrid}>
+                            {channel.telegramPlan
+                                .slice()
+                                .sort((a, b) => {
+                                    const getMonths = (planType) => {
+                                        if (typeof planType !== 'string') return 0;
+                                        const planStr = planType.toLowerCase();
+                                        if (planStr.includes('month')) return parseInt(planStr);
+                                        if (planStr.includes('year')) return parseInt(planStr) * 12;
+                                        return 0;
+                                    };
+                                    return getMonths(a.planType) - getMonths(b.planType);
+                                })
+                                .map((plan) => (
+                                    <motion.div
+                                        key={plan._id}
+                                        className={styles.planCard}
+                                        variants={itemVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                    >
+                                        <div className={styles.planType}>
+                                            <h3>{plan.planType}</h3>
+                                            {plan.discount > 0 && (
+                                                <span className={styles.originalPrice}>${plan.price.toFixed(2)}</span>
+                                            )}
+                                        </div>
+                                        <div className={styles.plandetails}>
+                                            <div className={styles.plandetailsflx}>
+                                                <p>M.R.P :</p>
+                                                <span>${plan.initialPrice.toFixed(2)}</span>
+                                            </div>
+                                            <div className={styles.plandetailsflx}>
+                                                <p>Discount :</p>
+                                                <span className={styles.discount}>-{plan.discount || 0}%</span>
+                                            </div>
+                                        </div>
+                                        <Button 
+                                            text='Subscribe Now' 
+                                            fill='fill' 
+                                            onClick={() => handleSubscribe(plan)} 
+                                            disabled={false} 
+                                        />
+                                    </motion.div>
+                                ))}
                         </div>
-                    ))}
-                </div>
-            </div>
+                    </div>
+                </>
+            )}
             {showSubscriptionDialog && selectedPlan && (
                 <YourSubscription 
                     plan={selectedPlan}

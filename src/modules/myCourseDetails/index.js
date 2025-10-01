@@ -146,7 +146,7 @@ export default function MyCourseDetails() {
       <div className={styles.breadcumbAlignment}>
         <a aria-label="Home" href="/dashboard">Home</a>
         <RightArrow />
-        <a aria-label="My Course" href="/my-courses">My Course</a>
+        <a aria-label="My Purchased" href="/my-courses">My Purchased</a>
         {/* <RightArrow />
         <a aria-label="Pre-Recorded">Pre-Recorded</a> */}
       </div>
@@ -158,7 +158,7 @@ export default function MyCourseDetails() {
           {courses?.description}
         </p>
         <div className={styles.allIconTextAlignment}>
-          {!category ? (
+          {category === "RECORDED" || category === "recorded" || !category ? (
             <div className={styles.coursdetailstext}>
               <div className={styles.iconText}>
                 <ClockIcon />
@@ -179,9 +179,15 @@ export default function MyCourseDetails() {
               <div className={styles.iconText}>
                 <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
               </div>
-              {!chapters?.isPayment && (<div className={styles.iconText}>
-                <span>Price:</span> <h4>${courses?.price}</h4>
-              </div>)}
+              {!chapters?.isPayment && (
+                <div className={styles.iconText}>
+                  {courses?.price > 0 ? (
+                    <><span>Price:</span> <h4>${courses.price}</h4></>
+                  ) : (
+                    <span className={styles.freeBadge}>Free</span>
+                  )}
+                </div>
+              )}
             </div>
           ) : (
             <><div className={styles.coursdetailstext}>
@@ -209,25 +215,25 @@ export default function MyCourseDetails() {
           )}
 
           <div className={styles.rightContentAlignment}>
-            {category ? (
+            {category === "LIVE" || category === "PHYSICAL" ? (
               courses?.registration && (
                 <Button
                   text={'Registered'}
                   fill
-                  onClick={handlePayment}
+                  // onClick={handlePayment}
                   disabled
                   className={isProcessing ? styles.processingButton : ''}
                 />
               )
-            ) : (chapters?.isPayment === true ? '' : (
+            ) : (chapters?.isPayment ? (
               <Button
-                text={isProcessing ? 'Enrolling...' : 'Enroll Now'}
+                text={'Enrolled'}
                 fill
-                onClick={() => handlePayment()}
-                disabled={isProcessing}
+                // onClick={() => handlePayment()}
+                disabled
                 className={isProcessing ? styles.processingButton : ''}
               />
-            )
+            ) : ''
             )}
             {/* {chapters?.isPayment === true ? '' : (
               <Button
@@ -327,7 +333,11 @@ export default function MyCourseDetails() {
                     <h2>
                       Chapter {(selectedChapter || chapters.data[0])?.chapterNo}: {(selectedChapter || chapters.data[0])?.chapterName}
                     </h2>
-                    <p>{(selectedChapter || chapters.data[0])?.description}</p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: (selectedChapter || chapters.data[0])?.description || ''
+                      }}
+                    />
                   </div>
                 </div>
               ) : (<div className={styles.noChapters}>

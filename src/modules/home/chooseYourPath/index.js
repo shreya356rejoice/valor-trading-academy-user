@@ -150,8 +150,14 @@ export default function ChooseYourPath() {
                                                         <span>4.8</span>
                                                     </div> */}
                                                     <div className={styles.iconText}>
-                                                        <p>$</p>
-                                                        <span>{course?.price}</span>
+                                                        {console.log(course,"course")
+                                                        }
+                                                        {!course?.isFree ? (
+                                                            <><p>$</p><span>{course?.price}</span></>
+                                                        ) : (
+                                                            <span className={styles.freeBadge}>Free</span>
+                                                        )}
+                                                        
                                                     </div>
                                                     <div className={styles.iconText}>
                                                         <ProfileIcon />

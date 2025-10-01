@@ -145,7 +145,10 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                 <h3>{course?.CourseName}</h3>
                                 <p>{course?.description}</p>
                                 <div className={styles.iconalignment}>
-                                    <h4>${course?.price || "0"}</h4>
+                                    {console.log(course,"=======course")
+                                    }
+                                    {course?.isFree ? (<><h4>Free</h4></>) : (<h4>${course?.price || "0"}</h4>)}
+                                    
                                     <div className={styles.iconText}>
                                         <img src={BathIcon} alt="BathIcon" />
                                         <span>{course?.instructor || "John Doe"}</span>
