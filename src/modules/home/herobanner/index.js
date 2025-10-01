@@ -114,12 +114,12 @@ export default function Herobanner() {
                 community all in one platform.
               </p>
             </motion.div>
-            <motion.div className={styles.searchbar} variants={itemVariants}>
+            {/* <motion.div className={styles.searchbar} variants={itemVariants}>
               <input type="text" placeholder="Search for Course..." />
               <div className={styles.iconAlignment}>
                 <SearchIcon />
               </div>
-            </motion.div>
+            </motion.div> */}
             <motion.div
               className={styles.buttonAlignment}
               variants={itemVariants}
