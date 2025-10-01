@@ -120,25 +120,18 @@ export default function CourseDetails() {
     }
 
     if (category) {
-      // For categories (traders-meet, live-webinars), open registration dialog
       setIsRegistrationOpen(true);
     } else {
       
-      // Check if course is free (price is 0 or null/undefined)
       const isFreeCourse = !courses?.price || Number(courses.price) === 0;      
       
       if (isFreeCourse) {
-        // For free courses, show the success modal directly
         const response = await getPaymentUrl({
-          // success_url: 'https://api-valor-trading.rejoicehub.com/api/v1/my-courses',
-          // cancel_url: window.location.href,
           courseId: id
         });
-        
         setPaymentStatus('success');
         setShowPaymentModal(true);
       } else {
-        // For paid courses, proceed with payment
         setIsProcessing(true);
         try {
           const response = await getPaymentUrl({
@@ -146,24 +139,34 @@ export default function CourseDetails() {
             cancel_url: window.location.href,
             courseId: id
           });
-          console.log(response,"=====response");
           
           if (response.success) {
-            setPaymentStatus('success');
-            setShowPaymentModal(true);
-            // router.replace(response.payload.data.checkout_url);
+            // setPaymentStatus('success');
+            // setShowPaymentModal(true);
+            router.replace(response.payload.data.checkout_url);
           } else {
-            toast.error("Payment failed. Please try again");
+            console.error("Payment failed. Please try again");
           }
         } catch (error) {
           console.error('Error processing payment:', error);
-          toast.error("An error occurred. Please try again later.");
         } finally {
           setIsProcessing(false);
         }
       }
     }
   };
+
+  useEffect(() => {
+    const isPayment = searchParams.get('isPayment');
+    if (isPayment) {
+      setPaymentStatus(isPayment === 'true' ? 'success' : 'cancelled');
+      setShowPaymentModal(true);
+      // Clean up URL without refreshing the page
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete('isPayment');
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, [searchParams]);
 
   const renderPaymentModal = () => {
     if (!showPaymentModal) return null;
@@ -241,10 +244,10 @@ export default function CourseDetails() {
       return { success: true };
       // For now, just close the dialog and show success message
       setIsRegistrationOpen(false);
-      toast.success("Registration successful!");
+      // toast.success("Registration successful!");
     } catch (error) {
       console.error('Registration failed:', error);
-      toast.error("Registration failed. Please try again.");
+      // toast.error("Registration failed. Please try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -512,7 +515,7 @@ export default function CourseDetails() {
                 fill
                 onClick={() => {
                   setShowPaymentModal(false);
-                  router.push(`/my-course-details?courseId=${id}&category=RECORDED`);
+                  router.push(`/my-course-details?courseId=${id}`);
                   // setIsPaid(false);
                 }}
               />
