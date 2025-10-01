@@ -92,8 +92,6 @@ export default function CourseDetails() {
           getSessionData(id)
         ]);
 
-        console.log(chapterResponse.payload, "chapterResponse.payload");
-
         setCourses(courseResponse.payload.data[0]);
         setChapters(chapterResponse.payload);
         setSessions(sessionResponse.payload);
@@ -144,12 +142,16 @@ export default function CourseDetails() {
         setIsProcessing(true);
         try {
           const response = await getPaymentUrl({
-            success_url: 'https://api-valor-trading.rejoicehub.com/api/v1/my-courses',
+            success_url: window.location.href,
             cancel_url: window.location.href,
             courseId: id
           });
+          console.log(response,"=====response");
+          
           if (response.success) {
-            router.replace(response.payload.data.checkout_url);
+            setPaymentStatus('success');
+            setShowPaymentModal(true);
+            // router.replace(response.payload.data.checkout_url);
           } else {
             toast.error("Payment failed. Please try again");
           }

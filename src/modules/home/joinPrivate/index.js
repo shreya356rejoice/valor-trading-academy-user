@@ -136,12 +136,18 @@ export default function JoinPrivate() {
                         {channel.telegramPlan?.map((plan, planIndex) => (
                           <div key={planIndex} className={styles.priceCard}>
                             <div className={styles.priceHeader}>
-                              <span className={styles.price}>
-                                ${plan.price}
-                              </span>
-                            </div>
-                            <div className={styles.priceSubtitle}>
-                              <span>{plan.planType}</span>
+                              {plan.price === 0 || plan.price === '0' ? (
+                                <div className={styles.freeBadge}>Free</div>
+                              ) : (
+                                <>
+                                  <span className={styles.price}>
+                                    ${plan.price}
+                                  </span>
+                                  <div className={styles.priceSubtitle}>
+                                    <span>/ {plan.planType}</span>
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                         ))}

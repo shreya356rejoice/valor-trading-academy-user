@@ -279,7 +279,13 @@ export default function AutomateSection() {
                   <div className={styles.seeMorebutton}>
                     <Button
                       text="See More"
-                      onClick={() => router.push("/algobot")}
+                      onClick={() => {
+                        if (user) {
+                          router.push("/algobot");
+                        } else {
+                          router.push("/login");
+                        }
+                      }}
                       light
                     />
                   </div>

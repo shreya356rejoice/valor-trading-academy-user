@@ -101,7 +101,9 @@ export default function Recent({ searchQuery, selectedType, courses, setCourses 
                             <h3>{course?.CourseName}</h3>
                             <p>{course?.description}</p>
                             <div className={styles.iconalignment}>
-                                <h4>${course?.price || "0"}</h4>
+                              {console.log(course?.price,"====course?.price")
+                              }
+                                <h4>{course?.price > 0 ? "$" + course?.price : "Free"}</h4>
                                 <div className={styles.iconText}>
                                     {/* <img src={BathIcon} alt="BathIcon" /> */}
                                     <span>{course?.instructor || "John Doe"}</span>
