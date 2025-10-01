@@ -17,8 +17,8 @@ const lexend = Lexend({
 
 
 export const metadata = {
-  title: "VALOR TRADING ACADEMY",
-  description: "VALOR TRADING ACADEMY",
+  title: "EduFins Academy",
+  description: "EduFins Academy",
 };
 
 export default function RootLayout({ children }) {

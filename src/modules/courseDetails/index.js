@@ -390,7 +390,7 @@ export default function CourseDetails() {
                     className={selectedChapter?._id === chapter._id ? styles.active : ''}
                     onClick={() => setSelectedChapter(chapter)}
                   >
-                    <span>Chapter {chapter.chapterNo}</span>
+                    {/* <span>Chapter {chapter.chapterNo}</span> */}
                   </button>
                 ))}
               </div>

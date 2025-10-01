@@ -212,7 +212,7 @@ export default function MyCourseDetails() {
             } else if (selectedTab === 'BOTS') {
                 router.push(`/my-algobot-details?algobotId=${botId}`);
             } else if (selectedTab === 'RECORDED') {
-                router.push(`/my-course-details?courseId=${courseId}&category=${selectedTab}`);
+                router.push(`/my-course-details?courseId=${courseId}`);
             }
         };
 
