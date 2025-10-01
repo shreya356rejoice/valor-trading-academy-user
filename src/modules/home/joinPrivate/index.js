@@ -1,175 +1,184 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import styles from './joinPrivate.module.scss'
-import Button from '@/components/button'
-import { motion, useAnimation } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { useRouter } from 'next/navigation'
-import { getDashboardTelegramChannels, getTelegramChannels } from '@/app/api/dashboard'
-import { getCookie } from '../../../../cookie'
+import React, { useEffect, useState } from "react";
+import styles from "./joinPrivate.module.scss";
+import Button from "@/components/button";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useRouter } from "next/navigation";
+import {
+  getDashboardTelegramChannels,
+  getTelegramChannels,
+} from "@/app/api/dashboard";
+import { getCookie } from "../../../../cookie";
 
-const BottomLayer = '/assets/images/bottom-layer.svg'
-const ProfileImage = '/assets/images/profile-sm.png'
-const GrowthIcon = '/assets/icons/growth.svg'
+const BottomLayer = "/assets/images/bottom-layer.svg";
+const ProfileImage = "/assets/images/profile-sm.png";
+const GrowthIcon = "/assets/icons/growth.svg";
 
 const containerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.2,
-        },
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
     },
-}
+  },
+};
 
 const cardVariants = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-}
+  hidden: { opacity: 0, y: 60 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 const titleVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-}
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 export default function JoinPrivate() {
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
-    const animationControls = useAnimation()
-    const [user, setUser] = useState(null);
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const animationControls = useAnimation();
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const userCookie = getCookie("user");
-        setUser(userCookie ? JSON.parse(userCookie) : null);
-    }, []);
+  useEffect(() => {
+    const userCookie = getCookie("user");
+    setUser(userCookie ? JSON.parse(userCookie) : null);
+  }, []);
 
-      
+  React.useEffect(() => {
+    if (inView) {
+      animationControls.start("visible");
+    }
+  }, [inView, animationControls]);
 
-    React.useEffect(() => {
-        if (inView) {
-            animationControls.start('visible')
+  const [telegramChannels, setTelegramChannels] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === undefined) return; // Skip initial undefined state
+
+    const fetchData = async () => {
+      try {
+        const response = user
+          ? await getTelegramChannels()
+          : await getDashboardTelegramChannels();
+
+        if (response?.payload?.data) {
+          setTelegramChannels(response.payload.data);
         }
-    }, [inView, animationControls])
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    const [telegramChannels, setTelegramChannels] = useState([]);
-    const router = useRouter();
+    fetchData();
+  }, [user]);
 
-    useEffect(() => {
-        if (user === undefined) return; // Skip initial undefined state
-    
-        const fetchData = async () => {
-            try {
-                const response = user 
-                    ? await getTelegramChannels()
-                    : await getDashboardTelegramChannels();
-                    
-                if (response?.payload?.data) {
-                    setTelegramChannels(response.payload.data);
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-    
-        fetchData();
-    }, [user]);
-
-    const handleNavigate = (channel) => {
-        if (!user) {
-            router.push(`/join-telegram-channel?telegramId=${channel?._id}`);
-            return;
-        }
-    
-        const hasPaidPlan = channel.telegramPlan?.some(plan => plan?.payment?.length > 0);        
-        
-        if (hasPaidPlan) {
-            router.push(`/my-telegram-details/${channel?._id}`);
-        } else {
-            router.push(`/telegram-details/${channel?._id}`);
-        }
+  const handleNavigate = (channel) => {
+    if (!user) {
+      router.push(`/join-telegram-channel?telegramId=${channel?._id}`);
+      return;
     }
 
-    return (
-        <>
-            <div className={styles.joinPrivate} ref={ref}>
-                <div className='container'>
-                    <motion.div
-                        className={styles.title}
-                        initial="hidden"
-                        animate={animationControls}
-                        variants={titleVariants}
-                    >
-                        <h2>Join Private Telegram Communities</h2>
-                        <p>
-                            Connect with experts and peers for daily insights, trade setups, and support.
-                        </p>
-                    </motion.div>
+    const hasPaidPlan = channel.telegramPlan?.some(
+      (plan) => plan?.payment?.length > 0
+    );
 
-                    <motion.div
-                        className={styles.grid}
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate={inView ? 'visible' : 'hidden'}
-                    >
-                        {telegramChannels?.length > 0 && telegramChannels?.slice(0, 3).map((channel, i) => {
-                            return (
-                                <motion.div
-                                    key={channel._id || i}
-                                    className={styles.griditems}
-                                    variants={cardVariants}
-                                >
-                                    <div className={styles.cardHeaderAlignment}>
-                                        <h3>{channel?.channelName}</h3>
-                                        <img src={GrowthIcon} alt='GrowthIcon' />
-                                    </div>
-                                    <div className={styles.listContent}>
-                                        <p>{channel?.description}</p>
-                                    </div>
-                                    <div className={styles.pricingSection}>
-                                        {channel.telegramPlan?.map((plan, planIndex) => (
-                                            <div key={planIndex} className={styles.priceCard}>
-                                                {plan?.isFree ? (<><span />
-                                                    <span className={styles.freeBadge}>Free</span></>) : (
-                                                    <>
-                                                        <div className={styles.priceHeader}>
-                                                            <span className={styles.price}>${plan.price}</span>
-                                                        </div>
-                                                        <div className={styles.priceSubtitle}>
-                                                            <span>{plan.planType}</span>
-                                                        </div>
-                                                    </>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className={styles.cardFooteralignment}>
-                                        {user ? (channel.telegramPlan?.some(plan => plan?.payment?.length > 0) ? (
-                                            <Button
-                                                text="Subscribed"
-                                                fill
-                                                onClick={() => handleNavigate(channel)}
-                                            />
-                                        ) : (
-                                            <Button
-                                                text="Subscribe"
-                                                onClick={() => handleNavigate(channel)}
-                                            />
-                                        )) : (<Button
-                                            text="Subscribe"
-                                            onClick={() => handleNavigate(channel)}
-                                        />)}
-                                    </div>
-                                </motion.div>
-                            )
-                        }
-                        )
-                        }
-                    </motion.div>
-                </div>
-            </div>
+    if (hasPaidPlan) {
+      router.push(`/my-telegram-details/${channel?._id}`);
+    } else {
+      router.push(`/telegram-details/${channel?._id}`);
+    }
+  };
 
-            <div className={styles.bottomlayer}>
-                <img src={BottomLayer} alt='BottomLayer' />
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className={styles.joinPrivate} ref={ref}>
+        <div className="container">
+          <motion.div
+            className={styles.title}
+            initial="hidden"
+            animate={animationControls}
+            variants={titleVariants}
+          >
+            <h2>Join Private Telegram Communities</h2>
+            <p>
+              Connect with experts and peers for daily insights, trade setups,
+              and support.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className={styles.grid}
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
+            {telegramChannels?.length > 0 &&
+              telegramChannels?.slice(0, 3).map((channel, i) => {
+                return (
+                  <motion.div
+                    key={channel._id || i}
+                    className={styles.griditems}
+                    variants={cardVariants}
+                  >
+                    <div>
+                      <div className={styles.cardHeaderAlignment}>
+                        <h3>{channel?.channelName}</h3>
+                        <img src={GrowthIcon} alt="GrowthIcon" />
+                      </div>
+                      <div className={styles.listContent}>
+                        <p>{channel?.description}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <div className={styles.pricingSection}>
+                        {channel.telegramPlan?.map((plan, planIndex) => (
+                          <div key={planIndex} className={styles.priceCard}>
+                            <div className={styles.priceHeader}>
+                              <span className={styles.price}>
+                                ${plan.price}
+                              </span>
+                            </div>
+                            <div className={styles.priceSubtitle}>
+                              <span>{plan.planType}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className={styles.cardFooteralignment}>
+                        {user ? (
+                          channel.telegramPlan?.some(
+                            (plan) => plan?.payment?.length > 0
+                          ) ? (
+                            <Button
+                              text="Subscribed"
+                              fill
+                              onClick={() => handleNavigate(channel)}
+                            />
+                          ) : (
+                            <Button
+                              text="Subscribe"
+                              onClick={() => handleNavigate(channel)}
+                            />
+                          )
+                        ) : (
+                          <Button
+                            text="Subscribe"
+                            onClick={() => handleNavigate(channel)}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+          </motion.div>
+        </div>
+      </div>
+      <div className={styles.bottomlayer}>
+        <img src={BottomLayer} alt="BottomLayer" />
+      </div>
+    </>
+  );
 }

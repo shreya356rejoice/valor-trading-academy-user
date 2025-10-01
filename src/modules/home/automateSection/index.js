@@ -51,20 +51,20 @@ export default function AutomateSection() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-      const user = getCookie("user");
-      if (user) {
-        const userName = user && JSON.parse(user)?.name;
-        setUser(userName);
-      }
-    }, [])
+    const user = getCookie("user");
+    if (user) {
+      const userName = user && JSON.parse(user)?.name;
+      setUser(userName);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchAlgobotData = async () => {
-      try {        
-        if(user){          
-            const data = await getAlgobot("68c800f852be940e85ba6770","", 1, 3);
-            setAlgobotData(data?.payload?.result || []);
-        }else{
+      try {
+        if (user) {
+          const data = await getAlgobot("68c800f852be940e85ba6770", "", 1, 3);
+          setAlgobotData(data?.payload?.result || []);
+        } else {
           const response = await getBots();
           const allStrategies = response.payload.data;
           setAlgobotData(allStrategies);
@@ -74,11 +74,12 @@ export default function AutomateSection() {
       }
     };
     fetchAlgobotData();
-  }, [user]); 
+  }, [user]);
 
   const handleNavigate = (algobot) => {
-    const isPurchased = user && algobot?.strategyPlan?.some(plan => plan.isPayment);
-    
+    const isPurchased =
+      user && algobot?.strategyPlan?.some((plan) => plan.isPayment);
+
     if (isPurchased) {
       router.push(`/my-algobot-details?algobotId=${algobot?._id}`);
     } else if (user) {
@@ -88,7 +89,7 @@ export default function AutomateSection() {
     }
   };
 
-  const Planssettings = {
+  const settings = {
     dots: false,
     infinite: false,
     speed: 500,
@@ -181,7 +182,7 @@ export default function AutomateSection() {
                               </div>
                               <div>
                                 <Slider
-                                  {...Planssettings}
+                                  {...settings}
                                   className={styles.planslider}
                                 >
                                   {algobot?.strategyPlan?.map((plan, i) => (
@@ -219,12 +220,23 @@ export default function AutomateSection() {
                                   ))}
                                 </Slider>
 
-
                                 <div className={styles.buttons}>
                                   <Button
-                                    text={user && algobot?.strategyPlan?.some(plan => plan.isPayment) ? 'Purchased' : 'Buy Now'}
+                                    text={
+                                      user &&
+                                      algobot?.strategyPlan?.some(
+                                        (plan) => plan.isPayment
+                                      )
+                                        ? "Purchased"
+                                        : "Buy Now"
+                                    }
                                     onClick={() => handleNavigate(algobot)}
-                                    fill={user && algobot?.strategyPlan?.some(plan => plan.isPayment)}
+                                    fill={
+                                      user &&
+                                      algobot?.strategyPlan?.some(
+                                        (plan) => plan.isPayment
+                                      )
+                                    }
                                   />
                                 </div>
                               </div>
@@ -242,7 +254,7 @@ export default function AutomateSection() {
                     ))}
                   </div> */}
 
-                            {/* <Slider {...Planssettings} className={styles.planslider}>
+                            {/* <Slider {...settings} className={styles.planslider}>
                     {algobot?.strategyPlan?.map((plan, i) => (
                       <div key={i} className={styles.planItemmain}>
                         <div className={styles.planItem}>

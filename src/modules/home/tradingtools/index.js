@@ -132,7 +132,7 @@ export default function Tradingtools() {
   };
 
   return (
-    <>
+     <>
       <div className={styles.tradingtools}>
         <div className={styles.title}>
           <h3>
