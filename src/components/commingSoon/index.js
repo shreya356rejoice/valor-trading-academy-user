@@ -23,7 +23,7 @@ export default function CommingSoon() {
     upcomingLive: [],
     upcomingPhysical: [],
     registeredLive: [],
-    registeredPhysical: []
+    registeredPhysical: [],
   });
   const router = useRouter();
 
@@ -48,34 +48,20 @@ export default function CommingSoon() {
           const now = new Date();
           const courses = coursesResponse.payload?.data || [];
 
-          const upcomingLive = courses?.filter(course =>
-            course.courseType === 'live' &&
-            new Date(course.courseStart) > new Date() &&
-            (!course.registrationCount || course.registrationCount === 0)
-          );
+          const upcomingLive = courses?.filter((course) => course.courseType === "live" && new Date(course.courseStart) > new Date() && (!course.registrationCount || course.registrationCount === 0));
 
-          const upcomingPhysical = courses?.filter(course =>
-            course.courseType === 'physical' &&
-            new Date(course.courseStart) > new Date() &&
-            (!course.registrationCount || course.registrationCount === 0)
-          );
+          const upcomingPhysical = courses?.filter((course) => course.courseType === "physical" && new Date(course.courseStart) > new Date() && (!course.registrationCount || course.registrationCount === 0));
 
-          const registeredLive = courses?.filter(course =>
-            course.courseType === 'live' &&
-            course.registrationCount > 0
-          );
+          const registeredLive = courses?.filter((course) => course.courseType === "live" && course.registrationCount > 0);
 
-          const registeredPhysical = courses?.filter(course =>
-            course.courseType === 'physical' &&
-            course.registrationCount > 0
-          );
+          const registeredPhysical = courses?.filter((course) => course.courseType === "physical" && course.registrationCount > 0);
 
           setData({
             ...dashboardData.payload,
             upcomingLive,
             upcomingPhysical,
             registeredLive,
-            registeredPhysical
+            registeredPhysical,
           });
         }
       } catch (error) {
@@ -90,25 +76,21 @@ export default function CommingSoon() {
     <div className={styles.griditems}>
       <div className={styles.cardImage}>
         <img
-          src={course.courseVideo || '/assets/images/course-placeholder.jpg'}
-          alt={course.CourseName || 'Course Image'}
+          src={course.courseVideo || "/assets/images/course-placeholder.jpg"}
+          alt={course.CourseName || "Course Image"}
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = '/assets/images/course-placeholder.jpg';
+            e.target.src = "/assets/images/course-placeholder.jpg";
           }}
         />
       </div>
       <div className={styles.cardDetails}>
-        <h3>{course.CourseName || 'Course Name'}</h3>
+        <h3>{course.CourseName || "Course Name"}</h3>
         <p className={styles.courseDescription}>
-          {course.description?.substring(0, 100) || 'No description available'}
-          {course.description?.length > 100 ? '...' : ''}
+          {course.description?.substring(0, 100) || "No description available"}
+          {course.description?.length > 100 ? "..." : ""}
         </p>
-        <Button
-          text={buttonText}
-          onClick={() => onClick && onClick(course)}
-          className={buttonText === 'Registered' ? styles.registeredBtn : ''}
-        />
+        <Button text={buttonText} onClick={() => onClick && onClick(course)} className={buttonText === "Registered" ? styles.registeredBtn : ""} />
       </div>
     </div>
   );
@@ -125,35 +107,33 @@ export default function CommingSoon() {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-        }
+        },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const CourseCard = ({ course, buttonText, onButtonClick }) => (
     <div className={styles.griditems}>
       <div className={styles.cardImage}>
         <img
-          src={course.thumbnail || '/assets/images/course-placeholder.jpg'}
+          src={course.thumbnail || "/assets/images/course-placeholder.jpg"}
           alt={course.name}
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = '/assets/images/course-placeholder.jpg';
+            e.target.src = "/assets/images/course-placeholder.jpg";
           }}
         />
       </div>
       <div className={styles.cardDetails}>
-        <h3>{course.name || 'Course Name'}</h3>
-        <p className={styles.courseDescription}>
-          {course.description || 'No description available'}
-        </p>
+        <h3>{course.name || "Course Name"}</h3>
+        <p className={styles.courseDescription}>{course.description || "No description available"}</p>
         <div className={styles.courseMeta}>
           {course.courseStart && (
             <div className={styles.courseDate}>
@@ -161,11 +141,7 @@ export default function CommingSoon() {
               <span>{new Date(course.courseStart).toLocaleDateString()}</span>
             </div>
           )}
-          <Button
-            text={buttonText}
-            onClick={() => onButtonClick && onButtonClick(course)}
-            className={buttonText === 'Registered' ? styles.registeredBtn : ''}
-          />
+          <Button text={buttonText} onClick={() => onButtonClick && onButtonClick(course)} className={buttonText === "Registered" ? styles.registeredBtn : ""} />
         </div>
       </div>
     </div>
@@ -181,12 +157,8 @@ export default function CommingSoon() {
         </div>
         <Slider {...sliderSettings} className={styles.grid}>
           {courses.map((course, index) => (
-            <div key={`${buttonText.toLowerCase().replace(' ', '-')}-${index}`}>
-              <CourseCard
-                course={course}
-                buttonText={buttonText}
-                onButtonClick={onButtonClick}
-              />
+            <div key={`${buttonText.toLowerCase().replace(" ", "-")}-${index}`}>
+              <CourseCard course={course} buttonText={buttonText} onButtonClick={onButtonClick} />
             </div>
           ))}
         </Slider>
@@ -212,134 +184,119 @@ export default function CommingSoon() {
           <h2>
             <span>Hello {user},</span> welcome!
           </h2>
-          <p>
-            Begin your monetization journey with expert-led courses in Forex,
-            AlgoBots, and more.
-          </p>
+          <p>Begin your monetization journey with expert-led courses in Forex, AlgoBots, and more.</p>
         </div>
-      </div>
-
-      <div className={styles.dashboardCardgrd}>
-        <div className={styles.dashboardcard}>
-          <div className={styles.dashboardcardtitle}>
-            <h1>Courses</h1>
-            <span>
-              <CourseIcon />
-              {data.courseCount || 0}
-            </span>
-          </div>
-          <div className={styles.cardDetails}>
-
-            <p>${(data.courseTotalPrice || 0).toFixed(2)}</p>
-          </div>
-        </div>
-        <div className={styles.dashboardcard}>
-          <div className={styles.dashboardcardtitle}>
-            <h1>AlgoBots</h1>
-            <span>
-              <Algobot />
-              {data.botCount || 0}
-            </span>
-          </div>
-          <div className={styles.cardDetails}>
-
-            <p>${(data.botTotalPrice || 0).toFixed(2)}</p>
-          </div>
-        </div>
-        <div className={styles.dashboardcard}>
-          <div className={styles.dashboardcardtitle}>
-            <h1>Telegram Channels</h1>
-            <span>
-              <UserIcon />
-              {data.telegramCount || 0}
-            </span>
-          </div>
-          <div className={styles.cardDetails}>
-
-            <p>${(data.telegramTotalPrice || 0).toFixed(2)}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.dashboarddevidermain}>
-        {/* Live Webinars Section */}
-        <div className={styles.itemsleft}>
-          <div className={styles.itemstitle}>
-            <h1>live webinar</h1>
-          </div>
-          <div className={styles.slidergrouptop}>
-            <div className={styles.itemstitleslider}>
-              <h2>Enroll Now</h2>
+        <div className={styles.dashboardCardgrd}>
+          <div className={styles.dashboardcard}>
+            <div className={styles.dashboardcardtitle}>
+              <h1>Courses</h1>
+              <span>
+                <CourseIcon />
+                {data.courseCount || 0}
+              </span>
             </div>
-            {data.upcomingLive?.length > 0 ? (
-              <Slider {...sliderSettings} className={styles.grid}>
-                {data.upcomingLive.map((course, index) => (
-                  <div key={`live-upcoming-${index}`}>
-                    {renderCourseCard(course, 'Enroll Now', handleEnrollClick)}
-                  </div>
-                ))}
-              </Slider>
-            ) : (
-              <div className={styles.nodata}>No upcoming live webinars available</div>
-            )}
-          </div>
-          <div className={styles.slidergroupbottom}>
-            <div className={styles.itemstitleslider}>
-              <h2>Registered Live Webinars</h2>
+            <div className={styles.cardDetails}>
+              <p>${(data.courseTotalPrice || 0).toFixed(2)}</p>
             </div>
-            {data.registeredLive?.length > 0 ? (
-              <Slider {...sliderSettings} className={styles.grid}>
-                {data.registeredLive.map((course, index) => (
-                  <div key={`live-registered-${index}`}>
-                    {renderCourseCard(course, 'Registered', handleViewDetails , "LIVE")}
-                  </div>
-                ))}
-              </Slider>
-            ) : (
-              <div className={styles.nodata}>No registered live webinars</div>
-            )}
+          </div>
+          <div className={styles.dashboardcard}>
+            <div className={styles.dashboardcardtitle}>
+              <h1>AlgoBots</h1>
+              <span>
+                <Algobot />
+                {data.botCount || 0}
+              </span>
+            </div>
+            <div className={styles.cardDetails}>
+              <p>${(data.botTotalPrice || 0).toFixed(2)}</p>
+            </div>
+          </div>
+          <div className={styles.dashboardcard}>
+            <div className={styles.dashboardcardtitle}>
+              <h1>Telegram Channels</h1>
+              <span>
+                <UserIcon />
+                {data.telegramCount || 0}
+              </span>
+            </div>
+            <div className={styles.cardDetails}>
+              <p>${(data.telegramTotalPrice || 0).toFixed(2)}</p>
+            </div>
           </div>
         </div>
 
-        {/* Traders Meet Section */}
-        <div className={styles.itemsright}>
-          <div className={styles.itemstitle}>
-            <h1>traders meet</h1>
-          </div>
-          <div className={styles.slidergrouptop}>
-            <div className={styles.itemstitleslider}>
-              <h2>Enroll Now</h2>
+        <div className={styles.dashboarddevidermain}>
+          {/* Live Webinars Section */}
+          <div className={styles.itemsleft}>
+            <div className={styles.itemstitle}>
+              <h1>live webinar</h1>
             </div>
+            <div className={styles.slidergrouptop}>
+              <div className={styles.itemstitleslider}>
+                <h2>Enroll Now</h2>
+              </div>
+              {data.upcomingLive?.length > 0 ? (
+                <Slider {...sliderSettings} className={styles.grid}>
+                  {data.upcomingLive.map((course, index) => (
+                    <div key={`live-upcoming-${index}`}>{renderCourseCard(course, "Enroll Now", handleEnrollClick)}</div>
+                  ))}
+                </Slider>
+              ) : (
+                <div className={styles.nodata}>No upcoming live webinars available</div>
+              )}
+            </div>
+            <div className={styles.slidergroupbottom}>
+              <div className={styles.itemstitleslider}>
+                <h2>Registered Live Webinars</h2>
+              </div>
+              {data.registeredLive?.length > 0 ? (
+                <Slider {...sliderSettings} className={styles.grid}>
+                  {data.registeredLive.map((course, index) => (
+                    <div key={`live-registered-${index}`}>{renderCourseCard(course, "Registered", handleViewDetails, "LIVE")}</div>
+                  ))}
+                </Slider>
+              ) : (
+                <div className={styles.nodata}>No registered live webinars</div>
+              )}
+            </div>
+          </div>
+
+          {/* Traders Meet Section */}
+          <div className={styles.itemsright}>
+            <div className={styles.itemstitle}>
+              <h1>traders meet</h1>
+            </div>
+            <div className={styles.slidergrouptop}>
+              <div className={styles.itemstitleslider}>
+                <h2>Enroll Now</h2>
+              </div>
               {data.upcomingPhysical?.length > 0 ? (
-            <Slider {...sliderSettings} className={styles.grid}>
-                {data.upcomingPhysical.map((course, index) => (
-                  <div key={`physical-upcoming-${index}`}>
-                    {renderCourseCard(course, 'Enroll Now', handleEnrollClick)}
-                  </div>
-                ))}
-            </Slider>
+                <Slider {...sliderSettings} className={styles.grid}>
+                  {data.upcomingPhysical.map((course, index) => (
+                    <div key={`physical-upcoming-${index}`}>{renderCourseCard(course, "Enroll Now", handleEnrollClick)}</div>
+                  ))}
+                </Slider>
               ) : (
                 <div className={styles.nodata}>No upcoming trader meets available</div>
               )}
-          </div>
-          <div className={styles.slidergroupbottom}>
-            <div className={styles.itemstitleslider}>
-              <h2>Registered Traders Meet</h2>
             </div>
+            <div className={styles.slidergroupbottom}>
+              <div className={styles.itemstitleslider}>
+                <h2>Registered Traders Meet</h2>
+              </div>
               {data.registeredPhysical?.length > 0 ? (
-            <Slider {...sliderSettings} className={styles.grid}>
-                {data.registeredPhysical.map((course, index) => (
-                  <div key={`physical-registered-${index}`}>
-                    {renderCourseCard(course, 'Registered', handleViewDetails , "PHYSICAL")}
-                  </div>
-                ))}
-            </Slider>
+                <Slider {...sliderSettings} className={styles.grid}>
+                  {data.registeredPhysical.map((course, index) => (
+                    <div key={`physical-registered-${index}`}>{renderCourseCard(course, "Registered", handleViewDetails, "PHYSICAL")}</div>
+                  ))}
+                </Slider>
               ) : (
                 <div className={styles.nodata}>No registered trader meets</div>
               )}
+            </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
