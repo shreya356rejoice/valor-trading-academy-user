@@ -509,6 +509,10 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 40px;
       padding: 0 0 30px 0;
+
+      @include respond-to("sm") {
+        grid-template-columns: 1fr;
+      }
     }
 
     .grid {
@@ -517,6 +521,9 @@
       gap: 40px;
       padding: 0 0 30px 0;
 
+      @include respond-to("sm") {
+        grid-template-columns: 1fr;
+      }
       // .griditems {
       // &:first-child {
       //   float: left;
@@ -1398,6 +1405,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    white-space: nowrap;
 
     thead {
       background: #f1f1fd;

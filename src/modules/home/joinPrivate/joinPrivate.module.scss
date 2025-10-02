@@ -45,6 +45,11 @@
       grid-template-columns: repeat(2, minmax(300px, 1fr));
       max-width: 1024px;
       margin: 0 auto;
+
+      @include respond-to("sm") {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+      }
     }
     @media (min-width: 1024px) {
       grid-template-columns: repeat(3, 1fr);
@@ -254,10 +259,10 @@
 }
 
 .freeBadge {
-    background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
-    color: var(--text-white);
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
+  background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+  color: var(--text-white);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
 }

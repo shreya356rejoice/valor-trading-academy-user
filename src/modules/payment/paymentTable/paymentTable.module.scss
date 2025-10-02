@@ -300,6 +300,7 @@
     border-radius: 12px;
     height: calc(100dvh - 304px);
     overflow: auto;
+    white-space: nowrap;
 
     table {
         width: 100%;
