@@ -115,7 +115,7 @@ export default function RecetCourse() {
                                             {course?.description?.split(' ').length > 20 ? '...' : ''}
                                         </p>
                                         <div className={styles.twoContentAlignment}>
-                                            <h4>${course?.price}</h4>
+                                            {course?.price > 0 ? (<h4>${course?.price}</h4>) : (<span className={styles.freeBadge}>Free</span>)}
                                             <div className={styles.iconText}>
                                                 <img src={BathIcon} alt='Instructor' />
                                                 <span>{course?.instructor}</span>

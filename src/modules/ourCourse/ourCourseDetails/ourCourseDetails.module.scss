@@ -118,7 +118,7 @@
                 .twoContentAlignment {
                     display: flex;
                     align-items: center;
-                    gap: 35px;
+                    gap: 25px;
                     padding: 0 0 20px 0;
 
                     .iconText {
@@ -163,7 +163,8 @@
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    min-height: 4.5em; /* 1.5em per line * 3 lines */
+                    min-height: 4.5em;
+                    /* 1.5em per line * 3 lines */
                 }
             }
         }
@@ -187,4 +188,57 @@
             line-height: 142px;
         }
     }
+}
+
+.allIconTextAlignment {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 0 20px 0;
+
+    .iconText {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        p {
+            background: var(--linear-gradient);
+            @include text-type;
+        }
+
+        .currency {
+            background: var(--linear-gradient);
+            min-height: auto;
+            @include text-type;
+
+        }
+
+        span {
+            display: block;
+            @include font14normal;
+            color: var(--black-100);
+        }
+
+        .freeBadge {
+            display: inline-block;
+            background: linear-gradient(180deg, #3d348b 0%, #7678ed 100%);
+            color: white !important;
+            font-size: 12px !important;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-left: 0;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+    }
+}
+
+.currency {
+    min-height: auto !important;
+    margin-bottom: 0 !important;
 }

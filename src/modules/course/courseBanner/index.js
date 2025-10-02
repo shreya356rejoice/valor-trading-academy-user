@@ -122,7 +122,17 @@ export default function CourseBanner({ searchQuery, setSearchQuery }) {
                             </div>
                           </div>
                           <div className={styles.cardFooter}>
-                            <h4>${course?.price}</h4>
+                            <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                              {course?.courseType === "recorded" ? (course?.price > 0 ? (
+                                <h4>${course.price}</h4>
+                              ) : (
+                                <div className={styles.freeBadge}>
+                                  <span>Free</span>
+                                </div>
+                              )) : (
+                                <p>{new Date(course.courseStart).toLocaleDateString('en-GB')}</p>
+                              )}
+                            </div>
                             <div className={styles.rightText} onClick={() => router.push(`/course-details?courseId=${course?._id}`)}>
                               <span>Enroll Now</span>
                               <RightIcon />

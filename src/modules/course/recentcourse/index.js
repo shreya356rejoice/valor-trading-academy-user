@@ -145,9 +145,9 @@ export default function Recentcourse({ searchQuery, courses, setCourses }) {
                                 <h3>{course?.CourseName}</h3>
                                 <p>{course?.description}</p>
                                 <div className={styles.iconalignment}>
-                                    {console.log(course,"=======course")
+                                    {console.log(course,"===1111====course")
                                     }
-                                    {course?.isFree ? (<><h4>Free</h4></>) : (<h4>${course?.price || "0"}</h4>)}
+                                    {course?.courseType === "recorded" ? (course?.isFree ? (<><h4>Free</h4></>) : (<h4>${course?.price || "0"}</h4>)) : (<h4>{new Date(course.courseStart).toLocaleDateString('en-GB')}</h4>)}
                                     
                                     <div className={styles.iconText}>
                                         <img src={BathIcon} alt="BathIcon" />

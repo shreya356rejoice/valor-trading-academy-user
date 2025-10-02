@@ -199,9 +199,10 @@ export default function OurCourseInformation() {
                                     <div className={styles.iconText}>
                                         <span>Last-Update: {course?.updatedAt ? new Date(course.updatedAt).toLocaleDateString('en-GB') : 'N/A'}  |  English</span>
                                     </div>
-                                    <div className={styles.iconText}>
+                                    {course?.price > 0 ? (<div className={styles.iconText}>
                                         <span>Price:</span> <h4>${course?.price}</h4>
-                                    </div>
+                                    </div>) : (<span className={styles.freeBadge}>Free</span>)}
+                                    
                                 </div>
                             ) : (
                                 <div className={styles.blogtextsflx}>

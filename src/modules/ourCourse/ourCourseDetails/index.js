@@ -8,6 +8,10 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import CalanderIcon from '@/components/icons/calanderIcon';
 import { getCookie } from '../../../../cookie';
+import ClockIcon from '@/components/icons/clockIcon';
+import UserIcon from '@/components/icons/userIcon';
+import ProfileIcon from '@/components/icons/profileIcon';
+import LocationIcon from '@/components/icons/locationIcon';
 
 const CoursesImage = '/assets/images/course.png';
 const BathIcon = '/assets/icons/bath-primary.svg';
@@ -94,15 +98,15 @@ export default function OurCourseDetails() {
                     }
                 }else if(selectedTab === "live"){
                     if(course?.registration > 0){
-                        router.push(`/my-course-details?courseId=${course?._id}`)
+                        router.push(`/my-course-details?courseId=${course?._id}&category=LIVE`)
                     }else{
-                        router.push(`/course-details?courseId=${course?._id}`)
+                        router.push(`/course-details?courseId=${course?._id}&category=live`)
                     }
                 }else{
                     if(course?.isPayment){
-                        router.push(`/my-course-details?courseId=${course?._id}`)
+                        router.push(`/my-course-details?courseId=${course?._id}&category=PHYSICAL`)
                     }else{
-                        router.push(`/course-details?courseId=${course?._id}`)
+                        router.push(`/course-details?courseId=${course?._id}&category=physical`)
                     }
                 }
             }else{
@@ -179,31 +183,68 @@ export default function OurCourseDetails() {
                                                     : 'No description available'
                                                 }
                                             </p>
-                                            <div className={styles.twoContentAlignment}>
-                                                {course?.courseType === "recorded" ? (
-                                                    course?.price > 0 ? (
-                                                        <h4>${course.price}</h4>
-                                                    ) : (
-                                                        <span className={styles.freeBadge}>Free</span>
-                                                    )
-                                                ) : (
+                                            {selectedTab === "recorded" ? (<><div className={styles.allIconTextAlignment}>
+                                                    {/* <div className={styles.iconText}>
+                                                        <StarIcon />
+                                                        <span>4.8</span>
+                                                    </div> */}
+                                                    <div className={styles.iconText}>
+                                                        {console.log(course,"course")
+                                                        }
+                                                        {!course?.isFree ? (
+                                                            <span className={styles.freeBadge}>Paid</span>
+                                                        ) : (
+                                                            <span className={styles.freeBadge}>Free</span>
+                                                        )}
+                                                        
+                                                    </div>
+                                                    <div className={styles.iconText}>
+                                                        <ProfileIcon />
+                                                        <span>{course?.instructor}</span>
+                                                    </div>
+                                                    <div className={styles.iconText}>
+                                                        <ClockIcon />
+                                                        <span>{course?.hours} hours</span>
+                                                    </div>
+                                                </div>
+                                                {/* <div className={styles.textButtonAlignment}>
+                                                    <h4>${course?.price}</h4>
+                                                    <button aria-label="Beginner Level">
+                                                        <span>Beginner Level</span>
+                                                    </button>
+                                                </div> */}
+                                                </>) : (
+                                                    <>
+                                                    <div className={styles.allIconTextAlignment}>
+                                                    {/* <div className={styles.iconText}>
+                                                        <ProfileIcon />
+                                                        <span>{user ? course?.registrationCount : course?.registration}</span>
+                                                    </div> */}
                                                     <div className={styles.iconText}>
                                                         <CalanderIcon />
-                                                        <span>{course?.createdAt ? new Date(course.createdAt).toLocaleDateString('en-US', {
-                                                            year: 'numeric',
-                                                            month: '2-digit',
-                                                            day: '2-digit',
-                                                            timeZone: 'UTC'
-                                                        }).replace(/(\d+)\/(\d+)\/(\d+)/, '$2/$1/$3') : 'N/A'}</span>
+                                                        <span>{course?.courseStart ? new Date(course.courseStart).toLocaleDateString('en-GB') : ''}</span>
                                                     </div>
-                                                )}
-                                                <div className={styles.iconText}>
-                                                    <img src={BathIcon} alt='BathIcon' />
-                                                    <span>{course?.instructor}</span>
+                                                    <div className={styles.iconText}>
+                                                        <ClockIcon />
+                                                        <span>{course?.startTime} to {course?.endTime}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            {console.log(course,"====course")
-                                            }
+                                                        <div className={styles.allIconTextAlignment}>
+                                                            <div className={styles.iconText}>
+                                                                <ProfileIcon />
+                                                                <span>{course?.instructor}</span>
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div className={styles.allIconTextAlignment}>
+                                                        {selectedTab === "physical" ? (<div className={styles.iconText}>
+                                                                <LocationIcon />
+                                                                <span>{course?.location}</span>
+                                                            </div>) : (<></>)}
+                                                            </div>
+                                                    </>
+                                                )}
                                             {selectedTab === "recorded" ? (
                                                 <Button 
                                                 text={ user ? course?.subscribed > 0 ? "Enrolled" : "Enroll Now" : "Enroll Now"}

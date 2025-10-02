@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import styles from "./webinarbanner.module.scss";
 import Calenderfillicon from "@/components/icons/calenderfillicon";
 import Timeicon from "@/components/icons/timeicon";
@@ -7,9 +8,33 @@ import Globeicon from "@/components/icons/globeicon";
 import Trueicon from "@/components/icons/trueicon";
 import Button from "@/components/button";
 import Image from "next/image";
-import webinarbanner from "../../../../public/assets/images/webinarbanner.jpg"
+import webinarbanner from "../../../../public/assets/images/webinarbanner.jpg";
+import RegistrationDialog from "@/components/RegistrationDialog";
+import WebinarRegisterDialog from "@/components/WebinarRegisterDialog";
 
 export default function Webinarbanner() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleRegisterClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleSubmit = async (formData) => {
+    try {
+      // Here you can add your form submission logic
+      console.log('Form submitted:', formData);
+      // If you have an API endpoint to submit the form data, you can call it here
+      // await api.submitWebinarRegistration(formData);
+      return true; // Return true if submission is successful
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      throw new Error('Failed to submit the form. Please try again.');
+    }
+  };
   return (
     <>
       <div className={styles.webinarbannermain}>
@@ -100,8 +125,20 @@ export default function Webinarbanner() {
                   </div>
                 </div>
                 <div className={styles.registerbtn}>
-                  <Button text="Register Now" fill />
+                  <Button 
+                    text="Register Now" 
+                    fill 
+                    onClick={handleRegisterClick}
+                  />
                 </div>
+                
+                <WebinarRegisterDialog
+                  isOpen={isDialogOpen}
+                  onClose={handleCloseDialog}
+                  onSubmit={handleSubmit}
+                  title="Let's Connect with us"
+                  buttonText="Register Now"
+                />
               </div>
             </div>
           </div>

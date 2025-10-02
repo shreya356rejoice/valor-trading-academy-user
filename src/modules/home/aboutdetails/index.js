@@ -66,7 +66,7 @@ export default function AboutUsDetails() {
             description:
                 "Whether you're a beginner or an advanced trader, our step-by-step learning tracks guide you through foundational concepts to advanced trading strategies.",
             image: Card1,
-            courses: `${courses?.recorded?.length} Recorded Courses`,
+            courses: `${courses?.recorded?.length} Recorded Courses` || "0 Recorded Courses",
             icon: BookIcon,
             link: "/our-course?course=recorded"
         },

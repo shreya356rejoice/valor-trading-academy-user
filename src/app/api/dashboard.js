@@ -214,3 +214,15 @@ export const registerUser = async (data) => {
     throw error;
   }
 };
+
+export const webinarRegister = async (data) => {
+  try {
+    const response = await api.post(`/inquiry/addNewInquiry`, data);
+    const responseData = await response.data;
+    return responseData;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+

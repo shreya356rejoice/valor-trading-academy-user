@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { getCourseByType, getCourses, getDashboardCourses } from "@/app/api/dashboard";
 import { getCookie } from "../../../../cookie";
 import CalanderIcon from "@/components/icons/calanderIcon";
+import LocationIcon from "@/components/icons/locationIcon";
 const CardImage = "/assets/images/card3.png";
 const TopLayer = "/assets/images/top-layer.svg";
 export default function ChooseYourPath() {
@@ -153,7 +154,7 @@ export default function ChooseYourPath() {
                                                         {console.log(course,"course")
                                                         }
                                                         {!course?.isFree ? (
-                                                            <><p>$</p><span>{course?.price}</span></>
+                                                            <span className={styles.freeBadge}>Paid</span>
                                                         ) : (
                                                             <span className={styles.freeBadge}>Free</span>
                                                         )}
@@ -161,7 +162,7 @@ export default function ChooseYourPath() {
                                                     </div>
                                                     <div className={styles.iconText}>
                                                         <ProfileIcon />
-                                                        <span>{course?.subscribed}</span>
+                                                        <span>{course?.instructor}</span>
                                                     </div>
                                                     <div className={styles.iconText}>
                                                         <ClockIcon />
@@ -177,10 +178,10 @@ export default function ChooseYourPath() {
                                                 </>) : (
                                                     <>
                                                     <div className={styles.allIconTextAlignment}>
-                                                    <div className={styles.iconText}>
+                                                    {/* <div className={styles.iconText}>
                                                         <ProfileIcon />
                                                         <span>{user ? course?.registrationCount : course?.registration}</span>
-                                                    </div>
+                                                    </div> */}
                                                     <div className={styles.iconText}>
                                                         <CalanderIcon />
                                                         <span>{course?.courseStart ? new Date(course.courseStart).toLocaleDateString('en-GB') : ''}</span>
@@ -190,6 +191,20 @@ export default function ChooseYourPath() {
                                                         <span>{course?.startTime} to {course?.endTime}</span>
                                                     </div>
                                                 </div>
+                                                        <div className={styles.allIconTextAlignment}>
+                                                            <div className={styles.iconText}>
+                                                                <ProfileIcon />
+                                                                <span>{course?.instructor}</span>
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div className={styles.allIconTextAlignment}>
+                                                        {activeType === "physical" ? (<div className={styles.iconText}>
+                                                                <LocationIcon />
+                                                                <span>{course?.location}</span>
+                                                            </div>) : (<></>)}
+                                                            </div>
                                                     </>
                                                 )}
                                                 
