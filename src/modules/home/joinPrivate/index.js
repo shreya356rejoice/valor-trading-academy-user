@@ -176,7 +176,6 @@ export default function JoinPrivate() {
           </motion.div>
         </div>
       </div>
-
       <div className={styles.bottomlayer}>
         <img src={BottomLayer} alt="BottomLayer" />
       </div>

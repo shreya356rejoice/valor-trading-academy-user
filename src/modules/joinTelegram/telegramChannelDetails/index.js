@@ -102,7 +102,7 @@ export default function TelegramChannelDetails() {
                                 {channel.description}
                             </p>
 
-                            <p className={styles.availablePlans}>Available Plans</p>
+                            <p className={styles.availablePlans}>Available Plans</p>/
                         </div>
                     </div>
 

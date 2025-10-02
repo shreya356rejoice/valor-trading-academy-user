@@ -190,11 +190,20 @@ export default function TelegramDetails() {
                                             };
                                             return getMonths(a.planType) - getMonths(b.planType);
                                         })?.map((plan, planIndex) => (
-                                        <div key={planIndex} className={styles.priceCard}>
-                                            <div className={styles.priceSubtitle}>
-                                                <span>{plan.planType}</span>
-                                                <span className={styles.price}>${plan.initialPrice}</span>
-                                            </div>
+                                            <div key={planIndex} className={styles.priceCard}>
+                                              <div className={styles.priceSubtitle}>
+                                                    {plan.isFree ? (
+                                                        <>
+                                                            <span />
+                                                            <span className={styles.freeBadge}>Free</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>{plan.planType}</span>
+                                                            <span className={styles.price}>${plan.initialPrice}</span>
+                                                        </>
+                                                    )}
+                                                </div>
                                             <div className={styles.priceSubtitle}>
                                                 <span>Price:</span>
                                                 <span>${plan.price.toFixed(2)}</span>

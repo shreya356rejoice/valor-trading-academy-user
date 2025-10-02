@@ -65,6 +65,8 @@ export default function CourseDetails() {
   const [selectedChapter, setSelectedChapter] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('');
   const searchParams = useSearchParams();
   const id = searchParams.get('courseId');
   const category = searchParams.get('category');
@@ -123,26 +125,100 @@ export default function CourseDetails() {
       // For categories (traders-meet, live-webinars), open registration dialog
       setIsRegistrationOpen(true);
     } else {
-      // For regular courses, proceed with payment
-      setIsProcessing(true);
-      try {
+      
+      // Check if course is free (price is 0 or null/undefined)
+      const isFreeCourse = !courses?.price || Number(courses.price) === 0;      
+      
+      if (isFreeCourse) {
+        // For free courses, show the success modal directly
         const response = await getPaymentUrl({
-          success_url: 'https://pips-veda.vercel.app/my-courses',
-          cancel_url: window.location.href,
+          // success_url: 'https://api-valor-trading.rejoicehub.com/api/v1/my-courses',
+          // cancel_url: window.location.href,
           courseId: id
         });
-        if (response.success) {
-          router.replace(response.payload.data.checkout_url);
-        } else {
-          toast.error("Payment failed. Please try again");
+        
+        setPaymentStatus('success');
+        setShowPaymentModal(true);
+      } else {
+        // For paid courses, proceed with payment
+        setIsProcessing(true);
+        try {
+          const response = await getPaymentUrl({
+            success_url: 'https://api-valor-trading.rejoicehub.com/api/v1/my-courses',
+            cancel_url: window.location.href,
+            courseId: id
+          });
+          if (response.success) {
+            router.replace(response.payload.data.checkout_url);
+          } else {
+            toast.error("Payment failed. Please try again");
+          }
+        } catch (error) {
+          console.error('Error processing payment:', error);
+          toast.error("An error occurred. Please try again later.");
+        } finally {
+          setIsProcessing(false);
         }
-      } catch (error) {
-        console.error('Error processing payment:', error);
-        toast.error("An error occurred. Please try again later.");
-      } finally {
-        setIsProcessing(false);
       }
     }
+  };
+
+  const renderPaymentModal = () => {
+    if (!showPaymentModal) return null;
+
+    const modalContent = paymentStatus === 'success' ? (
+      <div className={styles.paymentModalContent}>
+        <div className={styles.paymentModaltitlecontent}>
+          <img src={SuccessIcon} alt="Success" className={styles.paymentIcon} />
+          {isInPerson && <h3>Congratulations!</h3>}
+          <h3>Payment Successful!</h3>
+          <p>Thank you for your purchase. You now have full access to this course.</p>
+        </div>
+        {isInPerson &&
+          <div className={styles.paymentmodaldetails}>
+            <p>Please Contact for extra Information.</p>
+            <p><span>Address</span> : {selectedCourse?.location && `${selectedCourse?.location}`}</p>
+            <p><span>Email</span> : {selectedCourse?.email && `${selectedCourse?.email}`}</p>
+            <p><span>Phone</span> : {selectedCourse?.phone && `${selectedCourse?.phone}`}</p>
+          </div>
+        }
+        <Button
+          text="Start Learning"
+          fill
+          onClick={() => {
+            setShowPaymentModal(false);
+            router.push(`/my-course-details?courseId=${id}&category=RECORDED`);
+            // setIsPaid(false);
+          }}
+        />
+      </div>
+    ) : (
+      <div className={styles.paymentModalContent}>
+        <img src={ErrorIcon} alt="Cancelled" className={styles.paymentIcon} />
+        <h3>Payment Cancelled</h3>
+        <p>Your payment was not completed. Please try again to access the course.</p>
+        <div className={styles.modalButtons}>
+          <OutlineButton
+            text="Try Again"
+            onClick={() => {
+              setShowPaymentModal(false);
+              handlePayment();
+            }}
+          />
+          <Button
+            text="Close"
+            onClick={() => setShowPaymentModal(false)}
+            style={{ marginLeft: '10px' }}
+          />
+        </div>
+      </div>
+    );
+
+    return (
+      <Modal isOpen={showPaymentModal} onClose={() => setShowPaymentModal(false)}>
+        {modalContent}
+      </Modal>
+    );
   };
 
   const handleRegistrationSubmit = async (formData) => {
@@ -217,9 +293,19 @@ export default function CourseDetails() {
             <div className={styles.iconText}>
               <span>Last-Update: {new Date(courses?.updatedAt || new Date()).toLocaleDateString('en-GB')} | English</span>
             </div>
-            {!chapters?.isPayment && (<div className={styles.iconText}>
-              <span>Price:</span> <h4>${courses?.price}</h4>
-            </div>)}
+            {!chapters?.isPayment && (
+              <div className={styles.iconText}>
+                {courses?.price > 0 ? (
+                  <>
+                    <span>Price:</span> <h4>${courses.price}</h4>
+                  </>
+                ) : (
+                  <div className={styles.freeBadge}>
+                    Free
+                  </div>
+                )}
+              </div>
+            )}
           </div>) : (<div className={styles.coursdetailstext}>
             <div className={styles.iconText}>
               <CalanderIcon />
@@ -410,6 +496,28 @@ export default function CourseDetails() {
         onClose={() => setIsRegistrationOpen(false)}
         onSubmit={handleRegistrationSubmit}
       />
+
+      {/* Payment Success Modal */}
+      {showPaymentModal && (
+        <div className={styles.paymentModalOverlay}>
+          <div className={styles.paymentModal}>
+            <div className={styles.paymentSuccess}>
+              <div className={styles.successIcon}>✓</div>
+              <h3>Enrollment Successful!</h3>
+              <p>You've been successfully enrolled in this course. You now have full access to all course content.</p>
+              <Button
+                text="Start Learning"
+                fill
+                onClick={() => {
+                  setShowPaymentModal(false);
+                  router.push(`/my-course-details?courseId=${id}&category=RECORDED`);
+                  // setIsPaid(false);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

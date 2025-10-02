@@ -12,7 +12,7 @@
 .algobotBanner {
   background-color: var(--bg-white);
   // padding: 0 0 20px 0;
-  border-bottom: 1px solid var(--border-color5);
+  // border-bottom: 1px solid var(--border-color5);
   // display: grid;
   // grid-template-columns: 1fr 400px;
   gap: 10px;
@@ -303,4 +303,8 @@
     background: var(--linear-gradient);
     @include text-type;
   }
+}
+
+.subscribeButton{
+  margin-top: 15px !important;
 }
