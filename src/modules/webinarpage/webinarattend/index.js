@@ -26,48 +26,60 @@ export default function Webinarattend() {
             </h2>
           </div>
           <div className={styles.grid}>
-            <div className={styles.items}>
-              <div className={styles.itemicon}>
-                <Listicon />
-              </div>
-              <div>
-                <p>
-                  Learn a <span>tested and proven strategy</span> trusted by
-                  professional traders.
-                </p>
-              </div>
+            <div className={styles.itemsleft}>
+              <video autoPlay loop controls>
+                <source src="/videos/adsvideo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
-            <div className={styles.items}>
-              <div className={styles.itemicon}>
-                <Listicon />
-              </div>
-              <div>
-                <p>
-                  Gain insights into{" "}
-                  <span>market behavior of Gold (XAUUSD)</span> and how to trade
-                  it effectively.
-                </p>
-              </div>
-            </div>
-            <div className={styles.items}>
-              <div className={styles.itemicon}>
-                <Listicon />
-              </div>
-              <div>
-                <p>
-                  Avoid costly mistakes and <span>protect your capital</span>{" "}
-                  with a structured system.
-                </p>
-              </div>
-            </div>
-            <div className={styles.items}>
-              <div className={styles.itemicon}>
-                <Listicon />
-              </div>
-              <div>
-                <p>
-                  Free access to <span>live Q&A</span> with our trading experts.
-                </p>
+            <div>
+              <div className={styles.gridrow}>
+                <div className={styles.items}>
+                  <div className={styles.itemicon}>
+                    <Listicon />
+                  </div>
+                  <div>
+                    <p>
+                      Learn a <span>tested and proven strategy</span> trusted by
+                      professional traders.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.items}>
+                  <div className={styles.itemicon}>
+                    <Listicon />
+                  </div>
+                  <div>
+                    <p>
+                      Gain insights into{" "}
+                      <span>market behavior of Gold (XAUUSD)</span> and how to
+                      trade it effectively.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.items}>
+                  <div className={styles.itemicon}>
+                    <Listicon />
+                  </div>
+                  <div>
+                    <p>
+                      Avoid costly mistakes and{" "}
+                      <span>protect your capital</span> with a structured
+                      system.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.items}>
+                  <div className={styles.itemicon}>
+                    <Listicon />
+                  </div>
+                  <div>
+                    <p>
+                      Free access to <span>live Q&A</span> with our trading
+                      experts.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
