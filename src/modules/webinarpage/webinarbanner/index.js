@@ -42,7 +42,7 @@ export default function Webinarbanner() {
                     </div>
                     <div className={styles.cardscontent}>
                       <span>Date</span>
-                      <p>Wednesday / Friday</p>
+                      <p>Tuesday / Friday</p>
                     </div>
                   </div>
                   <div className={styles.cards}>

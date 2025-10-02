@@ -48,9 +48,13 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 450px 1fr;
     gap: 30px;
     margin-top: 60px;
+    
+    @media (max-width: 1200px) {
+      grid-template-columns: 350px 1fr;
+    }
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -239,7 +243,7 @@
       .registerbtn {
         width: 100%;
 
-        @media (max-width:768px) {
+        @media (max-width: 768px) {
           display: flex;
           justify-content: center;
         }
