@@ -34,6 +34,10 @@
     border-radius: 12px;
   }
 
+  @include respond-to("sm") {
+    padding: 0;
+  }
+
   .pageTitle {
     padding: 0 0 25px 0;
 
@@ -65,9 +69,18 @@
 
   .dashboardCardgrd {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 25px 20px 25px;
+
+    @include respond-to("sm") {
+      margin: 0;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
 
     .dashboardcard {
       background-color: var(--bg-white);
@@ -139,6 +152,15 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-top: 30px;
+    padding: 0 25px;
+
+    @include respond-to("md") {
+      padding: 0;
+    }
+
+    @include respond-to("sm") {
+      grid-template-columns: 1fr;
+    }
 
     .itemsleft,
     .itemsright {

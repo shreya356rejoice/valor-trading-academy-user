@@ -11,6 +11,10 @@
   //     );
   background-color: #3d348b;
 
+  @include respond-to("sm") {
+    padding-top: 0;
+  }
+
   &::after {
     position: absolute;
     top: 0;
@@ -19,26 +23,34 @@
     height: 220px;
     content: "";
     background-color: #fff;
+
+    @include respond-to("sm") {
+      height: 100px;
+    }
   }
 }
 
 .automateSectionmain {
   position: relative;
 
-  @include respond-to("sm") {
-    padding: 80px 0 180px 0;
-  }
-
   &::before {
     z-index: 2;
     width: 96%;
     top: -20px;
+
+    @include respond-to("sm") {
+      width: 93%;
+    }
   }
 
   &::after {
     z-index: 1;
     width: 92%;
     top: -35px;
+
+    @include respond-to("sm") {
+      width: 88%;
+    }
   }
 
   &::after,
@@ -51,6 +63,10 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+
+    @include respond-to("sm") {
+      border-radius: 22px;
+    }
   }
 
   .automateSection {
@@ -63,6 +79,27 @@
     background-color: #3d348b;
     border-radius: 56px 56px 0 0;
     z-index: 99;
+
+    @include respond-to("lg") {
+      padding: 80px 10px 211px 10px;
+    }
+
+    @include respond-to("sm") {
+      padding: 40px 10px 211px 10px;
+      border-radius: 22px;
+    }
+
+    :global(.container) {
+      @include respond-to("lg") {
+        padding: 0;
+      }
+    }
+
+    :global(.container-md) {
+      @include respond-to("lg") {
+        padding: 0;
+      }
+    }
 
     .title {
       padding: 0 0 50px 0;
